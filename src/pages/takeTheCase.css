@@ -1,0 +1,22 @@
+.takeTheCaseBox {
+  width: 100%;
+}
+
+.condition {
+  width: 15%;
+}
+
+.allCaseBox {
+  width: 80%;
+}
+.case {
+  width: 32%;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 10px;
+  min-height: 200px;
+}
+
+.auto {
+  margin: 0 auto;
+}

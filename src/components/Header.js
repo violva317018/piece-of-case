@@ -10,7 +10,6 @@ function Header() {
           <div className="d-flex">
             <h2>登入</h2>
             <h2>註冊</h2>
-            <h2>註冊</h2>
           </div>
         </div>
       </div>
