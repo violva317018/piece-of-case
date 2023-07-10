@@ -45,7 +45,7 @@ function Proposal() {
             className="form-select"
             aria-label="Default select example"
             style={{ width: "200px" }}
-            value={category}
+            value ={category}
             onChange={handleCategoryChange}
           >
             <option selected disabled>
@@ -128,7 +128,7 @@ function Proposal() {
           <label htmlFor="phoneOK">允許</label>
           <input type="radio" id="phoneNO" name="phone" />
           <label htmlFor="phoneNO">不允許</label>
-          <select class="form-select" aria-label="Default select example">
+          <select className="form-select" aria-label="Default select example">
             <option selected disabled>
               請選擇...
             </option>

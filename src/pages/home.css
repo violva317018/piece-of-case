@@ -1,5 +1,19 @@
-.home {
+.home{
   width: 100%;
-  height: calc(100vh - 100px);
+  min-height: calc(100vh - 100px);
   background: #fff;
+}
+.case-box{
+  width: 35%;
+  height: 40%;
+  margin-left: 5%;
+  border-radius: 10px;
+}
+.send-case{
+  background: #FFA500;
+  width: 30%;
+  height: 30%;
+}
+.get-case{
+  background: #4798B3;
 }
