@@ -1,0 +1,11 @@
+.myBody {
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  background: #fff;
+}
+
+.loginDiv {
+  width: 350px;
+  height: 400px;
+  background-color: #d1d1d1;
+}
