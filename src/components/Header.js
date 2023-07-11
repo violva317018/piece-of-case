@@ -49,18 +49,18 @@ function Header() {
               aria-labelledby="dropdownUser2"
             >
               <li>
-                <Link className="dropdown-item" to="/proposal">
-                  提案
+                <Link className="dropdown-item" to="">
+                  我的帳號
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/allCase">
-                  接案畫面
+                <Link className="dropdown-item" to="">
+                  我的案件
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="#">
-                  Profile
+                <Link className="dropdown-item" to="">
+                  聊天室
                 </Link>
               </li>
               <li>
