@@ -11,10 +11,10 @@ function Header() {
         <Link to="/" className="mx-5">
           Logo
         </Link>
-        <Link to="/proposal" className="mx-5">
+        <Link to="/proposal" className="mx-5 proposal-div">
           提案
         </Link>
-        <Link to="/allCase" className="mx-5">
+        <Link to="/allCase" className="mx-5 allCase-div">
           接案畫面
         </Link>
         {login || (

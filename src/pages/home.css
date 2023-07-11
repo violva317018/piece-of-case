@@ -1,19 +1,23 @@
-.home{
+.home {
   width: 100%;
   min-height: calc(100vh - 100px);
   background: #fff;
 }
-.case-box{
-  width: 35%;
-  height: 40%;
-  margin-left: 5%;
+.case-box {
+  width: 300px;
+  height: 300px;
+  padding: 5rem;
+  font-size: 4rem;
+  margin: 0 auto;
   border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-.send-case{
-  background: #FFA500;
-  width: 30%;
-  height: 30%;
+.send-case {
+  background: #ffa500;
 }
-.get-case{
-  background: #4798B3;
+.get-case {
+  background: #4798b3;
 }
