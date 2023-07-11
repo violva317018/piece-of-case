@@ -8,6 +8,7 @@ import AllCase from "./pages/AllCase";
 import CaseView from "./pages/CaseView";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import PersonalInfo from "./pages/PersonalInfo";
 import React, { useState } from "react";
 
 // create useContext => 使跨組件的資料可以傳遞
@@ -33,6 +34,7 @@ function App() {
         <Routes>
           <Route path={"/"} element={<Home />} />
           <Route path={"/login"} element={<Login />} />
+          <Route path={"/PersonalInfo"} element={<PersonalInfo />} />
           <Route path={"/register"} element={<Register />} />
           <Route path={"/proposal"} element={<Proposal />} />
           <Route path={"/allCase"} element={<AllCase />} />

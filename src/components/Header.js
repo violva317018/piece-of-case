@@ -49,7 +49,7 @@ function Header() {
               aria-labelledby="dropdownUser2"
             >
               <li>
-                <Link className="dropdown-item" to="">
+                <Link className="dropdown-item" to="/personalinfo">
                   我的帳號
                 </Link>
               </li>
