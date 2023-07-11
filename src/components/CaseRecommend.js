@@ -59,6 +59,7 @@ function CaseRecommend() {
                 </h1>
             </div>
             <div className='recommend-content'>
+                {/* 三元表達式 假如【userEqual】為【True】就執行【:】前面，反之【userEqual】為【False】就執行【:】後面 */}
                 {userEqual ?
                     // 以案主身分查看自己的提案
                     <>{quote.map((item, index) => (
