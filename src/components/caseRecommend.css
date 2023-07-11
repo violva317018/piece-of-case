@@ -1,0 +1,25 @@
+.recommend {
+    /* height: 200px; */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recommend-content {
+    border: 1px solid #000;
+    flex-wrap: wrap;
+    min-height: 200px;
+}
+
+.recommend-content-box {
+    border: 1px solid #000;
+    border-radius: 10px;
+    width: 85%;
+    height: 150px;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.recommend-content-box:hover {
+    width: 87%;
+}

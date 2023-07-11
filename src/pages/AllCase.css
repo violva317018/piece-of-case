@@ -16,6 +16,14 @@
   border-radius: 10px;
   min-height: 200px;
 }
+.case>img:hover{
+  width:200px;
+  height:150px
+}
+.moreView{
+  cursor: pointer;
+
+}
 
 .auto {
   margin: 0 auto;

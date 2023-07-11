@@ -1,0 +1,67 @@
+.myBody {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    background: #fff;
+}
+
+.registerDiv {
+    width: 400px;
+    height: 600px;
+    padding: 60px;
+    margin: auto auto auto 0;
+    background-color: #ebebeb;
+    border-radius: 0 10px 10px 0;
+}
+
+.imgDiv1 {
+    width: 400px;
+    height: 600px;
+    padding: 60px;
+    margin: auto 0 auto auto;
+    background-color: #ebebeb;
+    border-radius: 10px 0 0 10px;
+    background-image: url(https://images.pexels.com/photos/65438/pexels-photo-65438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+    background-size: cover;
+    background-position: 50%;
+}
+
+.textAlignC {
+    text-align: center;
+}
+
+.formSize {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.inputRadiusTop {
+    border-radius: 5px 5px 0 0;
+}
+
+.inputRadiusBottom {
+    border-radius: 0 0 5px 5px;
+}
+
+.inputRadiusNull {
+    border-radius: 0;
+}
+
+.form-floating:focus-within {
+    z-index: 2;
+}
+
+.submitButton {
+    display: block;
+    margin: 0 auto;
+    background-color: #4798b3;
+    color: white;
+    margin-top: 1rem;
+}
+
+.linkCss {
+    font-size: 18px;
+}
+
+.linkCss:hover {
+    font-size: 18px;
+}
