@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./login.css";
 import { Link } from "react-router-dom";
+import { GlobelDate } from "../App";
 
 function Login() {
+  const { setLogin } = useContext(GlobelDate);
   return (
     <div className=" myBody d-flex">
       <div className="loginDiv d-flex">
@@ -33,7 +35,13 @@ function Login() {
             </div>
           </div>
           <div className="form-floating">
-            <button className="btn submitButton" type="submit">
+            <button
+              className="btn submitButton"
+              type="submit"
+              onClick={() =>
+                localStorage.setItem("myLogin", JSON.stringify(true))
+              }
+            >
               &nbsp;&nbsp;登入&nbsp;&nbsp;
             </button>
           </div>

@@ -8,12 +8,16 @@ import AllCase from "./pages/AllCase";
 import CaseView from "./pages/CaseView";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import React from "react";
+import React, { useState } from "react";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
 
 function App() {
+  const [login, setLogin] = useState(
+    JSON.parse(localStorage.getItem("myLogin"))
+  );
+
   return (
     <>
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
@@ -21,6 +25,8 @@ function App() {
         value={{
           aID: 1, // 建案子的使用者id
           bID: 2, // 目前使用者id
+          login,
+          setLogin,
         }}
       >
         <Header />

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./header.css";
+import { GlobelDate } from "../App";
 
 function Header() {
-  const [login, setLogin] = useState(true);
-
+  const { login, setLogin } = useContext(GlobelDate);
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
@@ -70,7 +70,10 @@ function Header() {
                 <Link
                   className="dropdown-item"
                   to="#"
-                  onClick={() => setLogin(false)}
+                  onClick={() => {
+                    localStorage.setItem("myLogin", JSON.stringify(false));
+                    setLogin(JSON.parse(localStorage.getItem("myLogin")));
+                  }}
                 >
                   登出
                 </Link>
