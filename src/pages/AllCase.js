@@ -1,5 +1,6 @@
 import React from "react";
 import "./AllCase.css";
+import { Link } from "react-router-dom";
 
 function AllCase() {
   // case ，利用API 從後端取得
@@ -228,11 +229,9 @@ function AllCase() {
                 <p>地點</p>
                 <p>預算</p>
                 <p>預計完成日期</p>
-                <p className="moreView">more view</p>
+                <Link className="moreView" to={'/caseview'}>more view</Link>
               </div>
             ))}
-
-
           </section>
           {/* 顯示page */}
           <ul className="pagination">
