@@ -1,7 +1,51 @@
 import React from "react";
-import "./takeTheCase.css";
+import "./AllCase.css";
 
-function TakeTheCase() {
+function AllCase() {
+  // case ，利用API 從後端取得
+  const cases = [
+    {
+      imgSrc: 'https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg',
+      name: '案件標題',
+      place: '地點',
+      price: '預算',
+      deadline: '預計完成日期',
+    },
+    {
+      imgSrc: 'https://img.lovepik.com/element/40162/0669.png_300.png',
+      name: '案件標題',
+      place: '地點',
+      price: '預算',
+      deadline: '預計完成日期',
+    },
+    {
+      imgSrc: 'https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg',
+      name: '案件標題',
+      place: '地點',
+      price: '預算',
+      deadline: '預計完成日期',
+    }, {
+      imgSrc: 'https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg',
+      name: '案件標題',
+      place: '地點',
+      price: '預算',
+      deadline: '預計完成日期',
+    },
+    {
+      imgSrc: 'https://img.lovepik.com/element/40162/0669.png_300.png',
+      name: '案件標題',
+      place: '地點',
+      price: '預算',
+      deadline: '預計完成日期',
+    },
+    {
+      imgSrc: 'https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg',
+      name: '案件標題',
+      place: '地點',
+      price: '預算',
+      deadline: '預計完成日期',
+    }
+  ]
   return (
     <main className="container my-4">
       <div className="takeTheCaseBox d-flex">
@@ -171,98 +215,24 @@ function TakeTheCase() {
         <div className="allCaseBox">
           {/* 顯示案子 */}
           <section className="d-flex flex-wrap">
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p>
-              <p>more view</p>
-            </div>
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://img.lovepik.com/element/40162/0669.png_300.png"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p> <p>more view</p>
-            </div>
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p> <p>more view</p>
-            </div>
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://png.pngtree.com/element_our/20190528/ourmid/pngtree-cartoon-cute-toilet-room-png-image_1181790.jpg"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p> <p>more view</p>
-            </div>
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://img.lovepik.com/element/40162/0669.png_300.png"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p> <p>more view</p>
-            </div>
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p> <p>more view</p>
-            </div>
-            <div className="case border border-2 border-warning p-2">
-              <img
-                src="https://png.pngtree.com/element_our/20190528/ourmid/pngtree-cartoon-cute-toilet-room-png-image_1181790.jpg"
-                alt="img"
-                width={150}
-                height={100}
-                className="mb-3"
-              />
-              <p>案件標題</p>
-              <p>地點</p>
-              <p>預算</p>
-              <p>預計完成日期</p> <p>more view</p>
-            </div>
+            {cases.map((item, index) => (
+              <div className="case border border-2 border-warning p-2" key={index}>
+                <img
+                  src={item.imgSrc}
+                  alt="img"
+                  width={150}
+                  height={100}
+                  className="mb-3"
+                />
+                <p>案件標題</p>
+                <p>地點</p>
+                <p>預算</p>
+                <p>預計完成日期</p>
+                <p className="moreView">more view</p>
+              </div>
+            ))}
+
+
           </section>
           {/* 顯示page */}
           <ul className="pagination">
@@ -298,4 +268,4 @@ function TakeTheCase() {
   );
 }
 
-export default TakeTheCase;
+export default AllCase;
