@@ -65,7 +65,7 @@ function InfoData() {
             <label htmlFor="" className="p2">
               學、經歷
             </label>
-            <span>國立台灣大學</span>、<span>GOOGLE軟體工程師</span>
+            <span>國立OO大學</span>、<span>OOXX軟體工程師</span>
             <button className="float-right">修改</button>
           </div>
           <hr />
