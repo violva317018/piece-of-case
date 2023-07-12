@@ -78,11 +78,11 @@ function MyFavorite() {
   ];
 
   // 載入時就寫入 localStorage，確保起初渲染就有狀態
-  useEffect(() => {
-    cases.map((item, index) => {
-      localStorage.setItem(`myStar${index}`, JSON.stringify(item.caseStar));
-    });
-  }, []);
+  // useEffect(() => {
+  //   cases.map((item, index) => {
+  //     localStorage.setItem(`myStar${index}`, JSON.stringify(item.caseStar));
+  //   });
+  // }, []);
   return (
     <div className="caseDiv">
       {/* 顯示案子 */}

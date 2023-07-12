@@ -22,9 +22,6 @@ function SideNav() {
       <Link to="" onClick={() => setInfoData("4")}>
         接案紀錄
       </Link>
-      <Link to="" onClick={() => setInfoData("5")}>
-        接案資料
-      </Link>
     </div>
   );
 }

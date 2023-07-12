@@ -21,6 +21,9 @@ function App() {
 
   const [infoData, setInfoData] = useState("1");
 
+  const [proposal, setProposal] = useState("1");
+
+  const [takethecase, setTakethecase] = useState("1");
   return (
     <>
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
@@ -32,6 +35,10 @@ function App() {
           setLogin,
           infoData, //我的帳戶目前位置
           setInfoData,
+          proposal, //提案紀錄目前位置
+          setProposal,
+          takethecase, //接案紀錄目前位置
+          setTakethecase,
         }}
       >
         <Header />
