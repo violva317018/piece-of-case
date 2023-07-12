@@ -6,47 +6,52 @@ function AllCase() {
   // case ，利用API 從後端取得
   const cases = [
     {
-      imgSrc: 'https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg',
-      name: '案件標題',
-      place: '地點',
-      price: '預算',
-      deadline: '預計完成日期',
+      imgSrc:
+        "https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg",
+      name: "案件標題",
+      place: "地點",
+      price: "預算",
+      deadline: "預計完成日期",
     },
     {
-      imgSrc: 'https://img.lovepik.com/element/40162/0669.png_300.png',
-      name: '案件標題',
-      place: '地點',
-      price: '預算',
-      deadline: '預計完成日期',
+      imgSrc: "https://img.lovepik.com/element/40162/0669.png_300.png",
+      name: "案件標題",
+      place: "地點",
+      price: "預算",
+      deadline: "預計完成日期",
     },
     {
-      imgSrc: 'https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg',
-      name: '案件標題',
-      place: '地點',
-      price: '預算',
-      deadline: '預計完成日期',
-    }, {
-      imgSrc: 'https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg',
-      name: '案件標題',
-      place: '地點',
-      price: '預算',
-      deadline: '預計完成日期',
+      imgSrc:
+        "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg",
+      name: "案件標題",
+      place: "地點",
+      price: "預算",
+      deadline: "預計完成日期",
     },
     {
-      imgSrc: 'https://img.lovepik.com/element/40162/0669.png_300.png',
-      name: '案件標題',
-      place: '地點',
-      price: '預算',
-      deadline: '預計完成日期',
+      imgSrc:
+        "https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg",
+      name: "案件標題",
+      place: "地點",
+      price: "預算",
+      deadline: "預計完成日期",
     },
     {
-      imgSrc: 'https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg',
-      name: '案件標題',
-      place: '地點',
-      price: '預算',
-      deadline: '預計完成日期',
-    }
-  ]
+      imgSrc: "https://img.lovepik.com/element/40162/0669.png_300.png",
+      name: "案件標題",
+      place: "地點",
+      price: "預算",
+      deadline: "預計完成日期",
+    },
+    {
+      imgSrc:
+        "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg",
+      name: "案件標題",
+      place: "地點",
+      price: "預算",
+      deadline: "預計完成日期",
+    },
+  ];
   return (
     <main className="container my-4">
       <div className="takeTheCaseBox d-flex">
@@ -217,7 +222,10 @@ function AllCase() {
           {/* 顯示案子 */}
           <section className="d-flex flex-wrap">
             {cases.map((item, index) => (
-              <div className="case border border-2 border-warning p-2" key={index}>
+              <div
+                className="case border border-2 border-warning p-2"
+                key={index}
+              >
                 <img
                   src={item.imgSrc}
                   alt="img"
@@ -229,7 +237,9 @@ function AllCase() {
                 <p>地點</p>
                 <p>預算</p>
                 <p>預計完成日期</p>
-                <Link className="moreView" to={'/caseview'}>more view</Link>
+                <Link className="moreView" to={"/caseview"}>
+                  more view
+                </Link>
               </div>
             ))}
           </section>

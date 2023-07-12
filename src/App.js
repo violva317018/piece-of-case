@@ -19,6 +19,8 @@ function App() {
     JSON.parse(localStorage.getItem("myLogin"))
   );
 
+  const [infoData, setInfoData] = useState("1");
+
   return (
     <>
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
@@ -28,6 +30,8 @@ function App() {
           bID: 2, // 目前使用者id
           login,
           setLogin,
+          infoData, //我的帳戶目前位置
+          setInfoData,
         }}
       >
         <Header />

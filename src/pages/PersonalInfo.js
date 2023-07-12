@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./personalinfo.css";
 import SideNav from "../components/SideNav";
 import InfoData from "../components/InfoData";
-import { Link } from "react-router-dom";
+import { GlobelDate } from "../App";
+import MyFavorite from "../components/MyFavorite";
 
 function PersonalInfo() {
+  const { infoData } = useContext(GlobelDate);
+
   return (
-    <div className="d-flex">
+    <div className="d-flex persInfoBody">
       <SideNav />
-      <InfoData />
+      {infoData === "1" && <InfoData />}
+      {infoData === "2" && <MyFavorite />}
     </div>
   );
 }
