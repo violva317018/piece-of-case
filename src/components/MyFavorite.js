@@ -77,12 +77,12 @@ function MyFavorite() {
     },
   ];
 
+  // 載入時就寫入 localStorage，確保起初渲染就有狀態
   useEffect(() => {
     cases.map((item, index) => {
       localStorage.setItem(`myStar${index}`, JSON.stringify(item.caseStar));
     });
   }, []);
-
   return (
     <div className="caseDiv">
       {/* 顯示案子 */}
@@ -121,6 +121,7 @@ function MyFavorite() {
                 setStar(!star);
               }}
               style={{
+                // 我將 || 移除 因為用 useeffect 先載入確保有 【myStar${index}】
                 color: JSON.parse(localStorage.getItem(`myStar${index}`))
                   ? "#ffc400"
                   : "#c0c0c0",
