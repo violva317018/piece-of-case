@@ -4,7 +4,8 @@ import "./header.css";
 import { GlobelDate } from "../App";
 
 function Header() {
-  const { login, setLogin } = useContext(GlobelDate);
+  const { login, setLogin, setInfoData } = useContext(GlobelDate);
+
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
@@ -49,12 +50,20 @@ function Header() {
               aria-labelledby="dropdownUser2"
             >
               <li>
-                <Link className="dropdown-item" to="/personalinfo">
+                <Link
+                  className="dropdown-item"
+                  to="/personalinfo"
+                  onClick={() => setInfoData("1")}
+                >
                   我的帳號
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="">
+                <Link
+                  className="dropdown-item"
+                  to="/personalinfo"
+                  onClick={() => setInfoData("3")}
+                >
                   我的案件
                 </Link>
               </li>
