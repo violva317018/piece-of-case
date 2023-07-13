@@ -62,7 +62,6 @@ function Publishing() {
               <span className="span2 flex-grow-1">{item["新報價/報價數"]}</span>
               <span className="span2 del1">
                 <div className="del2">下架</div>
-                <div className="del2">修改</div>
               </span>
             </div>
           </div>

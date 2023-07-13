@@ -69,3 +69,7 @@
 .white1:hover {
   color: white;
 }
+
+.recordDiv2:hover > a {
+  color: #eee;
+}

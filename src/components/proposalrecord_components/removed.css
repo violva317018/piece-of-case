@@ -29,11 +29,15 @@
 }
 
 .del1 {
+  display: flex;
+
+  flex-wrap: wrap;
   border-right: 0;
 }
 
 .del2 {
-  margin: 0.5rem;
+  height: 1rem;
+  /* justify-content: center; */
 }
 
 .del2:hover {

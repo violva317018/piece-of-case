@@ -14,30 +14,40 @@ function ProposalRecord() {
   return (
     <div className="recordDiv">
       <div className="d-flex recordDiv1">
-        <div className="recordDiv2">
-          <Link className="white1" onClick={() => setProposal(1)}>
-            草稿
-          </Link>
+        <div
+          className="recordDiv2"
+          onClick={() => setProposal(1)}
+          style={{ backgroundColor: proposal == 1 && "#ffa500" }}
+        >
+          <Link className="white1">草稿</Link>
         </div>
-        <div className="recordDiv2">
-          <Link className="white1" onClick={() => setProposal(2)}>
-            刊登中
-          </Link>
+        <div
+          className="recordDiv2"
+          onClick={() => setProposal(2)}
+          style={{ backgroundColor: proposal == 2 && "#ffa500" }}
+        >
+          <Link className="white1">刊登中</Link>
         </div>
-        <div className="recordDiv2">
-          <Link className="white1" onClick={() => setProposal(3)}>
-            進行中
-          </Link>
+        <div
+          className="recordDiv2"
+          onClick={() => setProposal(3)}
+          style={{ backgroundColor: proposal == 3 && "#ffa500" }}
+        >
+          <Link className="white1">進行中</Link>
         </div>
-        <div className="recordDiv2">
-          <Link className="white1" onClick={() => setProposal(4)}>
-            已下架
-          </Link>
+        <div
+          className="recordDiv2"
+          onClick={() => setProposal(4)}
+          style={{ backgroundColor: proposal == 4 && "#ffa500" }}
+        >
+          <Link className="white1">已下架</Link>
         </div>
-        <div className="recordDiv2">
-          <Link className="white1" onClick={() => setProposal(5)}>
-            已完成
-          </Link>
+        <div
+          className="recordDiv2"
+          onClick={() => setProposal(5)}
+          style={{ backgroundColor: proposal == 5 && "#ffa500" }}
+        >
+          <Link className="white1">已完成</Link>
         </div>
       </div>
       {proposal == 1 && <Draft />}
