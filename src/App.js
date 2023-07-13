@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PersonalInfo from "./pages/PersonalInfo";
 import React, { useState } from "react";
+import Message from "./pages/Message";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
@@ -29,8 +30,7 @@ function App() {
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
       <GlobelDate.Provider
         value={{
-          aID: 1, // 建案子的使用者id
-          bID: 2, // 目前使用者id
+          currentUserID: 'A01', // 目前使用者id
           login,
           setLogin,
           infoData, //我的帳戶目前位置
@@ -50,6 +50,7 @@ function App() {
           <Route path={"/proposal"} element={<Proposal />} />
           <Route path={"/allCase"} element={<AllCase />} />
           <Route path={"/CaseView"} element={<CaseView />} />
+          <Route path={"/messageroom"} element={<Message />} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>

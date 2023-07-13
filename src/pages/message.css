@@ -1,0 +1,23 @@
+.message-user {
+    width: 30%;
+    border: 1px solid red;
+
+}
+
+.message-room {
+    width: 60%;
+    border: 1px solid peru;
+    position: relative;
+}
+
+.my-message {
+    position: absolute;
+    right: 0;
+    color: red;
+}
+
+.other-message {
+    position: absolute;
+    left: 0;
+    color: blue;
+}

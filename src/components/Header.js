@@ -59,7 +59,7 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="">
+                <Link className="dropdown-item" to="/messageroom">
                   聊天室
                 </Link>
               </li>
