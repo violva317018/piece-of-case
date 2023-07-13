@@ -6,7 +6,7 @@ function CaseRecommend() {
   //    從 【GlobelDate】取得變數
   const { aID, bID } = useContext(GlobelDate);
   // 目前使用者id === 建案子的使用者id
-  const [userEqual, useUserEqual] = useState(aID === bID);
+  const [userEqual, useUserEqual] = useState(aID !== bID);
   console.log(userEqual);
   // 推薦案子 ， 從後端API取得
   const recommendCases = [
