@@ -30,7 +30,7 @@ function App() {
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
       <GlobelDate.Provider
         value={{
-          currentUserID: 'A01', // 目前使用者id
+          currentUserID: 'A02', // 目前使用者id
           login,
           setLogin,
           infoData, //我的帳戶目前位置
