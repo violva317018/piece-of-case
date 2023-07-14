@@ -14,12 +14,32 @@
     border: 1px solid #000;
     border-radius: 10px;
     width: 85%;
-    height: 150px;
+    min-height: 150px;
     margin: 1rem auto;
     padding: 0.5rem;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .recommend-content-box:hover {
     width: 87%;
+}
+
+.recommend-content-box-btn {
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #000;
+    margin: 0px 15px;
+    padding: 0.5rem
+}
+
+.selfRecommended {
+    width: 300px;
+    border: 1px solid #000;
+    min-height: 20px;
+    padding-top: .5rem;
+    padding-left: 1rem;
+    border-radius: 5px;
 }
