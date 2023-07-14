@@ -8,10 +8,8 @@ import ChatFooter from "../components/chatRoom_component/ChatFooter ";
 
 
 function ChatRoom() {
-    // get 全域變數
-    const { currentUserID } = useContext(GlobelDate) // 當前使用者 A02
-
     return (
+        // 原版
         // <div className='container'>
         //     <main className='d-flex'>
         //         {/* 顯示左側聊天室人員 */}
@@ -51,6 +49,7 @@ function ChatRoom() {
         //     </main>
         // </div>
 
+        // 新版
         <div className="chat">
             <ChatBar />
             <div className="chat__main">

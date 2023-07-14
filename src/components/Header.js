@@ -10,7 +10,7 @@ function Header() {
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
         <Link to="/" className="mx-5">
-          Logo
+          Piece Of Case
         </Link>
         <Link to="/proposal" className="mx-5 proposal-div">
           提案

@@ -49,7 +49,7 @@ const ChatBody = () => {
 
     ]
     return (
-        <>
+        <div className='chat-content'>
             {/* <header className="chat__mainHeader">
                 <p>Hangout with Colleagues</p>
                 <button className="leaveChat__btn" onClick={handleLeaveChat}>
@@ -68,7 +68,7 @@ const ChatBody = () => {
                 </div>
             ))}
 
-        </>
+        </div>
     );
 };
 
