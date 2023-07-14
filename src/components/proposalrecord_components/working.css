@@ -44,3 +44,46 @@
 .white1:hover {
   color: white;
 }
+
+.progress1 {
+  padding: 0 2rem;
+  height: 10rem;
+  border-top: 2px solid #ffa500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-bar {
+  background-color: #4798b3;
+}
+
+.prog1 {
+  width: calc(100% - 4rem);
+  border-radius: 0.5rem;
+  height: 3px;
+  background-color: #b8b8b8;
+  position: absolute;
+}
+
+.progCircle {
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #b8b8b8;
+}
+
+.deadLine {
+  top: 1rem;
+  right: -2.5rem;
+  width: 5rem;
+}
+
+.progressCircle {
+  z-index: 3;
+  height: 5rem;
+  position: relative;
+  top: calc(5rem / 2 - 5px);
+}

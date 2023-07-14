@@ -37,7 +37,8 @@
 
 .del2 {
   height: 1rem;
-  /* justify-content: center; */
+  line-height: 1rem;
+  align-items: center;
 }
 
 .del2:hover {
