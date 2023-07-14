@@ -13,14 +13,14 @@ function Working() {
       預算金額: "5萬",
       成交日期: "2023/07/04",
       成交對象: "張文彥",
-      階段數量: 3,
-      案件進度: 2,
+      階段數量: 2,
+      案件進度: 1,
       deadLine0: "2023/07/04",
       deadLine1: "2023/07/14",
       deadLine2: "2023/07/24",
       deadLine3: "2023/08/03",
       階段1結清: "已結清",
-      階段2結清: "已結清",
+      階段2結清: "未結清",
       階段3結清: "未結清",
     },
     {
@@ -31,7 +31,7 @@ function Working() {
       成交日期: "2023/07/12",
       成交對象: "張文彥",
       階段數量: 5,
-      案件進度: 3,
+      案件進度: 2,
       deadLine0: "2023/07/12",
       deadLine1: "2023/07/14",
       deadLine2: "2023/07/24",
@@ -40,7 +40,7 @@ function Working() {
       deadLine5: "2023/08/23",
       階段1結清: "已結清",
       階段2結清: "已結清",
-      階段3結清: "已結清",
+      階段3結清: "未結清",
       階段4結清: "未結清",
       階段5結清: "未結清",
     },
@@ -50,51 +50,68 @@ function Working() {
     return (item["案件進度"] / item["階段數量"]) * 100;
   };
 
+  const completedBtn = (i) => {
+    if (i == 0) {
+      return <div className="btn1">達成</div>;
+    }
+  };
+
   const circle = (item) => {
     let circleResult = [];
 
     for (let i = 0; i < item["案件進度"] + 1; i++) {
       circleResult.push(
-        <div
-          key={i}
-          className="progCircle"
-          style={{ backgroundColor: "#4798b3" }}
-        ></div>,
-        <div className="deadLine">截止日期：{item[`deadLine${i}`]}</div>,
-        <div
-          style={{
-            color: item[`階段${i + 1}結清`] === "未結清" ? "red" : "green",
-          }}
-        >
-          {item[`階段${i + 1}結清`]}
+        <div className="progressCircle" key={i}>
+          <div
+            className="progCircle"
+            style={{ backgroundColor: "#4798b3" }}
+          ></div>
+          <div className="deadLine">
+            {i == 0 ? "成交日期" : "截止日期"}：{item[`deadLine${i}`]}
+          </div>
+          <div
+            className="right1"
+            style={{
+              color: item[`階段${i}結清`] === "未結清" ? "red" : "green",
+              width: "3rem",
+            }}
+          >
+            {item[`階段${i}結清`]}
+          </div>
         </div>
       );
     }
 
     for (let i = 0; i < item["階段數量"] - item["案件進度"]; i++) {
       circleResult.push(
-        <div
-          key={i + 10}
-          className="progCircle"
-          style={{ backgroundColor: "#b8b8b8" }}
-        ></div>,
-        <div className="deadLine">
-          截止日期：{item[`deadLine${item["案件進度"] + i + 1}`]}
-        </div>,
-        <div
-          style={{
-            color:
-              item[`階段${item["案件進度"] + i + 1}結清`] === "未結清"
-                ? "red"
-                : "green",
-          }}
-        >
-          {item[`階段${item["案件進度"] + i + 1}結清`]}
+        <div className="progressCircle" key={i + 10}>
+          {completedBtn(i)}
+          <div
+            className="progCircle"
+            style={{ backgroundColor: "#b8b8b8" }}
+          ></div>
+
+          <div className="deadLine">
+            截止日期：{item[`deadLine${item["案件進度"] + i + 1}`]}
+          </div>
+
+          <div
+            className="right1"
+            style={{
+              color:
+                item[`階段${item["案件進度"] + i + 1}結清`] === "未結清"
+                  ? "red"
+                  : "green",
+              width: "3rem",
+            }}
+          >
+            {item[`階段${item["案件進度"] + i + 1}結清`]}
+          </div>
         </div>
       );
     }
-    console.log(circleResult);
-    return <div className="progressCircle">{circleResult.map()}</div>;
+
+    return circleResult;
   };
 
   return (

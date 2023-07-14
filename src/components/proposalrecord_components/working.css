@@ -46,7 +46,7 @@
 }
 
 .progress1 {
-  padding: 0 2rem;
+  padding: 0 4rem;
   height: 10rem;
   border-top: 2px solid #ffa500;
   position: relative;
@@ -60,7 +60,8 @@
 }
 
 .prog1 {
-  width: calc(100% - 4rem);
+  top: 3rem;
+  width: calc(100% - 8rem);
   border-radius: 0.5rem;
   height: 3px;
   background-color: #b8b8b8;
@@ -76,14 +77,40 @@
 }
 
 .deadLine {
-  top: 1rem;
-  right: -2.5rem;
+  position: relative;
+  right: 2rem;
   width: 5rem;
 }
 
 .progressCircle {
+  width: 1px;
   z-index: 3;
   height: 5rem;
   position: relative;
-  top: calc(5rem / 2 - 5px);
+  top: 5px;
+}
+
+.right1 {
+  position: relative;
+  right: 1rem;
+}
+
+.btn1 {
+  width: 3rem;
+  height: 25px;
+  line-height: 25px;
+  background-color: #d3d3d3;
+  text-align: center;
+  border: 1px solid #474747;
+  border-radius: 0.4rem;
+  position: absolute;
+  right: calc(-1.5rem - 5px);
+  top: -35px;
+}
+
+.btn1:hover {
+  cursor: pointer;
+  background-color: #ffa500;
+  color: white;
+  border: 0;
 }
