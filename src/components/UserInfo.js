@@ -18,15 +18,15 @@ function UserInfo() {
       {/* 自我推薦 */}
       <div className="input-group input-group-lg" >
         <span className="input-group-text" id="inputGroup-sizing-lg" style={{ padding: '0' }}>自我推薦</span>
-        <textarea type="text" rows={'5'} style={{ padding: '0', margin: 0 }} className="form-control" ></textarea>
+        <textarea type="text" rows={'5'} style={{ margin: 0 }} className="form-control" placeholder='請輸入您的自我推薦'></textarea>
       </div>
       {/* 報價金額 */}
       <div className="input-group input-group-lg">
         <span className="input-group-text" id="inputGroup-sizing-lg" style={{ padding: '0' }}>報價金額</span>
-        <input type="text" style={{ padding: '0', margin: 0 }} className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" />
+        <input type="text" style={{ margin: 0 }} className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder='請輸入您的報價' />
       </div>
       {/* 我要報價 */}
-      <button type="button" className="btn btn-secondary">我要報價</button>
+      <button type="button" className="btn btn-secondary" >我要報價</button>
     </div>
   )
 }

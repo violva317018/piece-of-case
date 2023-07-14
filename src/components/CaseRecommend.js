@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import "./caseRecommend.css";
 import { GlobelDate } from "../App";
+import { Route, Routes, Link } from "react-router-dom";
 
 function CaseRecommend() {
   //    從 【GlobelDate】取得變數
   const { aID, bID } = useContext(GlobelDate);
   // 目前使用者id === 建案子的使用者id
-  const [userEqual, useUserEqual] = useState(aID !== bID);
-  console.log(userEqual);
+  const [userEqual, useUserEqual] = useState(aID === bID);
   // 推薦案子 ， 從後端API取得
   const recommendCases = [
     {
@@ -40,14 +40,17 @@ function CaseRecommend() {
     {
       name: "A猿人",
       price: "2000",
+      selfRecommended: '今天天氣真好'
     },
     {
       name: "B人猿",
       price: "1000",
+      selfRecommended: ''
     },
     {
       name: "C猩猩",
       price: "5500",
+      selfRecommended: '老闆好'
     },
   ];
   return (
@@ -62,8 +65,24 @@ function CaseRecommend() {
           <>
             {quote.map((item, index) => (
               <div className="recommend-content-box" key={index}>
-                <p>{item.name}</p>
-                <p>{item.price}</p>
+                <div>
+                  <p>{item.name}</p>
+                  <p>報價金額 : {item.price}</p>
+                  <p>自我推薦 : </p>
+                  <p className="selfRecommended">{item.selfRecommended}</p>
+                </div>
+                {/* 三個btn Link */}
+                <div>
+                  <button className="recommend-content-box-btn">
+                    <Link to="/chatRoom">聊聊</Link>
+                  </button>
+                  <button className="recommend-content-box-btn">
+                    <Link to="/">查看資訊</Link>
+                  </button>
+                  <button className="recommend-content-box-btn">
+                    <Link to="/">合作</Link>
+                  </button>
+                </div>
               </div>
             ))}
           </>

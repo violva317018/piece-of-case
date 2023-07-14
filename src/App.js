@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PersonalInfo from "./pages/PersonalInfo";
 import React, { useState } from "react";
-import Message from "./pages/Message";
+import ChatRoom from "./pages/ChatRoom";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
@@ -50,7 +50,7 @@ function App() {
           <Route path={"/proposal"} element={<Proposal />} />
           <Route path={"/allCase"} element={<AllCase />} />
           <Route path={"/CaseView"} element={<CaseView />} />
-          <Route path={"/messageroom"} element={<Message />} />
+          <Route path={"/chatRoom"} element={<ChatRoom />} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>
