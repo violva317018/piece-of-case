@@ -52,170 +52,60 @@ function AllCase() {
       deadline: "預計完成日期",
     },
   ];
+
+  // 儲存母、子類別
+  const categorys = [
+    {
+      'title': '家教課程',
+      'subCategory': [
+        '才藝',
+        '升學',
+        '語言',
+      ]
+    },
+    {
+      'title': '生活服務',
+      'subCategory': [
+        '清潔外包',
+        '家庭代工',
+        '水電維修',
+      ]
+    }
+  ]
+
+
   return (
     <main className="container my-4">
       <div className="takeTheCaseBox d-flex">
         {/* 左側篩選欄 */}
         <div className="condition mx-3">
-          {/* 平面設計 */}
-          <div className="mb-3">
-            <button
-              className="btn btn-secondary w-100"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#multiCollapseExample1"
-              aria-expanded="false"
-              aria-controls="multiCollapseExample1"
-            >
-              平面設計
-            </button>
-            <div className="collapse multi-collapse" id="multiCollapseExample1">
-              <div className="card card-body">
-                <ul className="list-group">
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item1" name="group1" />
-                    <label htmlFor="item1">名片</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item2" name="group1" />
-                    <label htmlFor="item2">封面</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item3" name="group1" />
-                    <label htmlFor="item3">企業形象/VI</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item4" name="group1" />
-                    <label htmlFor="item4">DM/名片/海報</label>
-                  </li>
-                </ul>
+          {categorys.map((items, index) => (
+            <div className="mb-3" key={index}>
+              <button
+                className="btn btn-secondary w-100"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target={`#${items.title}`}
+                aria-expanded="false"
+                aria-controls={`${items.title}`}
+              >
+                {items.title}
+              </button>
+              <div className="collapse multi-collapse" id={`${items.title}`}>
+                <div className="card card-body">
+                  <ul className="list-group">
+                    {items.subCategory.map((item, index) => (
+                      <li className="list-group-item p-0" key={index}>
+                        <input type="checkbox" id={`${items.title}${index}`} name={`${items.title}`} />
+                        <label htmlFor={`${items.title}${index}`} >{item}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          {/* 網頁設計 */}
-          <div className="mb-3">
-            <button
-              className="btn btn-secondary w-100"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#multiCollapseExample2"
-              aria-expanded="false"
-              aria-controls="multiCollapseExample2"
-            >
-              網頁設計
-            </button>
-            <div className="collapse multi-collapse" id="multiCollapseExample2">
-              <div className="card card-body">
-                <ul className="list-group">
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item5" name="group2" />
-                    <label htmlFor="item5">網頁設計1</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item6" name="group2" />
-                    <label htmlFor="item6">網頁設計2</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item7" name="group2" />
-                    <label htmlFor="item7">網頁設計3</label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          {/* 家教 */}
-          <div className="mb-3">
-            <button
-              className="btn btn-secondary w-100"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#multiCollapseExample3"
-              aria-expanded="false"
-              aria-controls="multiCollapseExample3"
-            >
-              家教
-            </button>
-            <div className="collapse multi-collapse" id="multiCollapseExample3">
-              <div className="card card-body">
-                <ul className="list-group">
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item8" name="group3" />
-                    <label htmlFor="item8">國語</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item9" name="group3" />
-                    <label htmlFor="item9">英語</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item10" name="group3" />
-                    <label htmlFor="item10">數學</label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          {/* 僵屍 */}
-          <div className="mb-3">
-            <button
-              className="btn btn-secondary w-100"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#multiCollapseExample5"
-              aria-expanded="false"
-              aria-controls="multiCollapseExample5"
-            >
-              尋找僵屍趣
-            </button>
-            <div className="collapse multi-collapse" id="multiCollapseExample5">
-              <div className="card card-body">
-                <ul className="list-group">
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item22" name="group5" />
-                    <label htmlFor="item22">大僵屍</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item23" name="group5" />
-                    <label htmlFor="item23">中僵屍</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item24" name="group5" />
-                    <label htmlFor="item24">小僵屍</label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          {/* 區域 */}
-          <div className="mb-3">
-            <button
-              className="btn btn-secondary w-100"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#multiCollapseExample4"
-              aria-expanded="false"
-              aria-controls="multiCollapseExample4"
-            >
-              區域
-            </button>
-            <div className="collapse multi-collapse" id="multiCollapseExample4">
-              <div className="card card-body">
-                <ul className="list-group">
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item11" name="group4" />
-                    <label htmlFor="item11">台中市</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item12" name="group4" />
-                    <label htmlFor="item12">台北市</label>
-                  </li>
-                  <li className="list-group-item p-0">
-                    <input type="checkbox" id="item13" name="group4" />
-                    <label htmlFor="item13">台南市</label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          ))}
+
         </div>
         {/* 右側接案區 */}
         <div className="allCaseBox">
