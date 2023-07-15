@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import PersonalInfo from "./pages/PersonalInfo";
 import React, { useState } from "react";
 import ChatRoom from "./pages/ChatRoom";
+import Scheme from "./pages/Scheme";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
@@ -30,7 +31,7 @@ function App() {
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
       <GlobelDate.Provider
         value={{
-          currentUserID: 'A02', // 目前使用者id
+          currentUserID: "A02", // 目前使用者id
           login,
           setLogin,
           infoData, //我的帳戶目前位置
@@ -51,6 +52,7 @@ function App() {
           <Route path={"/allCase"} element={<AllCase />} />
           <Route path={"/CaseView"} element={<CaseView />} />
           <Route path={"/chatRoom"} element={<ChatRoom />} />
+          <Route path={"/Scheme"} element={<Scheme />} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>

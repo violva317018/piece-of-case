@@ -40,17 +40,17 @@ function CaseRecommend() {
     {
       name: "A猿人",
       price: "2000",
-      selfRecommended: '今天天氣真好'
+      selfRecommended: "今天天氣真好",
     },
     {
       name: "B人猿",
       price: "1000",
-      selfRecommended: ''
+      selfRecommended: "",
     },
     {
       name: "C猩猩",
       price: "5500",
-      selfRecommended: '老闆好'
+      selfRecommended: "老闆好",
     },
   ];
   return (
@@ -80,7 +80,7 @@ function CaseRecommend() {
                     <Link to="/">查看資訊</Link>
                   </button>
                   <button className="recommend-content-box-btn">
-                    <Link to="/">合作</Link>
+                    <Link to="/scheme">合作</Link>
                   </button>
                 </div>
               </div>
