@@ -1,6 +1,7 @@
-.recordDiv3 {
+.recordDiv31 {
   margin-top: 1rem;
   margin-left: 3rem;
+  margin-bottom: 3rem;
   width: 100%;
   border: 2px solid #ffa500;
 }
@@ -113,4 +114,29 @@
   background-color: #ffa500;
   color: white;
   border: 0;
+}
+
+.arrow2 {
+  color: #ffa500;
+  display: block;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 4rem;
+  height: 2rem;
+  border: 2px solid #ffa500;
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  /* transform: scaleY(-1); */
+}
+
+.arrow2:hover {
+  cursor: pointer;
+  border: 0;
+  color: white;
+  background-color: #ffa500;
+}
+
+.arrowDiv {
+  position: relative;
+  height: 0;
 }
