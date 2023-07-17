@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import '../App.css'
 import './chatRoom.css'
 import { GlobelDate } from '../App'
@@ -7,55 +7,62 @@ import ChatBody from "../components/chatRoom_component/ChatBody ";
 import ChatFooter from "../components/chatRoom_component/ChatFooter ";
 
 
-function ChatRoom() {
+function ChatRoom(props) {
+    const [selectedUser, setSelectedUser] = useState({});
+    const [userSelected, setUserSelected] = useState(false); // So that any chat window is not rendered when app is loaded
+    const [messages, setMessages] = useState([]);
+    const lastMessageRef = useRef(null);
+    // console.log("in ChatPage", props.connectedUsers);
+
+    const getSelectedUser = (user) => {
+        setSelectedUser(user);
+        setUserSelected(true);
+        console.log("In ChatPage, selected user:", user);
+    };
+    useEffect(() => {
+        // 👇️ scroll to bottom every time messages change
+        lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
     return (
-        // 原版
-        // <div className='container'>
-        //     <main className='d-flex'>
-        //         {/* 顯示左側聊天室人員 */}
-        //         <aside className='message-user'>
-        //             {/* 顯示其他聊天人員 */}
-        //             {allMessage.map((item, index) => (
-        //                 <div key={index}>
-        //                     {/* 只會顯示 ( 當前使用者 === receiveUser ) */}
-        //                     {(currentUserID === item.receiveUser) &&
-        //                         <div className='showOtherUser'>
-        //                             <p>訊息發送者大頭貼 : {item.sendUserProfilePhoto}</p>
-        //                             <p>訊息發送者 : {item.sendUser}</p>
-        //                             <p>訊息 : {item.message}</p>
-        //                             <span className='sendDate'>發送訊息時間 : {item.sendDate}</span>
-        //                         </div>
-        //                     }
-        //                 </div>
-        //             ))}
-        //         </aside>
 
-        //         {/* 右側聊天區 */}
-        //         <div className='message-room'>
-        //             {allMessage.map((item, index) => (
-        //                 <div key={index} className='message-box'>
-        //                     {/* 判斷發送訊息的是不是自己 */}
-        //                     {item.sendUser === currentUserID ?
-        //                         <p className='my-message'>
-        //                             {item.message}
-        //                         </p> :
-        //                         <p className='other-message'>
-        //                             {item.message}
-        //                         </p>
-        //                     }
-        //                 </div>
-        //             ))}
-        //         </div>
-        //     </main>
-        // </div>
-
-        // 新版
         <div className="chat">
-            <ChatBar />
+            <ChatBar
+                connectedUsers={props.connectedUsers}
+                selectUser={getSelectedUser}
+            />
+            {/* {userSelected ? (
+                <div className="chat__main">
+                    <ChatBody
+                        selectedUser={selectedUser}
+                        connectedUsers={props.connectedUsers}
+                        messages={messages}
+                        setMessages={setMessages}
+                        lastMessageRef={lastMessageRef}
+                    />
+                    <ChatFooter
+                        selectedUser={selectedUser}
+                        connectedUsers={props.connectedUsers}
+                        messages={messages}
+                        setMessages={setMessages}
+                    />
+                </div>
+            ) : (
+                <div className="chat__main">Click user to start messaging</div>
+            )} */}
             <div className="chat__main">
-                <ChatBody />
-                {/* <ChatFooter socket={socket} /> */}
-                <ChatFooter />
+                <ChatBody
+                    selectedUser={selectedUser}
+                    connectedUsers={props.connectedUsers}
+                    messages={messages}
+                    setMessages={setMessages}
+                    lastMessageRef={lastMessageRef}
+                />
+                <ChatFooter
+                    selectedUser={selectedUser}
+                    connectedUsers={props.connectedUsers}
+                    messages={messages}
+                    setMessages={setMessages}
+                />
             </div>
         </div>
     )

@@ -13,11 +13,36 @@ import React, { useState } from "react";
 import ChatRoom from "./pages/ChatRoom";
 import Scheme from "./pages/Scheme";
 import CheckInfo from "./pages/CheckInfo";
+import socket from "./socket";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
 
 function App() {
+  // chat --- start
+  const [userName, setUserName] = useState("");
+  const [usersList, addUsers] = useState([]);
+  // When the user is added
+  // const getUsername = (fetched_userName) => {
+  //   setUserName(fetched_userName);
+  //   socket.auth = { fetched_userName };
+  //   socket.connect();
+  // };
+  // 更新 user.self 狀態
+  socket.on("users", (users) => {
+    console.log(users);
+    users.forEach((user) => {
+      // 透過該網頁的 socket.id 與 userID 判斷是否為本人
+      user.self = user.userID === socket.id;
+    });
+    addUsers(users);
+  });
+  socket.on("user connect", (user) => {
+    addUsers([...usersList, user]);
+  });
+
+  // chat --- end
+
   const [login, setLogin] = useState(
     JSON.parse(localStorage.getItem("myLogin"))
   );
@@ -55,6 +80,7 @@ function App() {
           <Route path={"/chatRoom"} element={<ChatRoom />} />
           <Route path={"/Scheme"} element={<Scheme />} />
           <Route path={"/checkInfo"} element={<CheckInfo />} />
+          <Route path={"/ChatRoom "} element={<ChatRoom />} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>
