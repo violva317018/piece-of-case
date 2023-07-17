@@ -12,6 +12,7 @@ import PersonalInfo from "./pages/PersonalInfo";
 import React, { useState } from "react";
 import ChatRoom from "./pages/ChatRoom";
 import Scheme from "./pages/Scheme";
+import CheckInfo from "./pages/CheckInfo";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
@@ -53,6 +54,7 @@ function App() {
           <Route path={"/CaseView"} element={<CaseView />} />
           <Route path={"/chatRoom"} element={<ChatRoom />} />
           <Route path={"/Scheme"} element={<Scheme />} />
+          <Route path={"/checkInfo"} element={<CheckInfo />} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>
