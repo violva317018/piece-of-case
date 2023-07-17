@@ -77,7 +77,7 @@ function CaseRecommend() {
                     <Link to="/chatRoom">聊聊</Link>
                   </button>
                   <button className="recommend-content-box-btn">
-                    <Link to="/">查看資訊</Link>
+                    <Link to="/checkInfo">查看資訊</Link>
                   </button>
                   <button className="recommend-content-box-btn">
                     <Link to="/scheme">合作</Link>
