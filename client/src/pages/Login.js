@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { GlobelDate } from "../App";
 
 function Login() {
-  const { setLogin } = useContext(GlobelDate);
+  const [accountNumber, setAccountNumber] = useState("");
+
+  const handleChange = (e) =>
+    localStorage.setItem("accountNumber", JSON.stringify(e.target.value));
+
+  useEffect(() => {
+    localStorage.setItem("rememberID", JSON.stringify(false));
+  }, []);
+
   return (
     <div className=" myBody d-flex">
       <div className="loginDiv d-flex">
@@ -14,6 +22,8 @@ function Login() {
             <input
               type="email"
               placeholder="帳號為電子郵件"
+              value={localStorage.getItem("accountNumber")}
+              onChange={handleChange}
               className="form-control inputRadiusTop"
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
@@ -27,8 +37,19 @@ function Login() {
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
           <div className="my-2 d-flex justify-content-between">
-            <label htmlFor="">
-              <input type="checkbox" /> 記住帳號
+            <label htmlFor="rememberID">
+              <input
+                type="checkbox"
+                id="rememberID"
+                checked={JSON.parse(localStorage.getItem("rememberID"))}
+                onChange={() =>
+                  localStorage.setItem(
+                    "rememberID",
+                    !JSON.parse(localStorage.getItem("rememberID"))
+                  )
+                }
+              />
+              記住帳號
             </label>
             <div>
               <Link className="linkCssSm">忘記密碼</Link>

@@ -11,7 +11,7 @@ function Home() {
             <div className="get-case case-box">提案</div>
           </Link>
           <Link to="/allCase">
-            <div className="send-case case-box">接案畫面</div>
+            <div className="send-case case-box">接案</div>
           </Link>
         </div>
         <div className="mt-5 fs-1 text-center">最方便、快速的接案平台</div>

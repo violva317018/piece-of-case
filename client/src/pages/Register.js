@@ -11,9 +11,17 @@ function Register() {
           <h2 className="mb-3 textAlignC">會員註冊</h2>
           <div className="form-floating">
             <input
+              type="text"
+              placeholder="請輸入使用者名稱"
+              className="form-control"
+            />
+            <label htmlFor="floatingInput">請輸入使用者名稱</label>
+          </div>
+          <div className="form-floating">
+            <input
               type="email"
               placeholder="帳號為電子郵件"
-              className="form-control inputRadiusTop"
+              className="form-control inputRadiusNull"
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
           </div>

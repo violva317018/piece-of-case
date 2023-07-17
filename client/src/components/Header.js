@@ -16,7 +16,7 @@ function Header() {
           提案
         </Link>
         <Link to="/allCase" className="mx-5 allCase-div">
-          接案畫面
+          接案
         </Link>
         {login || (
           <div className="d-flex ms-auto">

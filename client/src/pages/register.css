@@ -65,3 +65,9 @@
 .linkCss:hover {
   font-size: 18px;
 }
+
+input[type="text"] {
+  width: 100%;
+  margin-bottom: 0;
+  border-radius: 5px 5px 0 0;
+}
