@@ -20,7 +20,6 @@ export const GlobelDate = React.createContext({});
 
 function App() {
   // chat --- start
-  const [userName, setUserName] = useState("");
   const [usersList, addUsers] = useState([]);
   // When the user is added
   // const getUsername = (fetched_userName) => {
@@ -47,6 +46,13 @@ function App() {
     JSON.parse(localStorage.getItem("myLogin"))
   );
 
+  // 給註冊登入使用
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userHashPassword, setUserHashPassword] = useState("");
+
+
   const [infoData, setInfoData] = useState("1");
 
   const [proposal, setProposal] = useState("1");
@@ -66,6 +72,7 @@ function App() {
           setProposal,
           takethecase, //接案紀錄目前位置
           setTakethecase,
+          setUserName, setUserEmail, setUserPassword, setUserHashPassword, userName, userEmail, userPassword, userHashPassword
         }}
       >
         <Header />
