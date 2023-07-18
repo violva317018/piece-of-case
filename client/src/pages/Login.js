@@ -5,9 +5,11 @@ import { GlobelDate } from "../App";
 
 function Login() {
   const [accountNumber, setAccountNumber] = useState("");
+  const [rememberID, setRememberID] = useState(false);
 
-  const handleChange = (e) =>
-    localStorage.setItem("accountNumber", JSON.stringify(e.target.value));
+  const handleChange = (e) => {
+    setAccountNumber(e.target.value);
+  };
 
   useEffect(() => {
     localStorage.setItem("rememberID", JSON.stringify(false));
@@ -22,9 +24,10 @@ function Login() {
             <input
               type="email"
               placeholder="帳號為電子郵件"
-              value={localStorage.getItem("accountNumber")}
+              defaultValue={JSON.parse(localStorage.getItem("accountNumber"))}
               onChange={handleChange}
               className="form-control inputRadiusTop"
+              required
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
           </div>
@@ -33,6 +36,7 @@ function Login() {
               type="password"
               placeholder="請輸入密碼"
               className="form-control inputRadiusBottom"
+              required
             />
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
@@ -41,7 +45,6 @@ function Login() {
               <input
                 type="checkbox"
                 id="rememberID"
-                checked={JSON.parse(localStorage.getItem("rememberID"))}
                 onChange={() =>
                   localStorage.setItem(
                     "rememberID",
@@ -59,9 +62,15 @@ function Login() {
             <button
               className="btn submitButton"
               type="submit"
-              onClick={() =>
-                localStorage.setItem("myLogin", JSON.stringify(true))
-              }
+              onClick={() => {
+                localStorage.setItem("myLogin", JSON.stringify(true));
+                JSON.parse(localStorage.getItem("rememberID"))
+                  ? localStorage.setItem(
+                      "accountNumber",
+                      JSON.stringify(accountNumber)
+                    )
+                  : localStorage.setItem("accountNumber", JSON.stringify(""));
+              }}
             >
               &nbsp;&nbsp;登入&nbsp;&nbsp;
             </button>
