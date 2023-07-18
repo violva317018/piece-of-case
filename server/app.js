@@ -1,3 +1,5 @@
+// 與前端 socket 交互
+
 const app = require("express")();
 const http = require("http").Server(app);
 const mysql = require("mysql");
