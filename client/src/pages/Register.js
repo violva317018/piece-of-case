@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./register.css";
 import { Link } from "react-router-dom";
 
 function Register() {
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [errowMessage, setErrowMessage] = useState(true);
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handlePassword2 = (e) => {
+    setPassword2(e.target.value);
+  };
+
   return (
     <div className=" myBody d-flex">
       <div className="imgDiv1"></div>
@@ -14,6 +26,7 @@ function Register() {
               type="text"
               placeholder="請輸入使用者名稱"
               className="form-control"
+              required
             />
             <label htmlFor="floatingInput">請輸入使用者名稱</label>
           </div>
@@ -22,6 +35,7 @@ function Register() {
               type="email"
               placeholder="帳號為電子郵件"
               className="form-control inputRadiusNull"
+              required
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
           </div>
@@ -30,6 +44,8 @@ function Register() {
               type="password"
               placeholder="請輸入密碼"
               className="form-control inputRadiusNull"
+              onChange={handlePassword}
+              required
             />
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
@@ -38,11 +54,20 @@ function Register() {
               type="password"
               placeholder="重新輸入密碼"
               className="form-control inputRadiusBottom"
+              onChange={handlePassword2}
+              required
             />
             <label htmlFor="floatingInput">重新輸入密碼</label>
           </div>
+          {password != password2 && (
+            <span style={{ color: "red" }}>密碼輸入不一致！</span>
+          )}
           <div className="form-floating">
-            <button className="btn submitButton" type="submit">
+            <button
+              className="btn submitButton"
+              type="submit"
+              disabled={password != password2}
+            >
               註冊會員
             </button>
           </div>
