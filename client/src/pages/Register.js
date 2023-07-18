@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 function Register() {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [errowMessage, setErrowMessage] = useState(true);
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
