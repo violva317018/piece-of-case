@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./login.css";
 import { Link, json } from "react-router-dom";
 import { GlobelDate } from "../App";
+import Auth from '../axios/Auth'
 
 function Login() {
   const [accountNumber, setAccountNumber] = useState("");
@@ -66,9 +67,9 @@ function Login() {
                 localStorage.setItem("myLogin", JSON.stringify(true));
                 JSON.parse(localStorage.getItem("rememberID"))
                   ? localStorage.setItem(
-                      "accountNumber",
-                      JSON.stringify(accountNumber)
-                    )
+                    "accountNumber",
+                    JSON.stringify(accountNumber)
+                  )
                   : localStorage.setItem("accountNumber", JSON.stringify(""));
               }}
             >

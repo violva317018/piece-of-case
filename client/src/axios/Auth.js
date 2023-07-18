@@ -1,22 +1,23 @@
 import axios from "axios"; // 引入 axios 工具
 
 // 後端給的網址
-const API_URL = "http://localhost/project-test/Server/public/api/auth";
+const API_URL = "http://localhost/Full-Stack-Project/server/public/api/auth";
 
 class Auth {
   // class 內的 function 可以省略前綴
-  signup(email, userName, password) {
+  signup(userName, email, password) {
     // 取得從後端回傳的資料
     // 現在要註冊所以要用 【post】
     // axios.method('網址',{ 傳給後端的參數 })
     return axios.post(API_URL + "/signup", {
-      email,
       userName,
+      email,
       password,
     });
   }
-  login(email, password) {
 
+
+  login(email, password) {
     return axios.post(API_URL + "/login", {
       email,
       password,
