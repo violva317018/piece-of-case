@@ -9,7 +9,6 @@ function Quoted() {
       案件名稱: "阿里巴巴語言家教",
       報價金額: "15萬",
       截止日期: "2023/07/13",
-      狀態: "未成交",
     },
     {
       創建者id: "A98",
@@ -17,7 +16,6 @@ function Quoted() {
       案件名稱: "修水管",
       報價金額: "3000",
       截止日期: "2023/12/11",
-      狀態: "報價落選",
     },
   ];
 
@@ -28,14 +26,15 @@ function Quoted() {
           <div className="d-flex align-items-center">
             <span className="span1 flex-grow-1">案件名稱</span>
             <span className="span1 flex-grow-1">報價金額</span>
-            <span className="span1 flex-grow-1">截止日期</span>
-            <span className="span1 flex-grow-1 borderR">狀態</span>
+            <span className="span1 flex-grow-1 borderR">截止日期</span>
           </div>
           <div className="d-flex align-items-center">
             <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
             <span className="span2 flex-grow-1">{item["報價金額"]}</span>
-            <span className="span2 flex-grow-1">{item["截止日期"]}</span>
-            <span className="span2 flex-grow-1 borderR d-flex align-items-center">
+            <span className="span2 flex-grow-1 borderR">
+              {item["截止日期"]}
+            </span>
+            {/* <span className="span2 flex-grow-1 borderR d-flex align-items-center">
               <p
                 className="mb-0"
                 style={{
@@ -45,7 +44,7 @@ function Quoted() {
               >
                 {item["狀態"] == "報價落選" ? "未成交" : item["狀態"]}
               </p>
-            </span>
+            </span> */}
           </div>
         </div>
       ))}
