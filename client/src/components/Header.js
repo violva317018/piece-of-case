@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./header.css";
 import { GlobelDate } from "../App";
@@ -6,6 +6,10 @@ import { GlobelDate } from "../App";
 function Header() {
   const { login, setLogin, setInfoData } = useContext(GlobelDate);
 
+  useEffect(() => {
+    // console.log(JSON.parse(localStorage.getItem('userInfo')))
+    console.log(login)
+  }, [])
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">

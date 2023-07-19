@@ -1,16 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./login.css";
-import { Link, json } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import { GlobelDate } from "../App";
 import Auth from '../axios/Auth'
 
 function Login() {
-  const [accountNumber, setAccountNumber] = useState("");
+  // 轉址所需
+  const navigate = useNavigate()
+  // 取得全域變數
+  const { setUserEmail, setUserPassword, userEmail, userPassword } = useContext(GlobelDate)
   const [rememberID, setRememberID] = useState(false);
 
-  const handleChange = (e) => {
-    setAccountNumber(e.target.value);
-  };
+  // 將輸入資料傳給後端匹配，並取得使用者資訊
+  const handleLogin = () => {
+
+    Auth.login(userEmail, userPassword)
+      .then((result) => {
+        localStorage.setItem("userInfo",
+          JSON.stringify(result['data'][0])
+          // 導向至首頁
+        );
+        localStorage.setItem("myLogin", JSON.stringify(true));
+        JSON.parse(localStorage.getItem("rememberID"))
+          ? localStorage.setItem(
+            "accountNumber",
+            JSON.stringify(userEmail)
+          )
+          : localStorage.setItem("accountNumber", JSON.stringify(""));
+        navigate('/')
+        console.log(result['data'][0])
+
+      }).catch((err) => { console.error(err) })
+  }
 
   useEffect(() => {
     localStorage.setItem("rememberID", JSON.stringify(false));
@@ -19,14 +40,14 @@ function Login() {
   return (
     <div className=" myBody d-flex">
       <div className="loginDiv d-flex">
-        <form action="" className="formSize">
+        <div action="" className="formSize">
           <h2 className="mb-3 textAlignC">會員登入</h2>
           <div className="form-floating">
             <input
               type="email"
               placeholder="帳號為電子郵件"
+              onChange={(e) => { setUserEmail(e.target.value) }}
               defaultValue={JSON.parse(localStorage.getItem("accountNumber"))}
-              onChange={handleChange}
               className="form-control inputRadiusTop"
               required
             />
@@ -35,6 +56,7 @@ function Login() {
           <div className="form-floating">
             <input
               type="password"
+              onChange={(e) => { setUserPassword(e.target.value) }}
               placeholder="請輸入密碼"
               className="form-control inputRadiusBottom"
               required
@@ -63,15 +85,16 @@ function Login() {
             <button
               className="btn submitButton"
               type="submit"
-              onClick={() => {
-                localStorage.setItem("myLogin", JSON.stringify(true));
-                JSON.parse(localStorage.getItem("rememberID"))
-                  ? localStorage.setItem(
-                    "accountNumber",
-                    JSON.stringify(accountNumber)
-                  )
-                  : localStorage.setItem("accountNumber", JSON.stringify(""));
-              }}
+              // onClick={() => {
+              // localStorage.setItem("myLogin", JSON.stringify(true));
+              // JSON.parse(localStorage.getItem("rememberID"))
+              //   ? localStorage.setItem(
+              //     "accountNumber",
+              //     JSON.stringify(accountNumber)
+              //   )
+              //   : localStorage.setItem("accountNumber", JSON.stringify(""));
+              // }}
+              onClick={handleLogin}
             >
               &nbsp;&nbsp;登入&nbsp;&nbsp;
             </button>
@@ -83,7 +106,7 @@ function Login() {
               立即註冊
             </Link>
           </span>
-        </form>
+        </div>
       </div>
       <div className="imgDiv"></div>
     </div>
