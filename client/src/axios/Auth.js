@@ -1,7 +1,7 @@
 import axios from "axios"; // 引入 axios 工具
 
 // 後端給的網址
-const API_URL = "http://localhost/Full-Stack-Project/server/public/api/auth";
+const API_URL = "http://localhost/Full-Stack-Project/server/public/index.php/api/auth";
 
 class Auth {
   // class 內的 function 可以省略前綴

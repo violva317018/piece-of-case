@@ -11,30 +11,37 @@ class UserController extends Controller
     // 註冊
     public function signup(Request $request)
     {
+        // get 前端輸入的資訊
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'userName' => 'required|string',
+            // 'email' => 'required|string|unique:users|email',
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+            //  'password' => 'required|string|confirmed' 此範例沒有 confirmed 所以報422，前端有判斷所以可以省略
         ]);
-    
+
+        // 轉成變數
+        $userName = $validatedData['userName'];
         $email = $validatedData['email'];
-    
+        $password = $validatedData['password'];
+
         // Check if email already exists
         $emailExists = DB::select("SELECT COUNT(*) AS count FROM users WHERE email = ?", [$email])[0]->count;
-    
         if ($emailExists) {
-            return response()->json(['result' => '帳號重複'], 400);
+            return response()->json(['message' => 'Email has already registered', 'state' => '400']);
         }
-    
+
+        // use hash password
+        $hashPassword = bcrypt($password);
         // Insert new user
-        $userName = $validatedData['name'];
-        $hashPassword = bcrypt($validatedData['password']);
-    
-        DB::insert("INSERT INTO users (userName, email, hashpassword) VALUES (?, ?, ?)", [$userName, $email, $hashPassword]);
-    
-        return response()->json(['result' => '註冊成功'], 201);
+        // DB::insert("INSERT INTO users (userName, email, hashpassword) VALUES (?, ?, ?)", [$userName, $email, $hashPassword]);
+        $result = DB::select("call signUp('$userName', '$email', '$hashPassword')");
+        // return $result];
+        return response()->json(['result' => $result, 'state' => '200']);
+
+        // return response()->json(['result' => '註冊成功'], 201);
     }
-    
+
     // 登錄
     public function login(Request $request)
     {
@@ -73,10 +80,10 @@ class UserController extends Controller
         $user = $request->user();
         $token = $user->currentAccessToken();
 
-        // 调用存储过程
+        // 調用儲存過程
         DB::select("CALL your_procedure_name(?, @result)", [$token->id]);
 
-        // 获取存储过程中设置的结果值
+        // 獲取儲存結果資料
         $result = DB::select("SELECT @result AS result")[0]->result;
 
         return [
