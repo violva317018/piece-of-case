@@ -36,7 +36,7 @@ class UserController extends Controller
         $hashPassword = bcrypt($password);
         // Insert new user
         // DB::insert("INSERT INTO users (userName, email, hashpassword) VALUES (?, ?, ?)", [$userName, $email, $hashPassword]);
-        $result = DB::select("call signUp('$userName', '$email', '$password')");
+        $result = DB::select("call signUp('$userName', '$email', '$hashPassword')");
         // return $result];
         return response()->json(['result' => $result, 'state' => '200']);
 

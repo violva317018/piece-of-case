@@ -16,12 +16,21 @@ class Auth {
     });
   }
 
+  // 處理登入
   login(email, password) {
     return axios.post(API_URL + "/login", {
       email,
       password,
     });
   }
+
+  // 處理登出
+  logout(token) {
+    return axios.post(API_URL + "/logout", {
+      token
+    });
+  }
+
 
   userInfo(email) {
     // 現在要取得資料所以要用 【get】
