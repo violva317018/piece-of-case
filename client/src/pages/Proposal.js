@@ -1,34 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./proposal.css";
+import { GlobelDate } from '../App'
+import Case from "../axios/Case";
+import locationData from '../locationData'
+
 
 function Proposal() {
-  // 儲存選擇的母類別
+  // 獲得地區假資料
+  const subLocations = locationData
+  // 選擇全域變數
+  const { } = useContext(GlobelDate)
+  // 儲存選擇的母、子類別
   const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  // 儲存選擇地區的母、子類別
+  const [location, setLocation] = useState("");
+  const [subLocation, setSubLocation] = useState("");
   // 表單資料
+  const [caseStatus, setCaseStatus] = useState("");
   const [caseName, setCaseName] = useState("");
   const [caseBudget, setCaseBudget] = useState("");
   const [caseDeadline, setCaseDeadline] = useState(null);
   const [caseLocation, setCaseLocation] = useState(null);
   const [caseDescription, setCaseDescription] = useState("");
-  const [caseUserName, setCaseUserName] = useState("");
-  const [casecontactName, setCaseContactName] = useState("");
-  const [caseContactPhone, setCaseContactPhone] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  // 儲存可連絡時間
   const [caseContactTime, setCaseContactTime] = useState("0000");
   const [caseContactTimeItem0, setCaseContactTimeItem0] = useState("0");
   const [caseContactTimeItem1, setCaseContactTimeItem1] = useState("0");
   const [caseContactTimeItem2, setCaseContactTimeItem2] = useState("0");
   const [caseContactTimeItem3, setCaseContactTimeItem3] = useState("0");
+  // 儲存5張圖片
+  const [caseImage1, setCaseImage1] = useState(null);
+  const [caseImage2, setCaseImage2] = useState(null);
+  const [caseImage3, setCaseImage3] = useState(null);
+  const [caseImage4, setCaseImage4] = useState(null);
+  const [caseImage5, setCaseImage5] = useState(null);
 
 
   // handle function 
   const handleCaseName = (event) => { setCaseName(event.target.value) }
   const handleCaseBudget = (event) => { setCaseBudget(event.target.value) }
   const handleCaseDeadline = (event) => { setCaseDeadline(event.target.value) }
-  const handleCaseLocation = (event) => { setCaseLocation(event.target.value) }
   const handleCaseDescription = (event) => { setCaseDescription(event.target.value) }
-  const handleCaseUserName = (event) => { setCaseUserName(event.target.value) }
-  const handleCasecontactName = (event) => { setCaseContactName(event.target.value) }
-  const handleCaseContactPhone = (event) => { setCaseContactPhone(event.target.value) }
+  const handleContactName = (event) => { setContactName(event.target.value) }
+  const handleContactPhone = (event) => { setContactPhone(event.target.value) }
   const handleCaseContactTimee = (event) => {
     // setCaseContactTime(event.target.checked)
     const isChecked = (bool) => {
@@ -55,30 +72,70 @@ function Proposal() {
     }
   }
 
-  // 定義子類別
+  // 定義類別
   const subCategories = {
-    1: [
-      { value: "11", label: "翻譯寫作1" },
-      { value: "12", label: "翻譯寫作2" },
-      { value: "13", label: "翻譯寫作3" },
+    A: [
+      { value: "A01", label: "才藝" },
+      { value: "A02", label: "升學" },
+      { value: "A03", label: "語言" },
     ],
-    2: [
-      { value: "21", label: "商攝娛樂1" },
-      { value: "22", label: "商攝娛樂2" },
-      { value: "23", label: "商攝娛樂3" },
+    B: [
+      { value: "B01", label: "清潔外包" },
+      { value: "B02", label: "家庭代工" },
+      { value: "B03", label: "水電維修" },
     ],
-    3: [
-      { value: "31", label: "網頁設計1" },
-      { value: "32", label: "網頁設計2" },
-      { value: "33", label: "網頁設計3" },
-    ],
+
   };
+
 
   //  取得當前母類別資料
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
+    console.log(event.target.value);
+  };
+  //  取得當前子類別資料
+  const handleSubCategoryChange = (event) => {
+    setSubCategory(event.target.value);
+    console.log(event.target.value);
+  };
+  //  取得當前母類別資料
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+    console.log(event.target.value);
+  };
+  //  取得當前子類別資料
+  const handleSubLocationChange = (event) => {
+    setSubLocation(event.target.value);
+    console.log(event.target.value);
   };
 
+  // 處理 => 發布案件
+  const handlePublishCase = () => {
+    setCaseStatus('發布案件')
+    let token = JSON.parse(localStorage.getItem('userInfo')).token
+    Case.proposal(token, caseName, category, subCategory, caseBudget, caseDeadline, location, subLocation, caseDescription, contactName, contactPhone, caseContactTime, caseStatus, caseImage1, caseImage2, caseImage3, caseImage4, caseImage5).then((result) => {
+      console.log(result)
+    }).catch((err) => {
+      console.error(err)
+    });
+    // console.log(caseContactTime)
+  }
+
+  // 處理 => 儲存至草稿
+  const handleDraftCase = () => {
+    setCaseStatus('儲存至草稿')
+    setCaseLocation(`${location}${subLocation}`)
+    let token = JSON.parse(localStorage.getItem('userInfo')).token
+    Case.proposal(token, caseName, category, subCategory, caseBudget, caseDeadline, caseLocation, caseDescription, contactName, contactPhone, caseContactTime, caseStatus, caseImage1, caseImage2, caseImage3, caseImage4, caseImage5).then((result) => {
+      console.log(result)
+    }).catch((err) => {
+      console.error(err)
+    });
+    // console.log(caseContactTime)
+  }
+
+  // 處理地區結合
+  useEffect(() => { }, [])
   return (
     <main className="container">
       <div className="caseBox">
@@ -99,9 +156,8 @@ function Proposal() {
             onChange={handleCategoryChange}
           >
             <option selected disabled >請選擇....</option>
-            <option value="1">翻譯寫作</option>
-            <option value="2">商攝娛樂</option>
-            <option value="3">網頁設計</option>
+            <option value="A">家教課程</option>
+            <option value="B">生活服務</option>
           </select>
           <br />
           {/* 依不同的母類別找尋相對應的子類別 */}
@@ -110,6 +166,7 @@ function Proposal() {
               className="form-select"
               aria-label="Default select example"
               style={{ width: "200p;x" }}
+              onChange={handleSubCategoryChange}
             >
               <option selected disabled>請選擇...</option>
               {subCategories[category].map((subCategory) => (
@@ -137,13 +194,37 @@ function Proposal() {
         </div>
         {/* 地點 */}
         <div className="box">
-          <h4>工作地點 :</h4>
-          <input type="radio" id="noPlace" name="casePlace" />
-          <label htmlFor="noPlace">不指定地點</label>
+          <label htmlFor="locationCategory">工作地點 : </label>
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            style={{ width: "200px" }}
+            onChange={handleLocationChange}
+          >
+            <option selected disabled >請選擇....</option>
+            <option value="台北市">台北市</option>
+            <option value="新北市">新北市</option>
+            <option value="台中市">台中市</option>
+            <option value="台南市">台南市</option>
+            <option value="高雄市">高雄市</option>
+          </select>
           <br />
-          <input type="radio" name="casePlace" id="yesPlace" />
-          <label htmlFor="yesPlace">指定地點</label>
-          <input type="text" placeholder="請輸入指定地點" onChange={handleCaseLocation} />
+          {/* 依不同的母類別找尋相對應的子類別 */}
+          {location && (
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              style={{ width: "200p;x" }}
+              onChange={handleSubLocationChange}
+            >
+              <option selected disabled>請選擇...</option>
+              {subLocations[location].map((subLocation) => (
+                <option key={subLocation.value} value={subLocation.value}>
+                  {subLocation.label}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
         {/* 內容 */}
         <div className="box">
@@ -171,14 +252,14 @@ function Proposal() {
         {/* 聯絡方式 */}
         <div className="box">
           <h4>聯絡資料</h4>
-          <input type="text" placeholder="請輸入聯絡人名稱" onChange={handleCaseUserName} />
+          <input type="text" placeholder="請輸入聯絡人名稱" onChange={handleContactName} />
           <h4>允許接案人透過電話聯絡您嗎?(哪種比較好)</h4>
-          <input type="radio" id="phoneOK" name="phone" onChange={handleCasecontactName} />
+          <input type="radio" id="phoneOK" name="phone" />
           <label htmlFor="phoneOK">允許</label>
-          <input type="radio" id="phoneNO" name="phone" onChange={handleCasecontactName} />
+          <input type="radio" id="phoneNO" name="phone" />
           <label htmlFor="phoneNO">不允許</label>
           <select className="form-select" aria-label="Default select example">
-            <option selected disabled onChange={handleCaseContactPhone}>
+            <option selected disabled onChange={handleContactPhone}>
               請選擇...
             </option>
             <option value="1">允許</option>
@@ -200,10 +281,10 @@ function Proposal() {
         </div>
         {/* btn */}
         <div className="box d-flex justify-content-evenly">
-          <button type="button" className="btn btn-secondary ">
+          <button type="button" className="btn btn-secondary" onClick={handleDraftCase}>
             儲存至草稿
           </button>
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-primary" onClick={handlePublishCase}>
             發布案件
           </button>
         </div>

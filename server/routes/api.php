@@ -1,10 +1,11 @@
 <?php
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\InformationController;
-use App\Http\Controllers\PaymentController;
+// use App\Http\Controllers\UserController;
+// use App\Http\Controllers\InformationController;
+// use App\Http\Controllers\PaymentController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -15,6 +16,9 @@ Route::post('/auth/signup', [UserController::class, 'signup']);
 Route::post('/auth/login', [UserController::class, 'login'])->name('login');
 Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logout']);
 
+
+// 提案介面資料
+Route::post('/case/proposal', [CasesController::class, 'insertCase']);
 
 //InformationController
 // prefix是前綴，域名/api/upload-photo
@@ -28,6 +32,6 @@ Route::group(['prefix' => 'api'], function () {
 });
 
 
-// Route::post('/payment/pay', [PaymentController::class, 'payByECPay']);
+Route::post('/payment/pay', [PaymentController::class, 'payByECPay']);
 Route::post('payment/pay', [PaymentController::class, 'payByECPay']);
 

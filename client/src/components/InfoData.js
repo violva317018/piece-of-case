@@ -1,8 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./infodata.css";
 import { Link } from "react-router-dom";
+import { GlobelDate } from "../App";
+import axios from "axios";
+import Auth from "../axios/Auth";
 
 function InfoData() {
+  // const [modal, setModal] = useState(false);
+  // const handleRevise = () => {
+  //   setModal(true);
+  // };
+  const { headphoto, setHeadPhoto } = useContext(GlobelDate);
+  const handleHeadPhoto = () => {
+    Auth.headPhoto(headphoto)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <div className="infoDataDiv d-flex">
       <div className="headPhotoDiv">
@@ -11,12 +29,15 @@ function InfoData() {
           src="https://avatars.githubusercontent.com/u/98681?v=4"
         />
         <svg
+          type="button"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
           fill="currentColor"
           className="bi bi-pencil-square color1"
           viewBox="0 0 16 16"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
         >
           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
           <path
@@ -24,6 +45,50 @@ function InfoData() {
             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
           />
         </svg>
+        <div
+          className="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabIndex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <span className="spanCenter">修改頭像</span>
+                <button
+                  type="button"
+                  className="btn-close mx-0"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <label htmlFor="avatar">請選擇一張頭像：</label>
+                <input
+                  type="file"
+                  id="avatar"
+                  name="avatar"
+                  accept="image/png, image/jpeg"
+                  className="inputFile"
+                  onChange={(e) => {
+                    setHeadPhoto(e.target.files);
+                  }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleHeadPhoto}
+                >
+                  上傳
+                </button>
+              </div>
+              <div className="modal-footer"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="infoDataDiv2">
         <div>

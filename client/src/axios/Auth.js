@@ -1,7 +1,8 @@
 import axios from "axios"; // 引入 axios 工具
 
 // 後端給的網址
-const API_URL = "http://localhost/Full-Stack-Project/server/public/index.php/api/auth";
+const API_URL =
+  "http://localhost/Full-Stack-Project/server/public/index.php/api/auth";
 
 class Auth {
   // class 內的 function 可以省略前綴
@@ -16,6 +17,7 @@ class Auth {
     });
   }
 
+  // 處理登入
   login(email, password) {
     return axios.post(API_URL + "/login", {
       email,
@@ -23,10 +25,23 @@ class Auth {
     });
   }
 
+  // 處理登出
+  logout(token) {
+    return axios.post(API_URL + "/logout", {
+      token,
+    });
+  }
+
   userInfo(email) {
     // 現在要取得資料所以要用 【get】
     // 利用網址參數傳遞給後端
     return axios.get(API_URL + `/login/${email}`);
+  }
+
+  //帳戶資料
+  //頭像修改
+  headPhoto(headphoto) {
+    return axios.post(API_URL + "/headphoto", { headphoto });
   }
 
   // 綠界測試

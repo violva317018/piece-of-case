@@ -24,10 +24,10 @@ function Register() {
   const handleRegister = () => {
     Auth.signup(userName, userEmail, userPassword)
       .then((result) => {
-        console.log(result);
+        window.alert("註冊成功！ 即將跳轉至首頁");
       })
       .catch((err) => {
-        console.error(err);
+        window.alert("註冊失敗！");
       });
   };
 

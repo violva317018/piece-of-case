@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,20 +46,28 @@ class UserController extends Controller
     // 登錄
     public function login(Request $request)
     {
-        $fields = $request->validate([
+        $validatedData = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
 
-        $email = $fields['email'];
-        $password = $fields['password'];
+        // 轉成變數
+        $email = $validatedData['email'];
+        $password = $validatedData['password'];
+        // get hash password 
+        $hashPassword = DB::select("call getHashPassword('$email')");
+        $hashPassword = bcrypt($password);
+        
+        // $ishash = Hash::check($password, $hashedPassword->hashedpassword);
+        // $ishash = Hash::check($password, '$2y$10$m5a.ZE402p5DZj/0ZOczleGZsda.TNkhRBDbwOtU5X/MBikDmbfM.');
+        // return $ishash;
 
-        $result = DB::select("CALL your_procedure_name(?, ?, @mytoken)", [$email, $password]);
 
-        // 获取存储过程中设置的令牌值
-        $tokenResult = DB::select("SELECT @mytoken AS token")[0]->token;
+        // $result = DB::select("CALL your_procedure_name(?, ?, @mytoken)", [$email, $password]);
+        $result = DB::select("call login('$email','$password')");
+        return $result;
 
-        if ($result[0]->result == '登入成功') {
+        if ($result->token !== null) {
             $response = [
                 'result' => $result[0]->result,
                 'token' => $tokenResult
@@ -69,6 +78,7 @@ class UserController extends Controller
                 'token' => null
             ];
         }
+        return $response;
 
         return response($response, 201);
     }

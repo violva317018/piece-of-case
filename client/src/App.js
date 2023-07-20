@@ -52,6 +52,8 @@ function App() {
   const [userPassword, setUserPassword] = useState("");
   const [userHashPassword, setUserHashPassword] = useState("");
 
+  //個人資料
+  const [headphoto, setHeadPhoto] = useState();
 
   const [infoData, setInfoData] = useState("1");
 
@@ -72,7 +74,16 @@ function App() {
           setProposal,
           takethecase, //接案紀錄目前位置
           setTakethecase,
-          setUserName, setUserEmail, setUserPassword, setUserHashPassword, userName, userEmail, userPassword, userHashPassword
+          setUserName,
+          setUserEmail,
+          setUserPassword,
+          setUserHashPassword,
+          userName,
+          userEmail,
+          userPassword,
+          userHashPassword,
+          headphoto,
+          setHeadPhoto,
         }}
       >
         <Header />
