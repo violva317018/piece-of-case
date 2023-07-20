@@ -26,23 +26,28 @@ function Register() {
   const handleRegister = () => {
     Auth.signup(userName, userEmail, userPassword)
       .then((result) => {
-        window.alert("註冊成功！ 即將跳轉至首頁");
+        console.log(result);
+        window.alert(result["data"]["message"]);
+        if (result["data"]["message"] !== "Email has already registered") {
+          Auth.login(userEmail, userPassword)
+            .then((result) => {
+              console.log(result["data"][0]["result"]);
+              //登入後localStorage存userInfo
+              localStorage.setItem(
+                "userInfo",
+                JSON.stringify(result["data"][0]["token"])
+              );
+              //登入後userinfo這個state要有東西才能判斷header是否登入
+              setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
         navigate("/");
       })
       .catch((err) => {
-        window.alert("註冊失敗！");
-      });
-
-    Auth.login(userEmail, userPassword)
-      .then((result) => {
-        console.log("登入成功");
-        //登入後localStorage存userInfo
-        localStorage.setItem("userInfo", JSON.stringify(result["data"][0]));
-        //登入後userinfo這個state要有東西才能判斷header是否登入
-        setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
-      })
-      .catch((err) => {
-        console.error(err);
+        window.alert("註冊失敗！123");
       });
   };
 

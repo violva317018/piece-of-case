@@ -12,7 +12,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //UserController
 Route::post('/auth/signup', [UserController::class, 'signup']);
 Route::post('/auth/login', [UserController::class, 'login']);
-Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logout']);
+Route::post('/auth/logout', [UserController::class, 'logout']);
 
 
 // CasesController

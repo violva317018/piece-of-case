@@ -57,7 +57,9 @@ function App() {
 
   const [takethecase, setTakethecase] = useState("1");
   //裡面要存Storage的Key=userInfo
-  const [userinfo, setUserInfo] = useState("");
+  const [userinfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
   return (
     <>
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}

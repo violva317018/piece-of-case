@@ -33,7 +33,7 @@ class UserController extends Controller
         // 將使用者的密碼以安全的方式存儲在資料庫中
         $hashPassword = bcrypt($password);
 
-        $result = DB::select("call signUp('$userName', '$email', '$hashPassword')");
+        $result = DB::select("call signUp('$userName', '$email', '$password')");
         return response()->json(['result' => $result, 'state' => '200']);
     }
 
@@ -48,9 +48,8 @@ class UserController extends Controller
         // 轉成變數
         $email = $validatedData['email'];
         $password = $validatedData['password'];
-return $email;
         // get hash password
-        $hashPassword = DB::select("call getHashPassword('?')",[$email]);
+        $hashPassword = DB::select("call getHashPassword(?)",[$email]);
 
         // $ishash = Hash::check($password, $hashedPassword->hashedpassword);
         // $ishash = Hash::check($password, '$2y$10$m5a.ZE402p5DZj/0ZOczleGZsda.TNkhRBDbwOtU5X/MBikDmbfM.');
@@ -59,7 +58,7 @@ return $email;
 
         // $result = DB::select("CALL your_procedure_name(?, ?, @mytoken)", [$email, $password]);
         $result = DB::select("call login('$email','$password')");
-        // return $result;
+        return $result;
         if (Hash::check($password, $hashPassword)){
             $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
             $tokenResult = DB::select("SELECT @mytoken AS token")[0]->token;
@@ -89,14 +88,13 @@ return $email;
     // 登出
     public function logout(Request $request)
     {
-        $user = $request->user();
-        $token = $user->currentAccessToken();
-
+        $token = $request->token;
+        
         // 調用儲存過程
-        DB::select("CALL logout(?, @result)", [$token->id]);
+        $result = DB::select("CALL logout(?)", [$token]);
 
         // 獲取儲存結果資料
-        $result = DB::select("SELECT @result AS result")[0]->result;
+        // DB::select("SELECT @result AS result")[0]->result;
 
         return [
             'message' => $result

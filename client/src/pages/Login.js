@@ -23,7 +23,10 @@ function Login() {
     Auth.login(userEmail, userPassword)
       .then((result) => {
         //登入後localStorage存userInfo
-        localStorage.setItem("userInfo", JSON.stringify(result["data"][0]));
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(result["data"][0]["token"])
+        );
         //記住帳號，如果rememberID是true就存使用者輸入的userEmail，沒勾就存空字串
         JSON.parse(localStorage.getItem("rememberID"))
           ? localStorage.setItem("accountNumber", JSON.stringify(userEmail))
@@ -32,12 +35,10 @@ function Login() {
         setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
         // 導向至首頁
         navigate("/");
-        console.log(result["data"][0]);
-        if (JSON.parse(localStorage.getItem("userInfo"))["token"] == null) {
+        console.log(result["data"][0]["token"]);
+        if (JSON.parse(localStorage.getItem("userInfo")) == null) {
           window.alert("登入失敗");
-        } else if (
-          JSON.parse(localStorage.getItem("userInfo"))["result"] == "登入成功"
-        ) {
+        } else if (result["data"][0]["result"] == "登入成功") {
           window.alert("登入成功");
         }
       })

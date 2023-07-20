@@ -3,14 +3,28 @@ import { Link } from "react-router-dom";
 import "./header.css";
 import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
+import Auth from "../axios/Auth";
 
 function Header() {
   const { userinfo, setUserInfo, setInfoData } = useContext(GlobelDate);
-
-  useEffect(() => {
-    // console.log(JSON.parse(localStorage.getItem('userInfo')))
+  const handleLogout = () => {
     console.log(userinfo);
-  }, [userinfo]);
+    Auth.logout(userinfo)
+      .then((result) => {
+        console.log(result);
+        //登出後把storage的userinfo改成result
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(result["data"]["message"][0]["result"])
+        );
+        //把空字串傳入setUserInfo
+        setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
@@ -23,7 +37,7 @@ function Header() {
         <Link to="/allCase" className="mx-5 allCase-div">
           接案
         </Link>
-        {userinfo["result"] == "登入成功" ? (
+        {userinfo ? (
           <div className="dropdown ms-auto">
             <Link
               to="#"
@@ -71,14 +85,7 @@ function Header() {
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <Link
-                  className="dropdown-item"
-                  to="#"
-                  onClick={() => {
-                    localStorage.setItem("userInfo", JSON.stringify(""));
-                    setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
-                  }}
-                >
+                <Link className="dropdown-item" to="" onClick={handleLogout}>
                   登出
                 </Link>
               </li>
