@@ -12,6 +12,5 @@
 
 ## 目前進度
 
-login 的 hashpassword 還未匹配
-先暫時註冊用原密碼
-proposal 介面 API 還沒接 => 後端已經寫好差 procedure 參數
+login 的 hashpassword 還未匹配 => 先暫時註冊用原密碼
+準備要接【allCase】的 API
