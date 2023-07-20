@@ -1,12 +1,22 @@
 import React, { useState, useContext } from "react";
 import "./register.css";
-import { Link } from "react-router-dom";
-import Auth from '../axios/Auth'
+import { Link, useNavigate } from "react-router-dom";
+import Auth from "../axios/Auth";
 import { GlobelDate } from "../App";
 
-
 function Register() {
-  const { setUserName, setUserEmail, setUserPassword, setUserHashPassword, userName, userEmail, userPassword, userHashPassword } = useContext(GlobelDate)
+  const navigate = useNavigate();
+  const {
+    setUserName,
+    setUserEmail,
+    setUserPassword,
+    setUserHashPassword,
+    setUserInfo,
+    userName,
+    userEmail,
+    userPassword,
+    userHashPassword,
+  } = useContext(GlobelDate);
   const [password2, setPassword2] = useState("");
 
   const handlePassword2 = (e) => {
@@ -14,8 +24,27 @@ function Register() {
   };
 
   const handleRegister = () => {
-    Auth.signup(userName, userEmail, userPassword).then((result) => { console.log(result); }).catch((err) => { console.error(err) })
-  }
+    Auth.signup(userName, userEmail, userPassword)
+      .then((result) => {
+        window.alert("註冊成功！ 即將跳轉至首頁");
+        navigate("/");
+      })
+      .catch((err) => {
+        window.alert("註冊失敗！");
+      });
+
+    Auth.login(userEmail, userPassword)
+      .then((result) => {
+        console.log("登入成功");
+        //登入後localStorage存userInfo
+        localStorage.setItem("userInfo", JSON.stringify(result["data"][0]));
+        //登入後userinfo這個state要有東西才能判斷header是否登入
+        setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <div className=" myBody d-flex">
@@ -25,7 +54,9 @@ function Register() {
           <h2 className="mb-3 textAlignC">會員註冊</h2>
           <div className="form-floating">
             <input
-              onChange={(e) => { setUserName(e.target.value) }}
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
               type="text"
               placeholder="請輸入使用者名稱"
               className="form-control"
@@ -35,7 +66,9 @@ function Register() {
           </div>
           <div className="form-floating">
             <input
-              onChange={(e) => { setUserEmail(e.target.value) }}
+              onChange={(e) => {
+                setUserEmail(e.target.value);
+              }}
               type="email"
               placeholder="帳號為電子郵件"
               className="form-control inputRadiusNull"
@@ -45,8 +78,9 @@ function Register() {
           </div>
           <div className="form-floating">
             <input
-              onChange={(e) => { setUserPassword(e.target.value) }}
-
+              onChange={(e) => {
+                setUserPassword(e.target.value);
+              }}
               type="password"
               placeholder="請輸入密碼"
               className="form-control inputRadiusNull"
