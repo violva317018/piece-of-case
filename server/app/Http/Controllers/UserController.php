@@ -48,18 +48,14 @@ class UserController extends Controller
         // 轉成變數
         $email = $validatedData['email'];
         $password = $validatedData['password'];
+
         // get hash password
         $hashPassword = DB::select("call getHashPassword(?)",[$email]);
-
-        // $ishash = Hash::check($password, $hashedPassword->hashedpassword);
-        // $ishash = Hash::check($password, '$2y$10$m5a.ZE402p5DZj/0ZOczleGZsda.TNkhRBDbwOtU5X/MBikDmbfM.');
-        // return $ishash;
-
-
-        // $result = DB::select("CALL your_procedure_name(?, ?, @mytoken)", [$email, $password]);
         $result = DB::select("call login('$email','$password')");
         return $result;
+        $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
         if (Hash::check($password, $hashPassword)){
+            return 'true';
             $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
             $tokenResult = DB::select("SELECT @mytoken AS token")[0]->token;
             if ($result[0]->result == '登入成功') {
@@ -75,6 +71,8 @@ class UserController extends Controller
             }
             return response($response, 201);
         } else {
+            return 'false';
+
             $response = [
                 'result' => '帳號或密碼錯誤',
                 'token' => null

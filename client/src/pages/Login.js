@@ -22,6 +22,7 @@ function Login() {
   const handleLogin = () => {
     Auth.login(userEmail, userPassword)
       .then((result) => {
+        console.log(result);
         //登入後localStorage存userInfo
         localStorage.setItem(
           "userInfo",
