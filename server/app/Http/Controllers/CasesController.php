@@ -32,9 +32,8 @@ class CasesController extends Controller
     $imageE = $request->input('imageE');
 
     try {
-        // DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$myuserID, $mycaseName, $mybigClassID, $myclassID, $mybudget, $mydeadline, $mycity, $mydescription, $mycontactName, $mycontactPhone, $mycontactTime, $mycaseStatus, $myimageA, $myimageB, $myimageC, $myimageD, $myimageE]);
-
-        DB::select("CALL addMyCase($userID,'$name','$category','$subCategory','$budget','$deadline','$city','$subCity','$description','$contactName','$contactPhone','$contactTime','$status','$imageA','$imageB','$imageC','$imageD','$imageE')");
+        DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
+        // DB::select("CALL addMyCase($userID,'$name','$category','$subCategory','$budget','$deadline','$city','$subCity','$description','$contactName','$contactPhone','$contactTime','$status','$imageA','$imageB','$imageC','$imageD','$imageE')");
         if ($status == '草稿') {
         $result = '案件已儲存至草稿';
     } elseif ($status == '刊登中') {
@@ -44,21 +43,29 @@ class CasesController extends Controller
     } catch (\Exception $e) {
         return response()->json(['result' => '插入案件失败']);
     }
-    // $result = DB::select("CALL addMyCase($userID,'$name','$category','$subCategory','$budget','$deadline','$city','$subCity','$description','$contactName','$contactPhone','$contactTime','$status','$imageA','$imageB','$imageC','$imageD','$imageE')");
     // CALL addMyCase('17','test10','B','B03','20000','2000/12/23','台南市','東區','good','test','true','0110','發布案件','null','null','null','null','null');
     // return $result;
 }
 
+    // getCategorys
+    public function getCategorys()
+    {    
+        $results = DB::select('CALL caseListBigClass()');
+        return response()->json($results);
+    }
 
    // 搜尋並返回特定條件的案例
    public function getCases(Request $request)
-   {
-       $page = $request->input('page');
-       $categories = $request->input('categories');
+   {    
+        $bigClassID = $request->input('bigClassID');
+        $classID = $request->input('classID');
+        $cityID = $request->input('cityID');
+        $districtID = $request->input('districtID');
+        $page = $request->input('page');
 
-       $results = DB::select('CALL caseFilter(?, ?)', [$page, $categories]);
+        $results = DB::select('CALL caseFilter(?,?,?,?,?)', [$bigClassID,$classID,$cityID,$districtID,$page]);
 
-       return response()->json($results);
+        return response()->json($results);
    }
 
    // 刊登中案例列表，每頁顯示30筆
@@ -68,7 +75,7 @@ class CasesController extends Controller
        $pagehead = ($page - 1) * 30;
 
        // 呼叫存儲過程
-       $results = DB::select('CALL GetCases(?)', [$pagehead]);
+       $results = DB::select('CALL caseFilter(?, ?)', [$page, $categories]);
 
        return response()->json($results);
    }

@@ -22,6 +22,7 @@ function Login() {
   const handleLogin = () => {
     Auth.login(userEmail, userPassword)
       .then((result) => {
+        console.log(result);
         //登入後localStorage存userInfo
         localStorage.setItem("userInfo", JSON.stringify(result["data"][0]));
         //記住帳號，如果rememberID是true就存使用者輸入的userEmail，沒勾就存空字串
@@ -32,7 +33,7 @@ function Login() {
         setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
         // 導向至首頁
         navigate("/");
-        console.log(result["data"][0]);
+        // console.log(result["data"][0]);
         if (JSON.parse(localStorage.getItem("userInfo"))["token"] == null) {
           window.alert("登入失敗");
         } else if (

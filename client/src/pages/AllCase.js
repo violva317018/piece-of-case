@@ -1,57 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AllCase.css";
 import { Link } from "react-router-dom";
+import Case from "../axios/Case";
 
 function AllCase() {
-  // case ，利用API 從後端取得
-  const cases = [
-    {
-      imgSrc:
-        "https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg",
-      name: "案件標題",
-      place: "地點",
-      price: "預算",
-      deadline: "預計完成日期",
-    },
-    {
-      imgSrc: "https://img.lovepik.com/element/40162/0669.png_300.png",
-      name: "案件標題",
-      place: "地點",
-      price: "預算",
-      deadline: "預計完成日期",
-    },
-    {
-      imgSrc:
-        "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg",
-      name: "案件標題",
-      place: "地點",
-      price: "預算",
-      deadline: "預計完成日期",
-    },
-    {
-      imgSrc:
-        "https://www.funtime.com.tw/blog/wp-content/uploads/2017/08/84.jpg",
-      name: "案件標題",
-      place: "地點",
-      price: "預算",
-      deadline: "預計完成日期",
-    },
-    {
-      imgSrc: "https://img.lovepik.com/element/40162/0669.png_300.png",
-      name: "案件標題",
-      place: "地點",
-      price: "預算",
-      deadline: "預計完成日期",
-    },
-    {
-      imgSrc:
-        "https://png.pngtree.com/element_our/20190529/ourmid/pngtree-cartoon-cute-love-bulb-image_1195420.jpg",
-      name: "案件標題",
-      place: "地點",
-      price: "預算",
-      deadline: "預計完成日期",
-    },
-  ];
+  const [page, setPage] = useState(1)
+  const [bigClassID, setBigClassID] = useState(null)
+  const [classID, setClassID] = useState(null)
+  const [cityID, setCityID] = useState(null)
+  const [districtID, setDistrictID] = useState(null)
+  // const [categorys, setCategorys] = useState(null) // 利用useEffect 獲得資料
+  const [cases, setCases] = useState([]) // 利用useEffect 獲得資料
 
   // 儲存母、子類別
   const categorys = [
@@ -83,6 +42,11 @@ function AllCase() {
     }
   ]
 
+  // 畫面一掛載從資料庫取得所有案件
+  useEffect(() => {
+    Case.getCases(bigClassID, classID, cityID, districtID, page).then((result) => { setCases(result['data']) }).catch((err) => { console.error(err); })
+    Case.getCategorys().then((result) => { console.log(result['data']) }).catch((err) => { console.error(err); })
+  }, [])
 
   return (
     <main className="container my-4">
@@ -98,6 +62,7 @@ function AllCase() {
                 data-bs-target={`#${items.title}`}
                 aria-expanded="false"
                 aria-controls={`${items.title}`}
+                onClick={(e) => { console.log(e.target['data-bs-target']) }}
               >
                 {items.title}
               </button>
@@ -127,16 +92,16 @@ function AllCase() {
                 key={index}
               >
                 <img
-                  src={item.imgSrc}
+                  src={item.imageA}
                   alt="img"
                   width={150}
                   height={100}
                   className="mb-3"
                 />
-                <p>案件標題</p>
-                <p>地點</p>
-                <p>預算</p>
-                <p>預計完成日期</p>
+                <p>案件標題 : {item.caseName}</p>
+                <p>地點: {item.city}{item.district}</p>
+                <p>預算: {item.budget}</p>
+                <p>預計完成日期: {item.deadline}</p>
                 <Link className="moreView" to={"/caseview"}>
                   more view
                 </Link>

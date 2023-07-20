@@ -16,10 +16,10 @@ Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logou
 
 
 // CasesController
-Route::post('/case/proposal', [CasesController::class, 'insertCase']);
-Route::post('cases/addCase', [CasesController::class, 'insertCase']);
+Route::post('cases/addCase', [CasesController::class, 'insertCase']); // 新增案件
 Route::get('cases/search', [CasesController::class, 'selectCases']);
-Route::get('cases', [CasesController::class, 'getCases']);
+Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案件
+Route::get('cases/getCategorys', [CasesController::class, 'getCategorys']); // 取得母類別
 Route::post('cases/checkstatus', [CaseController::class, 'checkStatus']);
 
 //InformationController

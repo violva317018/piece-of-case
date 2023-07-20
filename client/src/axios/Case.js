@@ -2,7 +2,7 @@ import axios from "axios"; // 引入 axios 工具
 
 // 後端給的網址
 const API_URL =
-  "http://localhost/Full-Stack-Project/server/public/index.php/api/case";
+  "http://localhost/Full-Stack-Project/server/public/index.php/api/cases";
 
 class Case {
   // 提案介面(proposal) => location = city,district
@@ -48,11 +48,16 @@ class Case {
     });
   }
 
-  // 處理登出
-  logout(token) {
-    return axios.post(API_URL + "/logout", {
-      token,
-    });
+  // 取得所有刊登資料
+  getCases(bigClassID, classID, cityID, districtID, page) {
+    return axios.post(API_URL, {
+      bigClassID, classID, cityID, districtID, page
+    })
+  }
+
+  // 取得母類別
+  getCategorys() {
+    return axios.get(API_URL + '/getCategorys')
   }
 }
 
