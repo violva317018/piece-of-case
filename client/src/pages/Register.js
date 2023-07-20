@@ -27,8 +27,8 @@ function Register() {
     Auth.signup(userName, userEmail, userPassword)
       .then((result) => {
         console.log(result);
-        window.alert(result["data"]["message"]);
         if (result["data"]["message"] !== "Email has already registered") {
+          window.alert(result["data"]["result"]["0"]["result"]);
           Auth.login(userEmail, userPassword)
             .then((result) => {
               console.log(result["data"][0]["result"]);
@@ -43,11 +43,13 @@ function Register() {
             .catch((err) => {
               console.error(err);
             });
+        } else {
+          window.alert(result["data"]["message"]);
         }
         navigate("/");
       })
       .catch((err) => {
-        window.alert("註冊失敗！123");
+        window.alert("註冊失敗！");
       });
   };
 
