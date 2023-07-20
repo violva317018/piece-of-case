@@ -1,15 +1,17 @@
 import React, { useState, useContext } from "react";
 import "./register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Auth from "../axios/Auth";
 import { GlobelDate } from "../App";
 
 function Register() {
+  const navigate = useNavigate();
   const {
     setUserName,
     setUserEmail,
     setUserPassword,
     setUserHashPassword,
+    setUserInfo,
     userName,
     userEmail,
     userPassword,
@@ -25,9 +27,22 @@ function Register() {
     Auth.signup(userName, userEmail, userPassword)
       .then((result) => {
         window.alert("註冊成功！ 即將跳轉至首頁");
+        navigate("/");
       })
       .catch((err) => {
         window.alert("註冊失敗！");
+      });
+
+    Auth.login(userEmail, userPassword)
+      .then((result) => {
+        console.log("登入成功");
+        //登入後localStorage存userInfo
+        localStorage.setItem("userInfo", JSON.stringify(result["data"][0]));
+        //登入後userinfo這個state要有東西才能判斷header是否登入
+        setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 

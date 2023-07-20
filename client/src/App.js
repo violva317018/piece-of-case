@@ -42,10 +42,6 @@ function App() {
 
   // chat --- end
 
-  const [login, setLogin] = useState(
-    JSON.parse(localStorage.getItem("myLogin"))
-  );
-
   // 給註冊登入使用
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -60,14 +56,14 @@ function App() {
   const [proposal, setProposal] = useState("1");
 
   const [takethecase, setTakethecase] = useState("1");
+  //裡面要存Storage的Key=userInfo
+  const [userinfo, setUserInfo] = useState("");
   return (
     <>
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
       <GlobelDate.Provider
         value={{
           currentUserID: "A02", // 目前使用者id
-          login,
-          setLogin,
           infoData, //我的帳戶目前位置
           setInfoData,
           proposal, //提案紀錄目前位置
@@ -84,6 +80,8 @@ function App() {
           userHashPassword,
           headphoto,
           setHeadPhoto,
+          userinfo,
+          setUserInfo,
         }}
       >
         <Header />

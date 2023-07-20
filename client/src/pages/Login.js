@@ -8,25 +8,38 @@ function Login() {
   // 轉址所需
   const navigate = useNavigate();
   // 取得全域變數
-  const { setUserEmail, setUserPassword, userEmail, userPassword } =
-    useContext(GlobelDate);
+  const {
+    userinfo,
+    setUserInfo,
+    setUserEmail,
+    setUserPassword,
+    userEmail,
+    userPassword,
+  } = useContext(GlobelDate);
   const [rememberID, setRememberID] = useState(false);
 
   // 將輸入資料傳給後端匹配，並取得使用者資訊
   const handleLogin = () => {
     Auth.login(userEmail, userPassword)
       .then((result) => {
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify(result["data"][0])
-          // 導向至首頁
-        );
-        localStorage.setItem("myLogin", JSON.stringify(true));
+        //登入後localStorage存userInfo
+        localStorage.setItem("userInfo", JSON.stringify(result["data"][0]));
+        //記住帳號，如果rememberID是true就存使用者輸入的userEmail，沒勾就存空字串
         JSON.parse(localStorage.getItem("rememberID"))
           ? localStorage.setItem("accountNumber", JSON.stringify(userEmail))
           : localStorage.setItem("accountNumber", JSON.stringify(""));
+        //登入後userinfo這個state要有東西才能判斷header是否登入
+        setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+        // 導向至首頁
         navigate("/");
         console.log(result["data"][0]);
+        if (JSON.parse(localStorage.getItem("userInfo"))["token"] == null) {
+          window.alert("登入失敗");
+        } else if (
+          JSON.parse(localStorage.getItem("userInfo"))["result"] == "登入成功"
+        ) {
+          window.alert("登入成功");
+        }
       })
       .catch((err) => {
         console.error(err);
