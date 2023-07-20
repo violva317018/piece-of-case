@@ -48,7 +48,7 @@ class UserController extends Controller
         // 轉成變數
         $email = $validatedData['email'];
         $password = $validatedData['password'];
-
+return $email;
         // get hash password
         $hashPassword = DB::select("call getHashPassword('?')",[$email]);
 

@@ -8,7 +8,7 @@ function Proposal() {
   // 獲得地區假資料
   const subCitys = locationData;
   // 選擇全域變數
-  const {} = useContext(GlobelDate);
+  const { } = useContext(GlobelDate);
   // 儲存選擇的母、子類別
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
@@ -18,12 +18,13 @@ function Proposal() {
   // 表單資料
   let status = "發布案件";
   // const [status, setStatus] = useState("發布案件");
-  const [name, setName] = useState("");
-  const [budget, setBudget] = useState("");
-  const [deadline, setDeadline] = useState(null);
-  const [description, setDescription] = useState("");
-  const [contactName, setContactName] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
+  const [name, setName] = useState(""); // 案件名稱
+  const [budget, setBudget] = useState(""); // 案件預計金額
+  const [deadline, setDeadline] = useState(null); // 案件預計完成時間
+  const [description, setDescription] = useState(""); // 案件描述
+  const [contactName, setContactName] = useState(""); // 聯絡人姓名
+  const [isContactPhone, setIsContactPhone] = useState(false); // 是否可以聯絡
+  const [contactPhone, setContactPhone] = useState("");  // 聯絡的電話
   // 儲存可連絡時間
   const [contactTime, setContactTime] = useState("0000");
   const [contactTimeItem0, setContactTimeItem0] = useState("0");
@@ -54,8 +55,10 @@ function Proposal() {
     setContactName(event.target.value);
   };
   const handleContactPhone = (event) => {
-    console.log(event.target.value);
     setContactPhone(event.target.value);
+  };
+  const handleIsContactPhone = (event) => {
+    setIsContactPhone(event.target.value);
   };
   // 處理【聯絡時間】的boolean
   const handlecontactTimee = (event) => {
@@ -138,9 +141,10 @@ function Proposal() {
   // 處理 => 發布案件
   const handlePublishCase = () => {
     let status = "刊登中";
-
+    // 取得當前 userID
     let userID = JSON.parse(localStorage.getItem("userInfo")).userID;
-    Case.proposal(
+    // 將資料傳遞給後端
+    Case.addCase(
       userID,
       name,
       category,
@@ -166,7 +170,6 @@ function Proposal() {
       .catch((err) => {
         console.error(err);
       });
-    // console.log(contactTime)
   };
 
   // 處理 => 儲存至草稿
@@ -203,7 +206,7 @@ function Proposal() {
   };
 
   // 處理地區結合
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <main className="container">
       <div className="caseBox">
@@ -354,6 +357,12 @@ function Proposal() {
             <option value="true">允許</option>
             <option value="false">不允許</option>
           </select>
+          <h4>連絡人電話號碼</h4>
+          <input
+            type="text"
+            placeholder="請輸入連絡人電話號碼"
+            onChange={handleIsContactPhone}
+          />
           <h4>請勾選希望接案人聯絡時段?</h4>
           <input
             type="checkbox"

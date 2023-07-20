@@ -11,13 +11,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //UserController
 Route::post('/auth/signup', [UserController::class, 'signup']);
-Route::post('/auth/login', [UserController::class, 'login'])->name('login');
+Route::post('/auth/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logout']);
 
 
 // CasesController
 Route::post('/case/proposal', [CasesController::class, 'insertCase']);
-Route::post('cases/insert', [CasesController::class, 'insertCase']);
+Route::post('cases/addCase', [CasesController::class, 'insertCase']);
 Route::get('cases/search', [CasesController::class, 'selectCases']);
 Route::get('cases', [CasesController::class, 'getCases']);
 Route::post('cases/checkstatus', [CaseController::class, 'checkStatus']);

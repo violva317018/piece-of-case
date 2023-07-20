@@ -6,7 +6,7 @@ const API_URL =
 
 class Case {
   // 提案介面(proposal) => location = city,district
-  proposal(
+  addCase(
     userID,
     name,
     category,
@@ -26,7 +26,7 @@ class Case {
     imageD,
     imageE
   ) {
-    return axios.post(API_URL + "/proposal", {
+    return axios.post(API_URL + "/addCase", {
       userID,
       name,
       category,

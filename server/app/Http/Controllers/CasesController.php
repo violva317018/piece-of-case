@@ -10,7 +10,7 @@ class CasesController extends Controller
 {
 
     // 提案
-    public function insertCase(Request $request)
+    public function addCase(Request $request)
 {
     $userID = $request->input('userID');
     $name = $request->input('name');
