@@ -87,7 +87,7 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $token = $request->token;
-        
+
         // 調用儲存過程
         $result = DB::select("CALL logout(?)", [$token]);
 

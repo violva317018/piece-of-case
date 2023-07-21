@@ -49,14 +49,21 @@ class CasesController extends Controller
 
     // getCategorys
     public function getCategorys()
-    {    
+    {
         $results = DB::select('CALL caseListBigClass()');
         return response()->json($results);
     }
 
+    // getCitys
+    public function getCitys()
+    {
+        $results = DB::select('CALL caseListCity()');
+        return $results;
+    }
+
    // 搜尋並返回特定條件的案例
    public function getCases(Request $request)
-   {    
+   {
         $bigClassID = $request->input('bigClassID');
         $classID = $request->input('classID');
         $cityID = $request->input('cityID');
@@ -68,17 +75,17 @@ class CasesController extends Controller
         return response()->json($results);
    }
 
-   // 刊登中案例列表，每頁顯示30筆
-   public function selectCases(Request $request)
-   {
-       $page = $request->input('page');
-       $pagehead = ($page - 1) * 30;
+//    // 刊登中案例列表，每頁顯示30筆
+//    public function selectCases(Request $request)
+//    {
+//        $page = $request->input('page');
+//        $pagehead = ($page - 1) * 30;
 
-       // 呼叫存儲過程
-       $results = DB::select('CALL caseFilter(?, ?)', [$page, $categories]);
+//        // 呼叫存儲過程
+//        $results = DB::select('CALL caseFilter(?, ?)', [$page, $categories]);
 
-       return response()->json($results);
-   }
+//        return response()->json($results);
+//    }
 
 
    // 提供bidder案件提供案件詳細訊息
