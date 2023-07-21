@@ -11,6 +11,7 @@ class InformationController extends Controller
     //修改大頭照
     public function uploadPhoto(Request $request)
     {
+        return $request;
         if ($request->hasFile('photo')) {
             // 處理上傳圖片
             $image = $request->file('photo');

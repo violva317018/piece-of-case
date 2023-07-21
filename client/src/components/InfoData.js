@@ -11,8 +11,12 @@ function InfoData() {
   //   setModal(true);
   // };
   const { headphoto, setHeadPhoto } = useContext(GlobelDate);
+  const data = new FormData();
+  data.append("photo", headphoto);
+
   const handleHeadPhoto = () => {
-    Auth.headPhoto(headphoto)
+    console.log(headphoto);
+    Auth.uploadPhoto(data)
       .then((result) => {
         console.log(result);
       })

@@ -2,7 +2,7 @@ import axios from "axios"; // 引入 axios 工具
 
 // 後端給的網址
 const API_URL =
-  "http://localhost/Full-Stack-Project/server/public/index.php/api/auth";
+  "http://localhost/Full-Stack-Project/server/public/index.php/api";
 
 class Auth {
   // class 內的 function 可以省略前綴
@@ -10,7 +10,7 @@ class Auth {
     // 取得從後端回傳的資料
     // 現在要註冊所以要用 【post】
     // axios.method('網址',{ 傳給後端的參數 })
-    return axios.post(API_URL + "/signup", {
+    return axios.post(API_URL + "/auth/signup", {
       userName,
       email,
       password,
@@ -19,7 +19,7 @@ class Auth {
 
   // 處理登入
   login(email, password) {
-    return axios.post(API_URL + "/login", {
+    return axios.post(API_URL + "/auth/login", {
       email,
       password,
     });
@@ -27,7 +27,7 @@ class Auth {
 
   // 處理登出
   logout(token) {
-    return axios.post(API_URL + "/logout", {
+    return axios.post(API_URL + "/auth/logout", {
       token,
     });
   }
@@ -35,13 +35,15 @@ class Auth {
   userInfo(email) {
     // 現在要取得資料所以要用 【get】
     // 利用網址參數傳遞給後端
-    return axios.get(API_URL + `/login/${email}`);
+    return axios.get(API_URL + `/auth/login/${email}`);
   }
 
   //帳戶資料
   //頭像修改
-  headPhoto(headphoto) {
-    return axios.post(API_URL + "/headphoto", { headphoto });
+  uploadPhoto(headphoto) {
+    return axios.post(API_URL + "/upload-photo", {
+      headphoto,
+    });
   }
 
   // 綠界測試

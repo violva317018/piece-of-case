@@ -12,6 +12,7 @@ class UserController extends Controller
     // 註冊
     public function signup(Request $request)
     {
+        // return $request;
         // get 前端輸入的資訊
         $validatedData = $request->validate([
             'userName' => 'required|string',
