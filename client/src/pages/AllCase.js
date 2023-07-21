@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./AllCase.css";
 import { Link } from "react-router-dom";
 import Case from "../axios/Case";
+import { GlobelDate } from "../App";
 
 function AllCase() {
   const [page, setPage] = useState(1);
   const [bigClassID, setBigClassID] = useState(""); // 目前點選的資料
-  const [bigClassStr, setBigClassStr] = useState(null); // 儲存所有被點選的資料
+  const [bigClassStr, setBigClassStr] = useState("null"); // 儲存所有被點選的資料
+
   const [classID, setClassID] = useState("");
   const [cityID, setCityID] = useState("");
   const [districtID, setDistrictID] = useState(null);
@@ -14,6 +16,13 @@ function AllCase() {
   const [cases, setCases] = useState([]); // 利用useEffect 獲得資料
   const [searchClass, setSearchClass] = useState([]); // 傳入需長這樣 => 'A01,B02'
 
+  // 進到【home】就取得並放入localstorage 給【AllCase】 使用
+  const [bigClassNames, setBigClassNames] = useState(
+    JSON.parse(localStorage.getItem("bigClassNames"))
+  ); // 母類別
+  const [subBigClassNames, setSubBigClassNames] = useState(
+    JSON.parse(localStorage.getItem("subBigClassNames"))
+  ); // 子類別
   // 儲存母、子類別
   const categorys = [
     {
@@ -35,10 +44,6 @@ function AllCase() {
     },
   ];
 
-  // 初始將 null 改成字串
-  useEffect(() => {
-    setBigClassStr("null");
-  }, []);
   // 畫面一掛載從資料庫取得所有案件
   useEffect(() => {
     Case.getCases(bigClassStr, classID, cityID, districtID, page)
@@ -48,7 +53,6 @@ function AllCase() {
       .catch((err) => {
         console.error(err);
       });
-    // Case.getCategorys().then((result) => { console.log(result['data']) }).catch((err) => { console.error(err); })
   }, [bigClassID, classID, cityID, districtID, page]);
   // 處理母類別的字串
   const handleBigClass = (id) => {
@@ -56,8 +60,8 @@ function AllCase() {
     if (bigClassStr.indexOf(id) === -1) {
       // 進到頁面是否為第一次做篩選，為了避免,號
       if (bigClassStr === "null" || bigClassStr === "") {
-        setBigClassStr(bigClassStr.replace("null", "")); // 將初始的null替換掉
-        setBigClassStr(id);
+        setBigClassStr(bigClassStr.replace("null", `${id}`)); // 將初始的null替換掉
+        // setBigClassStr(id);
       } else {
         setBigClassStr((preState) => preState + "," + id);
       }
@@ -69,7 +73,7 @@ function AllCase() {
       } else if (bigClassStr.indexOf(`,${id}`) !== -1) {
         setBigClassStr(bigClassStr.replace(`,${id}`, "")); // 處理【,A01】這種狀態
       } else {
-        setBigClassStr(null); // 處理【A01】這種狀態
+        setBigClassStr("null"); // 處理【A01】這種狀態=> 這會報錯
       }
     }
   };
@@ -79,31 +83,35 @@ function AllCase() {
         {/* 左側篩選欄 */}
         <div className="condition mx-3">
           {/* 類別 */}
-          {categorys.map((items, index) => (
+          {bigClassNames.map((items, index) => (
             <div className="mb-3" key={index}>
               <button
                 className="btn btn-secondary w-100"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={`#${items.title}`}
-                data-bs-id={`${items.id}`} // 賦予代號
+                data-bs-target={`#${items.bigClassID}`}
+                data-bs-id={`${items.bigClassID}`} // 賦予代號
                 aria-expanded="false"
-                aria-controls={`${items.title}`}
+                aria-controls={`${items.bigClassID}`}
                 onClick={(e) => {
                   handleBigClass(e.target.dataset["bsId"]);
+                  console.log(e.target.dataset["bsId"]);
                 }}
               >
-                {items.title}
+                {items.bigClassName}
               </button>
-              <div className="collapse multi-collapse" id={`${items.title}`}>
+              <div
+                className="collapse multi-collapse"
+                id={`${items.bigClassID}`}
+              >
                 <div className="card card-body">
                   <ul className="list-group">
-                    {items.subCategory.map((item, index) => (
+                    {subBigClassNames.map((item, index) => (
                       <li className="list-group-item p-0" key={index}>
                         <input
                           type="checkbox"
-                          id={`${item}`}
-                          name={`${item}`}
+                          id={`${item.classID}`}
+                          name={`${item.bigClassID}`}
                           onClick={(e) => {
                             console.log(e.target.id); // 取得代號
                             console.log(e.target.checked); // 取得是否打勾
@@ -112,7 +120,9 @@ function AllCase() {
                             );
                           }}
                         />
-                        <label htmlFor={`${item}`}>{item}</label>
+                        <label htmlFor={`${item.classID}`}>
+                          {item.className}
+                        </label>
                       </li>
                     ))}
                   </ul>

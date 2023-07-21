@@ -21,6 +21,7 @@ Route::get('cases/search', [CasesController::class, 'selectCases']);
 Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案件
 Route::get('cases/getCitys', [CasesController::class, 'getCitys']); // 取得地區類別
 Route::get('cases/getCategorys', [CasesController::class, 'getCategorys']); // 取得母類別
+Route::get('cases/getSubCategorys', [CasesController::class, 'getSubCategorys']); // 取得子類別
 Route::post('cases/checkstatus', [CaseController::class, 'checkStatus']);
 
 //InformationController

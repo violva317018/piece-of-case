@@ -67,6 +67,10 @@ class Case {
   getCategorys() {
     return axios.get(API_URL + "/getCategorys");
   }
+  // 取得子類別
+  getSubCategorys() {
+    return axios.get(API_URL + "/getSubCategorys");
+  }
 }
 
 // new 一個 Auth 的實例 ，export default 默認導出 供其他程式直接引用

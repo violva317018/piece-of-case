@@ -47,14 +47,19 @@ class CasesController extends Controller
     // return $result;
 }
 
-    // getCategorys
+    // 獲取母、子類別
     public function getCategorys()
     {
         $results = DB::select('CALL caseListBigClass()');
         return response()->json($results);
     }
+    public function getSubCategorys()
+    {
+        $results = DB::select('CALL caseClass()');
+        return response()->json($results);
+    }
 
-    // getCitys
+    // 獲得地區
     public function getCitys()
     {
         $results = DB::select('CALL caseListCity()');
