@@ -51,13 +51,25 @@ class Case {
   // 取得所有刊登資料
   getCases(bigClassID, classID, cityID, districtID, page) {
     return axios.post(API_URL, {
-      bigClassID, classID, cityID, districtID, page
-    })
+      bigClassID,
+      classID,
+      cityID,
+      districtID,
+      page,
+    });
   }
 
+  // 取得地區分類
+  getCitys() {
+    return axios.get(API_URL + "/getCitys");
+  }
   // 取得母類別
   getCategorys() {
-    return axios.get(API_URL + '/getCategorys')
+    return axios.get(API_URL + "/getCategorys");
+  }
+  // 取得子類別
+  getSubCategorys() {
+    return axios.get(API_URL + "/getSubCategorys");
   }
 }
 

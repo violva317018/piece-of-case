@@ -1,8 +1,24 @@
 import React from "react";
 import "./home.css";
 import { Link } from "react-router-dom";
+import Case from "../axios/Case";
 
 function Home() {
+  // 進到home就取得並放入localstorage，【AllCase】使用
+  Case.getCategorys()
+    .then((result) => {
+      localStorage.setItem("bigClassNames", JSON.stringify(result["data"]));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  Case.getSubCategorys()
+    .then((result) => {
+      localStorage.setItem("subBigClassNames", JSON.stringify(result["data"]));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   return (
     <div className="container">
       <main>
