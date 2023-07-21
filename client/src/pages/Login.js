@@ -15,6 +15,8 @@ function Login() {
     setUserPassword,
     userEmail,
     userPassword,
+    userID,
+    setUserID,
   } = useContext(GlobelDate);
   const [rememberID, setRememberID] = useState(false);
 
@@ -34,6 +36,12 @@ function Login() {
           : localStorage.setItem("accountNumber", JSON.stringify(""));
         //登入後userinfo這個state要有東西才能判斷header是否登入
         setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+        //登入後存userid
+        setUserID(result["data"][0]["userID"]);
+        localStorage.setItem(
+          "userID",
+          JSON.stringify(result["data"][0]["userID"])
+        );
         // 導向至首頁
         navigate("/");
         console.log(result["data"][0]["token"]);

@@ -118,3 +118,9 @@
   display: inline;
   width: 13rem;
 }
+
+.inputText {
+  width: auto !important;
+  margin-right: 1rem;
+  border-radius: 0 !important;
+}

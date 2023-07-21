@@ -12,6 +12,7 @@ function Register() {
     setUserPassword,
     setUserHashPassword,
     setUserInfo,
+    setUserID,
     userName,
     userEmail,
     userPassword,
@@ -39,6 +40,12 @@ function Register() {
               );
               //登入後userinfo這個state要有東西才能判斷header是否登入
               setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+              //登入後存userid
+              setUserID(result["data"][0]["userID"]);
+              localStorage.setItem(
+                "userID",
+                JSON.stringify(result["data"][0]["userID"])
+              );
             })
             .catch((err) => {
               console.error(err);

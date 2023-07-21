@@ -34,7 +34,7 @@ class UserController extends Controller
         // 將使用者的密碼以安全的方式存儲在資料庫中
         $hashPassword = bcrypt($password);
 
-        $result = DB::select("call signUp('$userName', '$email', '$password')");
+        $result = DB::select("call signUp('$userName', '$email', '$hashPassword')");
         return response()->json(['result' => $result, 'state' => '200']);
     }
 
@@ -53,7 +53,7 @@ class UserController extends Controller
         // get hash password
         $hashPassword = DB::select("call getHashPassword(?)",[$email]);
         $result = DB::select("call login('$email','$password')");
-        return $result;
+        return $hashPassword;
         $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
         if (Hash::check($password, $hashPassword)){
             return 'true';

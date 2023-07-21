@@ -39,11 +39,29 @@ class Auth {
   }
 
   //帳戶資料
+  //進入我的帳戶
+  enterProfile(token) {
+    return axios.get(API_URL + `/enterprofile/${token}`);
+  }
+
   //頭像修改
   uploadPhoto(headphoto) {
-    return axios.post(API_URL + "/upload-photo", {
-      headphoto,
-    });
+    return axios.post(
+      API_URL + "/upload-photo",
+      {
+        photo: headphoto,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  }
+
+  //姓名修改
+  updateUser(myUserID, myUserName) {
+    return axios.post(API_URL + `/update-user/${myUserID}/${myUserName}`);
   }
 
   // 綠界測試

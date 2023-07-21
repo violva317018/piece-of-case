@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./infodata.css";
 import { Link } from "react-router-dom";
 import { GlobelDate } from "../App";
@@ -10,15 +10,60 @@ function InfoData() {
   // const handleRevise = () => {
   //   setModal(true);
   // };
-  const { headphoto, setHeadPhoto } = useContext(GlobelDate);
+  const [headphoto, setHeadPhoto] = useState("");
+  const [name, setName] = useState("");
+  const [usernumber, setUserNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const [experience, setExperience] = useState("");
+  const [portfolio, setPortfolio] = useState("");
+  const [tools, setTools] = useState("");
+  const [autobiography, setAutobiography] = useState("");
+  //修改姓名用
+  const [changename, setChangeName] = useState(false);
+  //修改密碼用
+  const [changepassword, setChangePassword] = useState("");
+  const { userinfo, changeheadphoto, setChangeHeadPhoto } =
+    useContext(GlobelDate);
   const data = new FormData();
-  data.append("photo", headphoto);
+  data.append("photo", changeheadphoto);
 
+  useEffect(() => {
+    Auth.enterProfile(userinfo)
+      .then((result) => {
+        setName(result["data"]["message"][0]["userName"]);
+        setUserNumber(result["data"]["message"][0]["email"]);
+        setPhone(result["data"]["message"][0]["phone"]);
+        setExperience(result["data"]["message"][0]["education"]);
+        setPortfolio(result["data"]["message"][0]["portfolio"]);
+        setTools(result["data"]["message"][0]["softwore"]);
+        setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
+        setHeadPhoto(result["data"]["message"][0]["profilePhoto"]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  //修改頭貼
   const handleHeadPhoto = () => {
-    console.log(headphoto);
+    console.log(data.get("photo"));
     Auth.uploadPhoto(data)
       .then((result) => {
         console.log(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  //修改姓名
+  const handleChangeName = () => {
+    Auth.updateUser(JSON.parse(localStorage.getItem("userID")), changename)
+      .then((result) => {
+        window.alert(result["data"]["result"]);
+        Auth.enterProfile(userinfo).then((result) => {
+          setName(result["data"]["message"][0]["userName"]);
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -75,10 +120,10 @@ function InfoData() {
                   type="file"
                   id="avatar"
                   name="avatar"
-                  accept="image/png, image/jpeg"
+                  accept="image/png, image/jpeg, image/jpg"
                   className="inputFile"
                   onChange={(e) => {
-                    setHeadPhoto(e.target.files);
+                    setChangeHeadPhoto(e.target.files[0]);
                   }}
                 />
                 <button
@@ -96,15 +141,60 @@ function InfoData() {
       </div>
       <div className="infoDataDiv2">
         <div>
-          <span className="p1">王曉明</span>
-          <button>修改</button>
+          <span className="p1">{name}</span>
+          <button data-bs-toggle="modal" data-bs-target="#changeName">
+            修改
+          </button>
+          <div
+            className="modal fade"
+            id="changeName"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabIndex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <span className="spanCenter">修改姓名</span>
+                  <button
+                    type="button"
+                    className="btn-close mx-0"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <label htmlFor="avatar">請輸入姓名：</label>
+                  <input
+                    type="text"
+                    id="avatar"
+                    name="avatar"
+                    className="inputText"
+                    onChange={(e) => {
+                      setChangeName(e.target.value);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleChangeName}
+                  >
+                    修改
+                  </button>
+                </div>
+                <div className="modal-footer"></div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="infoDiv">
           <div className="infoDiv1">
             <label htmlFor="" className="p2">
               帳號：
             </label>
-            <span>azbx230712@gmail.com</span>
+            <span>{usernumber}</span>
           </div>
           <hr />
           <div className="infoDiv1">
@@ -112,14 +202,90 @@ function InfoData() {
               密碼：
             </label>
             <span>***************</span>
-            <button className="float-right">修改</button>
+            <button
+              className="float-right"
+              data-bs-toggle="modal"
+              data-bs-target="#changePassword"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changePassword"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改密碼</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label htmlFor="avatar1">請輸入舊密碼：</label>
+                      <input
+                        type="password"
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        onChange={(e) => {
+                          setChangePassword(e.target.value);
+                        }}
+                      />
+                      <span style={{ color: "red" }}>密碼錯誤</span>
+                    </div>
+                    <div className="my-3">
+                      <label htmlFor="avatar2">請輸入新密碼：</label>
+                      <input
+                        type="password"
+                        id="avatar2"
+                        name="avatar"
+                        className="inputText"
+                        onChange={(e) => {
+                          setChangeName(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="my-3">
+                      <label htmlFor="avatar3">請再輸入密碼：</label>
+                      <input
+                        type="password"
+                        id="avatar3"
+                        name="avatar"
+                        className="inputText"
+                        onChange={(e) => {
+                          setChangeName(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-primary mx-auto d-block"
+                      onClick={handleChangeName}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
           </div>
           <hr />
           <div className="infoDiv1">
             <label htmlFor="" className="p2">
               連絡電話：
             </label>
-            <span>0933123456</span>
+            <span>{phone}</span>
             <button className="float-right">修改</button>
           </div>
         </div>
@@ -134,7 +300,7 @@ function InfoData() {
             <label htmlFor="" className="p2">
               學、經歷
             </label>
-            <span>國立OO大學</span>、<span>OOXX軟體工程師</span>
+            <span>{experience}</span>
             <button className="float-right">修改</button>
           </div>
           <hr />
@@ -142,11 +308,7 @@ function InfoData() {
             <label htmlFor="" className="p2">
               作品集
             </label>
-            <span>
-              <Link className="p4">OOXX.pdf</Link>
-              <Link className="p4">OXOX.zip</Link>
-              <Link className="p4">XXOO.jpg</Link>
-            </span>
+            <span>{portfolio}</span>
             <button className="float-right">修改</button>
           </div>
           <hr />
@@ -154,24 +316,13 @@ function InfoData() {
             <label htmlFor="" className="p2">
               擅長工具
             </label>
-            <span>word</span>、<span>excel</span>、<span>powerpoint</span>
+            <span>{tools}</span>
             <button className="float-right">修改</button>
           </div>
           <div className="pos">
             <div className="p3 borderTop">自傳</div>
             <div>
-              <p className="p5">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我是一位充滿熱情且富有創造力的工程師。從小時候起，我對科學和技術的奧秘就產生了濃厚的興趣。我總是渴望理解事物的運作原理，並找到創新的解決方案。
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我對數學和物理學的熱愛促使我追求工程學的道路。在大學期間，我專注於計算機科學和軟體工程。這些領域給了我無限的想像力和創造力的空間。
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作為一個工程師，我熟悉多種編程語言和開發工具。我喜歡從頭開始構建軟體應用程式，並看到它們在實際應用中發揮作用。我對前端開發、後端開發和資料庫設計都有著扎實的理解和實踐經驗。
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我非常重視代碼的質量和可維護性，並且致力於編寫乾淨、模組化和可擴展的程式碼。我也了解測試的重要性，並且熟悉單元測試和自動化測試的實踐。
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在團隊合作方面，我喜歡與不同背景和專業知識的人合作。我相信協作和知識共享可以帶來最佳的解決方案。我樂於與團隊成員合作，共同解決技術挑戰，並取得卓越的成果。
-                <br />
-              </p>
+              <p className="p5">{autobiography}</p>
             </div>
             <button className="float-right2">修改</button>
           </div>

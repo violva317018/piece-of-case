@@ -25,8 +25,9 @@ Route::post('cases/checkstatus', [CaseController::class, 'checkStatus']);
 //InformationController
 // prefix是前綴，域名/api/upload-photo
 // Route::group(['prefix' => 'api'], function () {
+    Route::get('enterprofile/{token}',[InformationController::class, 'enterProfile']);
     Route::post('upload-photo', [InformationController::class, 'uploadPhoto']);
-    Route::post('update-user/{myUserName}/{myUserID}', [InformationController::class, 'updateUser']);
+    Route::post('update-user/{myUserID}/{myUserName}', [InformationController::class, 'updateUser']);
     Route::post('update-phone/{myuserID}/{myphone}', [InformationController::class, 'updatePhone']);
     Route::post('update-email/{myuserID}/{myemail}', [InformationController::class, 'updateEmail']);
     Route::post('update-portfolio/{myuserID}/{myportfolio}', [InformationController::class, 'updatePortfolio']);

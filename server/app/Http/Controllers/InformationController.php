@@ -8,10 +8,21 @@ use Illuminate\Support\Facades\Storage;
 
 class InformationController extends Controller
 {
+    //進入我的帳戶
+    public function enterProfile($token)
+    {
+        // return $token;
+        // $token = $request->token;
+        $result = DB::select("CALL enterProfile(?)", [$token]);
+        return [
+            'message' => $result
+        ];
+    }
+
     //修改大頭照
     public function uploadPhoto(Request $request)
     {
-        return $request;
+        // return $request;
         if ($request->hasFile('photo')) {
             // 處理上傳圖片
             $image = $request->file('photo');
@@ -34,10 +45,11 @@ class InformationController extends Controller
 
 
     // 修改姓名
-    public function updateUser($myUserName, $myUserID)
+    public function updateUser($myUserID, $myUserName)
     {
+        // return $myUserName;
         try {
-            $result = DB::select('CALL newUserName(?, ?)', [$myUserName, $myUserID]);
+            $result = DB::select('CALL newUserName(?, ?)', [$myUserID, $myUserName]);
             return response()->json(['result' => '修改姓名成功']);
         } catch (\Exception $e) {
             return response()->json(['result' => '修改姓名失败']);

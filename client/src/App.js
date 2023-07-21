@@ -49,13 +49,17 @@ function App() {
   const [userHashPassword, setUserHashPassword] = useState("");
 
   //個人資料
-  const [headphoto, setHeadPhoto] = useState();
+  const [changeheadphoto, setChangeHeadPhoto] = useState({});
 
   const [infoData, setInfoData] = useState("1");
 
   const [proposal, setProposal] = useState("1");
 
   const [takethecase, setTakethecase] = useState("1");
+
+  //登入後的userID
+  const [userID, setUserID] = useState("");
+
   //裡面要存Storage的Key=userInfo
   const [userinfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
@@ -80,10 +84,12 @@ function App() {
           userEmail,
           userPassword,
           userHashPassword,
-          headphoto,
-          setHeadPhoto,
+          changeheadphoto,
+          setChangeHeadPhoto,
           userinfo,
           setUserInfo,
+          userID,
+          setUserID,
         }}
       >
         <Header />
