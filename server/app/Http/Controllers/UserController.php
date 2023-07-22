@@ -32,7 +32,7 @@ class UserController extends Controller
         }
 
         // 將使用者的密碼以安全的方式存儲在資料庫中
-        $hashPassword = bcrypt($password);
+        $hashPassword = Hash::make($password);
 
         $result = DB::select("call signUp('$userName', '$email', '$hashPassword')");
         return response()->json(['result' => $result, 'state' => '200']);
@@ -51,34 +51,16 @@ class UserController extends Controller
         $password = $validatedData['password'];
 
         // get hash password
-        $hashPassword = DB::select("call getHashPassword(?)",[$email]);
-        $result = DB::select("call login('$email','$password')");
-        return $hashPassword;
-        $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
+        $hashPassword = DB::select("call getHashPassword(?)",[$email])[0]->hashpassword;
+        // $result = DB::select("call login('$email','$password')");
+        // return gettype($hashPassword);
+        // return Hash::check('1234', $hashPassword);
+        // $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
         if (Hash::check($password, $hashPassword)){
-            return 'true';
-            $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
-            $tokenResult = DB::select("SELECT @mytoken AS token")[0]->token;
-            if ($result[0]->result == '登入成功') {
-                $response = [
-                    'result' => $result[0]->result,
-                    'token' => $tokenResult
-                ];
-            } else {
-                $response = [
-                    'result' => $result[0]->result,
-                    'token' => null
-                ];
-            }
-            return response($response, 201);
+            $result = DB::select("CALL login('$email', '$hashPassword')");
+            return $result;
         } else {
-            return 'false';
-
-            $response = [
-                'result' => '帳號或密碼錯誤',
-                'token' => null
-            ];
-            return response($response, 401);
+            return '帳號或密碼錯誤';
         }
 
     }
