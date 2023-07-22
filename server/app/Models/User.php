@@ -12,6 +12,22 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users'; // 指定對應的資料庫表格名稱
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'userID'; // 指定主鍵的名稱
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +37,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profilePhoto',
     ];
 
     /**
@@ -43,3 +60,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 }
+
+
+// app/Models/User.php
+        // class User extends Authenticatable
+        // {
+        //     use HasApiTokens;
+        // }
+
+        //     // app/Providers/AuthServiceProvider.php
+        //     public function boot()
+        //     {
+        //         $this->registerPolicies();
+
+        //         Passport::routes();
+        //     }

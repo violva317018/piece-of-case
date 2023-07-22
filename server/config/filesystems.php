@@ -29,6 +29,12 @@ return [
     */
 
     'disks' => [
+        'publcUser' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/user'),
+            'url' => '/storage/user',
+            'visibility' => 'public',
+        ],
 
         'local' => [
             'driver' => 'local',
