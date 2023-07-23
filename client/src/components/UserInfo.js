@@ -7,7 +7,7 @@ function UserInfo(props) {
   // 取得全域變數
   const { userID, currentCaseId } = useContext(GlobelDate);
   // 從 CaseView 取得資料
-  const { budget, contactName, caseState } = props;
+  const { budget, contactName, caseState, userEqual } = props;
 
   // caseID , userID , quotation , win , selfRecommended
   const [quotation, setQuotation] = useState(0); // 報價金額

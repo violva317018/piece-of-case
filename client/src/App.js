@@ -58,11 +58,7 @@ function App() {
   const [takethecase, setTakethecase] = useState("1");
 
   //登入後的userID
-  const [userID, setUserID] = useState(
-    JSON.parse(localStorage.getItem("userID"))
-      ? JSON.parse(localStorage.getItem("userID"))
-      : null
-  );
+  const [userID, setUserID] = useState("");
 
   // 當前被點擊的案件ID => 【allCase】取得，【caseView】需要
   const [currentCaseId, setCurrentCaseId] = useState("");
@@ -70,6 +66,8 @@ function App() {
   //裡面要存Storage的Key=userInfo
   const [userinfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : ""
   );
 
   return (

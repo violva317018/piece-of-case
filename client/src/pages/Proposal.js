@@ -116,7 +116,6 @@ function Proposal() {
       { value: "B03", label: "水電維修" },
     ],
   };
-
   //  取得當前母類別資料
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -289,15 +288,15 @@ function Proposal() {
             <option selected disabled>
               請選擇....
             </option>
-            <option value="台北市">台北市</option>
-            <option value="新北市">新北市</option>
-            <option value="台中市">台中市</option>
-            <option value="台南市">台南市</option>
-            <option value="高雄市">高雄市</option>
+            <option value="A">台北市</option>
+            <option value="B">新北市</option>
+            <option value="G">台中市</option>
+            <option value="L">台南市</option>
+            <option value="M">高雄市</option>
           </select>
           <br />
           {/* 依不同的母類別找尋相對應的子類別 */}
-          {/* {city && (
+          {city && (
             <select
               className="form-select"
               aria-label="Default select example"
@@ -313,7 +312,7 @@ function Proposal() {
                 </option>
               ))}
             </select>
-          )} */}
+          )}
         </div>
         {/* 內容 */}
         <div className="box">

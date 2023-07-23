@@ -51,6 +51,7 @@ function AllCase() {
   useEffect(() => {
     Case.getCases(bigClassStr, classID, cityID, districtID, page)
       .then((result) => {
+        console.log(result["data"]);
         setCases(result["data"]);
       })
       .catch((err) => {
@@ -119,23 +120,27 @@ function AllCase() {
                 <div className="card card-body">
                   <ul className="list-group">
                     {subBigClassNames.map((item, index) => (
-                      <li className="list-group-item p-0" key={index}>
-                        <input
-                          type="checkbox"
-                          id={`${item.classID}`}
-                          name={`${item.bigClassID}`}
-                          onClick={(e) => {
-                            console.log(e.target.id); // 取得代號
-                            console.log(e.target.checked); // 取得是否打勾
-                            setClassID(
-                              (preState) => preState + "," + e.target.id
-                            );
-                          }}
-                        />
-                        <label htmlFor={`${item.classID}`}>
-                          {item.className}
-                        </label>
-                      </li>
+                      <>
+                        {item["bigClassID"] === items.bigClassID && (
+                          <li className="list-group-item p-0" key={index}>
+                            <input
+                              type="checkbox"
+                              id={`${item.classID}`}
+                              name={`${item.bigClassID}`}
+                              onClick={(e) => {
+                                console.log(e.target.id); // 取得代號
+                                console.log(e.target.checked); // 取得是否打勾
+                                setClassID(
+                                  (preState) => preState + "," + e.target.id
+                                );
+                              }}
+                            />
+                            <label htmlFor={`${item.classID}`}>
+                              {item.className}
+                            </label>
+                          </li>
+                        )}
+                      </>
                     ))}
                   </ul>
                 </div>

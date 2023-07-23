@@ -9,14 +9,10 @@ function CaseRecommend(porps) {
   const { currentCaseId } = useContext(GlobelDate);
 
   // 從 props 結構賦值
-  const { bulidCaseUserID } = porps;
+  const { userEqual } = porps;
 
   // 儲存推薦人員
   const [bridder, setBridder] = useState([]);
-  // 目前使用者id === 建案子的使用者id
-  const [userEqual, useUserEqual] = useState(
-    JSON.parse(localStorage.getItem("userID")) == bulidCaseUserID
-  );
 
   // 推薦案子 ， 從後端API取得
   const recommendCases = [
@@ -85,7 +81,14 @@ function CaseRecommend(porps) {
                     <Link to="/chatRoom">聊聊</Link>
                   </button>
                   <button className="recommend-content-box-btn">
-                    <Link to="/checkInfo">查看資訊</Link>
+                    <Link
+                      to="/checkInfo"
+                      onClick={(e) => {
+                        console.log(e.target); // 要將使用者ID傳過去才可以得到資訊
+                      }}
+                    >
+                      查看資訊
+                    </Link>
                   </button>
                   <button className="recommend-content-box-btn">
                     <Link to="/scheme">合作</Link>

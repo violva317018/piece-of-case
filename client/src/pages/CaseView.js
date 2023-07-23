@@ -26,6 +26,10 @@ function CaseView() {
   const [imageC, setImageC] = useState("");
   const [bulidCaseUserID, setBulidCaseUserID] = useState(0);
 
+  // 目前使用者id === 建案子的使用者id
+  const userEqual =
+    JSON.parse(localStorage.getItem("userID")) === bulidCaseUserID;
+
   // 取得當前使用者ID與被點擊的案件ID並渲染出案件
   useEffect(() => {
     // 先 caseID，userID
@@ -71,10 +75,11 @@ function CaseView() {
             budget={budget}
             contactName={contactName}
             caseState={caseState}
+            userEqual={userEqual}
           />
         </div>
         {/* 為您推薦 */}
-        <CaseRecommend bulidCaseUserID={bulidCaseUserID} />
+        <CaseRecommend userEqual={userEqual} />
       </div>
     </main>
   );
