@@ -42,13 +42,14 @@ function Login() {
           "userID",
           JSON.stringify(result["data"][0]["userID"])
         );
-        // 導向至首頁
-        navigate("/");
+
         console.log(result["data"][0]["token"]);
         if (JSON.parse(localStorage.getItem("userInfo")) == null) {
           window.alert("登入失敗");
         } else if (result["data"][0]["result"] == "登入成功") {
           window.alert("登入成功");
+          // 導向至首頁
+          navigate("/");
         }
       })
       .catch((err) => {

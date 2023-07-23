@@ -24,6 +24,7 @@ class InformationController extends Controller
     {
         // return $request;
         if ($request->hasFile('photo')) {
+
             // 處理上傳圖片
             $image = $request->file('photo');
             $filename = $image->getClientOriginalName();
