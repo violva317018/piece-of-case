@@ -5,6 +5,9 @@ import Case from "../axios/Case";
 import { GlobelDate } from "../App";
 
 function AllCase() {
+  // 取得全域變數
+  const { setCurrentCaseId } = useContext(GlobelDate);
+
   const [page, setPage] = useState(1);
   const [bigClassID, setBigClassID] = useState(""); // 目前點選的資料
   const [bigClassStr, setBigClassStr] = useState("null"); // 儲存所有被點選的資料
@@ -54,6 +57,7 @@ function AllCase() {
         console.error(err);
       });
   }, [bigClassID, classID, cityID, districtID, page]);
+
   // 處理母類別的字串
   const handleBigClass = (id) => {
     setBigClassID(id);
@@ -77,6 +81,14 @@ function AllCase() {
       }
     }
   };
+
+  // 取得當前點擊的case ID，並導向至caseview
+  const handleMoreView = (e) => {
+    // 利用自定義參數取得 caseID
+    console.log(e.target["dataset"]["caseid"]);
+    setCurrentCaseId(e.target["dataset"]["caseid"]);
+  };
+
   return (
     <main className="container my-4">
       <div className="takeTheCaseBox d-flex">
@@ -193,7 +205,12 @@ function AllCase() {
                 </p>
                 <p>預算: {item.budget}</p>
                 <p>預計完成日期: {item.deadline}</p>
-                <Link className="moreView" to={"/caseview"}>
+                <Link
+                  className="moreView"
+                  to={"/caseview"}
+                  data-caseid={item.caseID}
+                  onClick={(e) => handleMoreView(e)}
+                >
                   more view
                 </Link>
               </div>

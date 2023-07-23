@@ -8,7 +8,7 @@ function Proposal() {
   // 獲得地區假資料
   const subCitys = locationData;
   // 選擇全域變數
-  const { } = useContext(GlobelDate);
+  const {} = useContext(GlobelDate);
   // 儲存選擇的母、子類別
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
@@ -24,7 +24,7 @@ function Proposal() {
   const [description, setDescription] = useState(""); // 案件描述
   const [contactName, setContactName] = useState(""); // 聯絡人姓名
   const [isContactPhone, setIsContactPhone] = useState(false); // 是否可以聯絡
-  const [contactPhone, setContactPhone] = useState("");  // 聯絡的電話
+  const [contactPhone, setContactPhone] = useState(""); // 聯絡的電話
   // 儲存可連絡時間
   const [contactTime, setContactTime] = useState("0000");
   const [contactTimeItem0, setContactTimeItem0] = useState("0");
@@ -142,7 +142,7 @@ function Proposal() {
   const handlePublishCase = () => {
     let status = "刊登中";
     // 取得當前 userID
-    let userID = JSON.parse(localStorage.getItem("userInfo")).userID;
+    let userID = JSON.parse(localStorage.getItem("userID"));
     // 將資料傳遞給後端
     Case.addCase(
       userID,
@@ -155,6 +155,7 @@ function Proposal() {
       subCity,
       description,
       contactName,
+      // contactAble
       contactPhone,
       contactTime,
       status,
@@ -175,8 +176,7 @@ function Proposal() {
   // 處理 => 儲存至草稿
   const handleDraftCase = () => {
     let status = "草稿";
-
-    let userID = JSON.parse(localStorage.getItem("userInfo")).userID;
+    let userID = JSON.parse(localStorage.getItem("userID"));
     Case.proposal(
       userID,
       name,
@@ -188,6 +188,7 @@ function Proposal() {
       subCity,
       description,
       contactName,
+      // contactAble
       contactPhone,
       contactTime,
       status,
@@ -206,7 +207,7 @@ function Proposal() {
   };
 
   // 處理地區結合
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
   return (
     <main className="container">
       <div className="caseBox">
@@ -296,7 +297,7 @@ function Proposal() {
           </select>
           <br />
           {/* 依不同的母類別找尋相對應的子類別 */}
-          {city && (
+          {/* {city && (
             <select
               className="form-select"
               aria-label="Default select example"
@@ -312,7 +313,7 @@ function Proposal() {
                 </option>
               ))}
             </select>
-          )}
+          )} */}
         </div>
         {/* 內容 */}
         <div className="box">

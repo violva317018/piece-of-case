@@ -1,13 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./caseRecommend.css";
 import { GlobelDate } from "../App";
 import { Route, Routes, Link } from "react-router-dom";
+import Case from "../axios/Case";
 
-function CaseRecommend() {
-  //    從 【GlobelDate】取得變數
-  const { aID, bID } = useContext(GlobelDate);
+function CaseRecommend(porps) {
+  // 取得全域變數
+  const { currentCaseId } = useContext(GlobelDate);
+
+  // 從 props 結構賦值
+  const { bulidCaseUserID } = porps;
+
+  // 儲存推薦人員
+  const [bridder, setBridder] = useState([]);
   // 目前使用者id === 建案子的使用者id
-  const [userEqual, useUserEqual] = useState(aID === bID);
+  const [userEqual, useUserEqual] = useState(
+    JSON.parse(localStorage.getItem("userID")) == bulidCaseUserID
+  );
+
   // 推薦案子 ， 從後端API取得
   const recommendCases = [
     {
@@ -35,24 +45,22 @@ function CaseRecommend() {
       price: "預算金額",
     },
   ];
-  // 推薦案子 ， 從後端API取得
-  const quote = [
-    {
-      name: "A猿人",
-      price: "2000",
-      selfRecommended: "今天天氣真好",
-    },
-    {
-      name: "B人猿",
-      price: "1000",
-      selfRecommended: "",
-    },
-    {
-      name: "C猩猩",
-      price: "5500",
-      selfRecommended: "老闆好",
-    },
-  ];
+
+  // 取得推薦案件、推薦人員
+  useEffect(() => {
+    // 推薦案件
+    // Case.getSimilarCase(currentCaseId);
+
+    // 推薦人員
+    Case.getBidder(currentCaseId)
+      .then((result) => {
+        console.log(result["data"]);
+        setBridder(result["data"]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <div className="recommend">
       <div className="recommend-tile">
@@ -61,13 +69,13 @@ function CaseRecommend() {
       <div className="recommend-content">
         {/* 三元表達式 假如【userEqual】為【True】就執行【:】前面，反之【userEqual】為【False】就執行【:】後面 */}
         {userEqual ? (
-          // 以案主身分查看自己的提案
+          // 以案主身分查看自己的提案 => 報價人員
           <>
-            {quote.map((item, index) => (
+            {bridder.map((item, index) => (
               <div className="recommend-content-box" key={index}>
                 <div>
-                  <p>{item.name}</p>
-                  <p>報價金額 : {item.price}</p>
+                  <p>{item.userName}</p>
+                  <p>報價金額 : {item.quotation}</p>
                   <p>自我推薦 : </p>
                   <p className="selfRecommended">{item.selfRecommended}</p>
                 </div>
@@ -87,7 +95,7 @@ function CaseRecommend() {
             ))}
           </>
         ) : (
-          // 以接案者身分查看案件
+          // 以接案者身分查看案件 => 推薦案件
           <>
             {recommendCases.map((item, index) => (
               <div className="recommend-content-box" key={index}>

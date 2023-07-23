@@ -58,7 +58,14 @@ function App() {
   const [takethecase, setTakethecase] = useState("1");
 
   //登入後的userID
-  const [userID, setUserID] = useState("");
+  const [userID, setUserID] = useState(
+    JSON.parse(localStorage.getItem("userID"))
+      ? JSON.parse(localStorage.getItem("userID"))
+      : null
+  );
+
+  // 當前被點擊的案件ID => 【allCase】取得，【caseView】需要
+  const [currentCaseId, setCurrentCaseId] = useState("");
 
   //裡面要存Storage的Key=userInfo
   const [userinfo, setUserInfo] = useState(
@@ -70,7 +77,6 @@ function App() {
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
       <GlobelDate.Provider
         value={{
-          currentUserID: "A02", // 目前使用者id
           infoData, //我的帳戶目前位置
           setInfoData,
           proposal, //提案紀錄目前位置
@@ -91,6 +97,8 @@ function App() {
           setUserInfo,
           userID,
           setUserID,
+          currentCaseId,
+          setCurrentCaseId,
         }}
       >
         <Header />

@@ -17,6 +17,7 @@ class Case {
     subCity,
     description,
     contactName,
+    // contactAble
     contactPhone,
     contactTime,
     status,
@@ -63,13 +64,41 @@ class Case {
   getCitys() {
     return axios.get(API_URL + "/getCitys");
   }
+
   // 取得母類別
   getCategorys() {
     return axios.get(API_URL + "/getCategorys");
   }
+
   // 取得子類別
   getSubCategorys() {
     return axios.get(API_URL + "/getSubCategorys");
+  }
+
+  // 取得當前被點擊的案件資訊
+  getCaseInfo(caseID, userID) {
+    return axios.get(API_URL + `/getCaseInfo`, { params: { caseID, userID } });
+  }
+
+  // 取得當前被點擊的類似案件
+  getSimilarCase(classID) {
+    return axios.get(API_URL + `/getSimilarCase`, { params: { classID } });
+  }
+
+  // 取得當前被點擊的報價人員
+  getBidder(caseID) {
+    return axios.get(API_URL + `/getBidder`, { params: { caseID } });
+  }
+
+  // 新增報價人員
+  newBidder(caseID, userID, quotation, win, selfRecommended) {
+    return axios.post(API_URL + `/newBidder`, {
+      caseID,
+      userID,
+      quotation,
+      win,
+      selfRecommended,
+    });
   }
 }
 

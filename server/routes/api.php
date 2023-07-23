@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -50,7 +51,11 @@ Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案�
 Route::get('cases/getCitys', [CasesController::class, 'getCitys']); // 取得地區類別
 Route::get('cases/getCategorys', [CasesController::class, 'getCategorys']); // 取得母類別
 Route::get('cases/getSubCategorys', [CasesController::class, 'getSubCategorys']); // 取得子類別
-Route::post('cases/checkstatus', [CaseController::class, 'checkStatus']);
+Route::post('cases/checkstatus', [CasesController::class, 'checkStatus']);
+Route::get('cases/getCaseInfo', [CasesController::class, 'getCaseInfo']); // 取得當前被點擊案件資訊
+Route::get('cases/getSimilarCase', [CasesController::class, 'getSimilarCase']); // 取得當前被點擊案件的類似案件
+Route::get('cases/getBidder', [CasesController::class, 'getBidder']); // 取得當前被點擊案件的報價人員
+Route::post('cases/newBidder', [CasesController::class, 'newBidder']); // 新增報價人員
 
 // 綠界
 // Route::post('/payment/pay', [PaymentController::class, 'payByECPay']);
