@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class CasesController extends Controller
 {
     // 提案
-    public function addCase(Request $request)
+    public function insertCase(Request $request)
     {
         $userID = $request->input('userID');
         $name = $request->input('name');
@@ -18,7 +18,7 @@ class CasesController extends Controller
         $budget = $request->input('budget');
         $deadline = $request->input('deadline');
         $city = $request->input('city');
-        $subCity = $request->input('subCity');
+        // $subCity = $request->input('subCity'); 先用假資料 前端還沒弄好
         $description = $request->input('description');
         $contactName = $request->input('contactName');
         $contactPhone = $request->input('contactPhone');
@@ -29,9 +29,9 @@ class CasesController extends Controller
         $imageC = $request->input('imageC');
         $imageD = $request->input('imageD');
         $imageE = $request->input('imageE');
-
+        return $userID;
         try {
-            DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
+            DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$userID, $name, $category, $subCategory, $budget, $deadline, $city,'A02', $description, $contactName, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
             // DB::select("CALL addMyCase($userID,'$name','$category','$subCategory','$budget','$deadline','$city','$subCity','$description','$contactName','$contactPhone','$contactTime','$status','$imageA','$imageB','$imageC','$imageD','$imageE')");
             if ($status == '草稿') {
             $result = '案件已儲存至草稿';
@@ -78,6 +78,48 @@ class CasesController extends Controller
 
         return response()->json($results);
     }
+
+    // 取得當前被點擊案件資訊
+    public function getCaseInfo(Request $request)
+    {
+        $caseID =  (int)$request['caseID'];
+        $userID =  (int)$request['userID'];
+        $results = DB::select('CALL enterCase(?,?)',[$caseID, $userID]);
+        return $results;
+    }
+
+    // 取得當前被點擊案件的類似案件
+    public function getSimilarCase(Request $request)
+    {
+        $caseID =  (int)$request['caseID'];
+        $userID =  (int)$request['userID'];
+        $results = DB::select('CALL similarCase(?)',[$classID]);
+        return $results;
+    }
+
+    // 新增報價人員
+    public function newBidder(Request $request)
+    {
+        $caseID =  (int)$request['caseID'];
+        $userID =  (int)$request['userID'];
+        $quotation =  (int)$request['quotation'];
+        $win =  $request['win']; // 前端為甚麼要傳這個，還有tinyint 是甚麼型別
+        $selfRecommended =  $request['selfRecommended'];
+        $results = DB::select('CALL newBidder(?,?,?,?,?)',[$caseID,$userID,$quotation,$win,$selfRecommended]);
+        return $results;
+    }
+
+    // 取得當前被點擊案件的報價人員
+    public function getBidder(Request $request)
+    {
+        $caseID =  (int)$request['caseID'];
+        $results = DB::select('CALL getBidder(?)',[$caseID]);
+        return $results;
+    }
+
+
+
+
 
     // 用id查詢特定案件   get
     public function getCaseBYID(Request $request)
