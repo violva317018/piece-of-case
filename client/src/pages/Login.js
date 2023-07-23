@@ -22,6 +22,8 @@ function Login() {
 
   // 將輸入資料傳給後端匹配，並取得使用者資訊
   const handleLogin = () => {
+    setUserID(JSON.parse(localStorage.getItem("userID")));
+
     Auth.login(userEmail, userPassword)
       .then((result) => {
         console.log(result);

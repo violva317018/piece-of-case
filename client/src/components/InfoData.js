@@ -22,11 +22,14 @@ function InfoData() {
   const [changename, setChangeName] = useState(false);
   //修改密碼用
   const [changepassword, setChangePassword] = useState("");
-  const { userinfo, changeheadphoto, setChangeHeadPhoto } =
+  const { userID, userinfo, changeheadphoto, setChangeHeadPhoto } =
     useContext(GlobelDate);
   const data = new FormData();
   data.append("photo", changeheadphoto);
+  data.append("userID", userID);
 
+  const photoData = new FormData();
+  const reader = new FileReader();
   useEffect(() => {
     Auth.enterProfile(userinfo)
       .then((result) => {
@@ -46,14 +49,22 @@ function InfoData() {
 
   //修改頭貼
   const handleHeadPhoto = () => {
+    console.log(userID);
     console.log(data.get("photo"));
-    Auth.uploadPhoto(data)
+    Auth.uploadPhoto(data.get("photo"), data.get("userID"))
       .then((result) => {
-        console.log(result);
+        setHeadPhoto(
+          `data:image/jpeg;base64, ${result["data"]["profilePhoto"]}`
+        );
+        console.log(headphoto);
+        // photoData.append("updatePhoto", result["data"]);
+        // console.log(photoData.get("updatePhoto"));
       })
       .catch((err) => {
         console.error(err);
       });
+
+    // reader.readAsDataURL(photoData.get("updatePhoto"));
   };
 
   //修改姓名
@@ -73,10 +84,7 @@ function InfoData() {
   return (
     <div className="infoDataDiv d-flex">
       <div className="headPhotoDiv">
-        <img
-          id="infoImg"
-          src="https://avatars.githubusercontent.com/u/98681?v=4"
-        />
+        <img id="infoImg" src={headphoto} />
         <svg
           type="button"
           xmlns="http://www.w3.org/2000/svg"
