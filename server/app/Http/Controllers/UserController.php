@@ -53,7 +53,6 @@ class UserController extends Controller
         // get hash password
         $hashPassword = DB::select("call getHashPassword(?)",[$email]);
         $result = DB::select("call login('$email','$password')");
-        return $hashPassword;
         $result = DB::select("CALL login(?, ?, @mytoken)", [$email, $password]);
         if (Hash::check($password, $hashPassword)){
             return 'true';
