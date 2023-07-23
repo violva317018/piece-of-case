@@ -22,26 +22,40 @@ class InformationController extends Controller
     //修改大頭照
     public function uploadPhoto(Request $request)
     {
-        // return $request;
+        // return $request->userID;
         if ($request->hasFile('photo')) {
-
+            // return getimagesize($request->file('photo'));
             // 處理上傳圖片
             $image = $request->file('photo');
-            $filename = $image->getClientOriginalName();
+            $filename = $image->store('documents');
             $uploadPic = Storage::disk('public')->put($filename, file_get_contents($image->getRealPath()));
             $photoURL = Storage::disk('public')->url($filename);
+            // return $photoURL;
+            // $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            // return $imageData;
         } else {
             // 使用默認圖片，路徑 public/upload/images.jpg
-            $filename = '/uploads/images.jpg';
+            $filename = '/uploads/images.jpeg';
             $photoURL = Storage::disk('public')->url($filename);
         }
 
-        $userID = auth()->user()->id;
-        DB::statement("CALL newPhoto(?, ?, @result)", [$userID, $filename, $photoURL]);
+        $userID = $request->userID;
+        // return DB::select("CALL newPhoto(?, ?)", [$userID, $photoURL])[0]->profilePhoto;
+        // DB::statement("CALL newPhoto(?, ?)", [$userID, $photoURL]);
 
-        $result = DB::select("SELECT @result AS result")[0]->result;
-
-        return response()->json(['result' => $result, 'url' => $photoURL], 200);
+        $file = DB::select("CALL newPhoto(?, ?)", [$userID, $filename])[0]->profilePhoto;
+        $newPhoto = Storage::get($file);
+        return response()->json(['profilePhoto' => base64_encode($newPhoto)]);
+        function base64EncodeImage($image_file)
+        {
+            $base64_image = '';
+            $image_info = getimagesize($image_file);
+            $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+            $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+            return $base64_image;
+        };
+        return base64EncodeImage($newPhoto);
+        // return response()->file(storage_path('http://localhost/storage/123.jpg'));
     }
 
 

@@ -45,11 +45,12 @@ class Auth {
   }
 
   //頭像修改
-  uploadPhoto(headphoto) {
+  uploadPhoto(headphoto, userId) {
     return axios.post(
       API_URL + "/upload-photo",
       {
         photo: headphoto,
+        userID: userId,
       },
       {
         headers: {

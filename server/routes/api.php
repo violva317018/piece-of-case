@@ -20,7 +20,7 @@ Route::post('/auth/logout', [UserController::class, 'logout']);
 // prefix是前綴，域名/api/upload-photo
 // Route::group(['prefix' => 'api'], function () {
 // 上傳圖片
-Route::post('uploadphoto', [InformationController::class, 'uploadPhoto']);
+// Route::post('uploadphoto', [InformationController::class, 'uploadPhoto']);
 Route::post('update-user/{myUserName}/{myUserID}', [InformationController::class, 'updateUser']);
 Route::post('update-phone/{myuserID}/{myphone}', [InformationController::class, 'updatePhone']);
 Route::post('update-email/{myuserID}/{myemail}', [InformationController::class, 'updateEmail']);
@@ -29,7 +29,7 @@ Route::post('update-skills', [InformationController::class, 'updateSkills']);
 
 // 軟新增
 Route::get('enterprofile/{token}',[InformationController::class, 'enterProfile']);
-Route::post('upload-photo', [InformationController::class, 'uploadPhoto']);
+// Route::post('upload-photo', [InformationController::class, 'uploadPhoto']);
 Route::post('update-user/{myUserID}/{myUserName}', [InformationController::class, 'updateUser']);
 
 

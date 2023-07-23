@@ -40,6 +40,7 @@ class UserController extends Controller
     // 登錄
     public function login(Request $request)
     {
+        // return $request;
         $validatedData = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
