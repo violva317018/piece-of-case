@@ -1,22 +1,23 @@
-// 與前端 socket 交互
-
 const app = require("express")();
 const http = require("http").Server(app);
 const mysql = require("mysql");
 const moment = require("moment");
 const PORT = 4000;
 
+// CORS
 const io = require("socket.io")(http, {
     cors: {
         origin: "http://localhost:3000",
     },
 });
 
+// database connection
 const con = mysql.createConnection({
     host: "localhost",
+    port: 33306,
     user: "root",
     password: "",
-    database: "chat_back",
+    database: "database", // see
 });
 
 con.connect(function (err) {
@@ -26,8 +27,12 @@ con.connect(function (err) {
     console.log("Database connected");
 });
 
+// A middleware which checks the username and allows the connection
 io.use((socket, next) => {
     const username = socket.handshake.auth.fetched_userName;
+    if (!username) {
+        return next(new Error("invalid username"));
+    }
     socket.username = username;
     next();
 });
@@ -35,21 +40,23 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
     const users = [];
 
-    // 每有一個人連進來(新增一個socket)，就會更新 users 
+    // 每有一個人連進來(新增一個socket)，就會更新 users
     for (let [id, socket] of io.of("/").sockets) {
         users.push({
-            userID: id,
+            userID: id, // 
             username: socket.username,
             key: id,
+            connected: true,
         });
     }
 
-    socket.broadcast.emit("user connect", {
+    // other user login
+    socket.broadcast.emit("other user connect", {
         userID: socket.id,
         username: socket.username,
         key: socket.id,
         self: false,
-        // connected: false,
+        connected: true,
     });
 
     socket.emit("users", users);
@@ -58,21 +65,29 @@ io.on("connection", (socket) => {
         socket.to(to).emit("private message", {
             content,
             time: moment().format("h:mm a"),
-            from: socket.id,
+            from: socket.username,
         });
 
         con.query(
-            `Insert into chat (id, from_id, to_id, body, created_at, updated_at)
-        values (NULL, '${socket.id}', '${to}', '${content}', '${moment().format("YYYY-MM-DD HH:mm:ss")}', NULL)`,
+            `Insert into message (id, from_id, to_id, body, created_at)
+        values (NULL, '${socket.id}', '${to}', '${content}', '${moment().format(
+                "YYYY-MM-DD HH:mm:ss"
+            )}')`,
             function (err, res) {
                 if (err) {
                     throw err;
                 }
                 console.log("Message send to db");
-            });
+            }
+        );
     });
 
-
+    socket.on("disconnect", () => {
+        socket.broadcast.emit("user disconnected", {
+            userID: socket.id,
+            username: socket.username,
+        });
+    });
 });
 
 http.listen(PORT, () => {

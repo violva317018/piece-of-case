@@ -58,6 +58,11 @@ Route::get('cases/getSimilarCase', [CasesController::class, 'getSimilarCase']); 
 Route::get('cases/getBidder', [CasesController::class, 'getBidder']); // 取得當前被點擊案件的報價人員
 Route::post('cases/newBidder', [CasesController::class, 'newBidder']); // 新增報價人員
 
+// 聊天室
+Route::get('chat/getMessage', [ChatController::class, 'getMessage']); // 獲得當前被點擊【聊聊】的使用者訊息
+Route::get('chat/getChatOtherUser', [ChatController::class, 'getChatOtherUser']); // 獲得其他曾經聊過的使用者
+Route::post('chat/sendMessage', [ChatController::class, 'sendMessage']); // 發送訊息
+
 // 綠界
 // Route::post('/payment/pay', [PaymentController::class, 'payByECPay']);
 Route::post('payment/pay', [PaymentController::class, 'payByECPay']);

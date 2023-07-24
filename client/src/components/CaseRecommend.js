@@ -3,10 +3,11 @@ import "./caseRecommend.css";
 import { GlobelDate } from "../App";
 import { Route, Routes, Link } from "react-router-dom";
 import Case from "../axios/Case";
+import Chat from "../axios/Chat";
 
 function CaseRecommend(porps) {
   // 取得全域變數
-  const { currentCaseId } = useContext(GlobelDate);
+  const { currentCaseId, userID } = useContext(GlobelDate);
 
   // 從 props 結構賦值
   const { userEqual } = porps;
@@ -57,6 +58,16 @@ function CaseRecommend(porps) {
         console.error(err);
       });
   }, []);
+
+
+  const handleChat = (item) => {
+    // 取得與該對象聊天訊息
+    Chat.getMessage(JSON.parse(localStorage.getItem('userID')), item.userID).then((result) => { console.log(result) }).catch((err) => { console.error(err) })
+
+    // 取得所有聊過天的使用者資訊
+    // Chat.getChatOtherUser(userID)
+
+  }
   return (
     <div className="recommend">
       <div className="recommend-tile">
@@ -78,7 +89,8 @@ function CaseRecommend(porps) {
                 {/* 三個btn Link */}
                 <div>
                   <button className="recommend-content-box-btn">
-                    <Link to="/chatRoom">聊聊</Link>
+                    <Link to={`/chatRoom/${item.userID}`} >聊聊</Link>
+                    {/* <div onClick={() => handleChat(item)} >聊聊</div> */}
                   </button>
                   <button className="recommend-content-box-btn">
                     <Link

@@ -4,61 +4,40 @@ const moment = require("moment");
 
 const ChatFooter = (props) => {
     const [message, setMessage] = useState('');
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        console.log({ userName: localStorage.getItem('userName'), message });
-        setMessage('');
+
+    // 處理發送
+    const handleSend = () => {
+        setMessage('')
     };
 
-    // chat --- start 
-    let messageContent = "";
-    let ref; //Reference to the input field so that it gets cleared every time we submit
-    const getContent = (e) => {
-        messageContent = e.target.value;
-        ref = e;
-    };
     const onMessage = (e, content) => {
-        e.preventDefault();
-        console.log("Message is:", content);
-        ref.target.value = "";
+
         if (props.selectedUser) {
+            // 發送給 socket
             socket.emit("private message", {
                 content,
                 to: props.selectedUser.userID,
             });
+            // 儲存本地陣列
             props.setMessages((messages) => [
                 ...messages,
                 { toUser: props.selectedUser.username, content, time: moment().format("h:mm a"), fromSelf: true },
             ]);
         }
-        console.log("Message object", props.messages);
     };
 
-
-    // chat --- end
     return (
-        // <div className="chat__footer">
-        //     <form className="form" onSubmit={handleSendMessage}>
-        //         <input
-        //             type="text"
-        //             placeholder="Write message"
-        //             className="message"
-        //             value={message}
-        //             onChange={(e) => setMessage(e.target.value)}
-        //         />
-        //         <button className="sendBtn">SEND</button>
-        //     </form>
-        // </div>
         <div className="chat__footer">
-            <form className="form" onSubmit={(e) => onMessage(e, messageContent)}>
+            <div className="form">
                 <input
                     type="text"
                     placeholder="Write message"
                     className="message"
-                    onChange={(e) => getContent(e)}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                 />
-                <button className="sendBtn">SEND</button>
-            </form>
+                <button className="sendBtn" onClick={handleSend}>SEND</button>
+            </div>
         </div>
     );
 };
