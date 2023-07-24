@@ -60,9 +60,14 @@ class Case {
     });
   }
 
-  // 取得地區分類
+  // 取得母地區
   getCitys() {
     return axios.get(API_URL + "/getCitys");
+  }
+
+  // 取得子地區
+  getSubCitys() {
+    return axios.get(API_URL + "/getSubCitys");
   }
 
   // 取得母類別

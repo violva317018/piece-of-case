@@ -8,37 +8,33 @@ function AllCase() {
   // 取得全域變數
   const { setCurrentCaseId } = useContext(GlobelDate);
 
+  // 處理頁數
   const [page, setPage] = useState(1);
+
+  // 處理母子類別
   const [bigClassID, setBigClassID] = useState(""); // 目前點選的資料
   const [bigClassStr, setBigClassStr] = useState("null"); // 儲存所有被點選的資料
+  const [subClassID, setSubClassID] = useState(""); // 目前點選的資料
+  const [subClassStr, setSubClassStr] = useState("null"); // 儲存所有被點選的資料
+  // 處理母子地區
+  const [bigCityID, setBigCityID] = useState(""); // 目前點選的資料
+  const [bigCityStr, setBigCityStr] = useState("null"); // 儲存所有被點選的資料
+  const [subCityID, setSubCityID] = useState(""); // 目前點選的資料
+  const [subCityStr, setSubCityStr] = useState("null"); // 儲存所有被點選的資料
 
-  const [classID, setClassID] = useState("");
-  const [cityID, setCityID] = useState("");
-  const [districtID, setDistrictID] = useState(null);
-  // const [categorys, setCategorys] = useState(null) // 利用useEffect 獲得資料
   const [cases, setCases] = useState([]); // 利用useEffect 獲得資料
-  const [searchClass, setSearchClass] = useState([]); // 傳入需長這樣 => 'A01,B02'
 
   // 進到【home】就取得並放入localstorage 給【AllCase】 使用
-  const [bigClassNames, setBigClassNames] = useState(
-    JSON.parse(localStorage.getItem("bigClassNames"))
-  ); // 母類別
-  const [subBigClassNames, setSubBigClassNames] = useState(
-    JSON.parse(localStorage.getItem("subBigClassNames"))
-  ); // 子類別
-  // 儲存母、子類別
-  const categorys = [
-    {
-      title: "家教課程",
-      id: "A",
-      subCategory: ["A01", "A02", "A03"],
-    },
-    {
-      title: "生活服務",
-      id: "B",
-      subCategory: ["B01", "B02", "B03"],
-    },
-  ];
+  // 母類別
+  const bigClassNames = JSON.parse(localStorage.getItem("bigClassNames"))
+  // 子類別
+  const subBigClassNames = JSON.parse(localStorage.getItem("subBigClassNames"))
+  // 母地區
+  const bigCityNames = JSON.parse(localStorage.getItem("bigCityNames"))
+  // 子地區
+  const subCityNames = JSON.parse(localStorage.getItem("subCityNames"))
+
+
   const locations = [
     {
       title: "地區",
@@ -48,16 +44,17 @@ function AllCase() {
   ];
 
   // 畫面一掛載從資料庫取得所有案件
+
   useEffect(() => {
-    Case.getCases(bigClassStr, classID, cityID, districtID, page)
+    Case.getCases(bigClassStr, subClassStr, bigCityStr, subCityStr, page)
       .then((result) => {
-        console.log(result["data"]);
+        // console.log(result["data"]);
         setCases(result["data"]);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [bigClassID, classID, cityID, districtID, page]);
+  }, [bigClassID, subClassID, bigCityID, subCityID, page]);
 
   // 處理母類別的字串
   const handleBigClass = (id) => {
@@ -66,7 +63,6 @@ function AllCase() {
       // 進到頁面是否為第一次做篩選，為了避免,號
       if (bigClassStr === "null" || bigClassStr === "") {
         setBigClassStr(bigClassStr.replace("null", `${id}`)); // 將初始的null替換掉
-        // setBigClassStr(id);
       } else {
         setBigClassStr((preState) => preState + "," + id);
       }
@@ -79,6 +75,77 @@ function AllCase() {
         setBigClassStr(bigClassStr.replace(`,${id}`, "")); // 處理【,A01】這種狀態
       } else {
         setBigClassStr("null"); // 處理【A01】這種狀態=> 這會報錯
+      }
+    }
+  };
+
+  // 處理子類別的字串
+  const handleSubClass = (e) => {
+    const { id } = e.target // 取得代號
+    setSubClassID(id);
+    if (subClassStr.indexOf(id) === -1) {
+      // 進到頁面是否為第一次做篩選，為了避免,號
+      if (subClassStr === "null" || subClassStr === "") {
+        setSubClassStr(subClassStr.replace("null", `${id}`)); // 將初始的null替換掉
+      } else {
+        setSubClassStr((preState) => preState + "," + id);
+      }
+    }
+    // 假如重複點選判斷狀態
+    if (subClassStr.match(id)) {
+      if (subClassStr.indexOf(`${id},`) !== -1) {
+        setSubClassStr(subClassStr.replace(`${id},`, "")); // 處理【A01,】這種狀態
+      } else if (subClassStr.indexOf(`,${id}`) !== -1) {
+        setSubClassStr(subClassStr.replace(`,${id}`, "")); // 處理【,A01】這種狀態
+      } else {
+        setSubClassStr("null"); // 處理【A01】這種狀態=> 這會報錯
+      }
+    }
+  };
+
+  // 處理母地區的字串
+  const handlebigCity = (id) => {
+    setBigCityID(id);
+    if (bigCityStr.indexOf(id) === -1) {
+      // 進到頁面是否為第一次做篩選，為了避免,號
+      if (bigCityStr === "null" || bigCityStr === "") {
+        setBigCityStr(bigCityStr.replace("null", `${id}`)); // 將初始的null替換掉
+      } else {
+        setBigCityStr((preState) => preState + "," + id);
+      }
+    }
+    // 假如重複點選判斷狀態
+    if (bigCityStr.match(id)) {
+      if (bigCityStr.indexOf(`${id},`) !== -1) {
+        setBigCityStr(bigCityStr.replace(`${id},`, "")); // 處理【A01,】這種狀態
+      } else if (bigCityStr.indexOf(`,${id}`) !== -1) {
+        setBigCityStr(bigCityStr.replace(`,${id}`, "")); // 處理【,A01】這種狀態
+      } else {
+        setBigCityStr("null"); // 處理【A01】這種狀態=> 這會報錯
+      }
+    }
+  };
+
+  // 處理子地區的字串
+  const handleSubCity = (e) => {
+    const { id } = e.target // 取得代號
+    setSubCityID(id);
+    if (subCityStr.indexOf(id) === -1) {
+      // 進到頁面是否為第一次做篩選，為了避免,號
+      if (subCityStr === "null" || subCityStr === "") {
+        setSubCityStr(subCityStr.replace("null", `${id}`)); // 將初始的null替換掉
+      } else {
+        setSubCityStr((preState) => preState + "," + id);
+      }
+    }
+    // 假如重複點選判斷狀態
+    if (subCityStr.match(id)) {
+      if (subCityStr.indexOf(`${id},`) !== -1) {
+        setSubCityStr(subCityStr.replace(`${id},`, "")); // 處理【A01,】這種狀態
+      } else if (subCityStr.indexOf(`,${id}`) !== -1) {
+        setSubCityStr(subCityStr.replace(`,${id}`, "")); // 處理【,A01】這種狀態
+      } else {
+        setSubCityStr("null"); // 處理【A01】這種狀態=> 這會報錯
       }
     }
   };
@@ -102,20 +169,19 @@ function AllCase() {
                 className="btn btn-secondary w-100"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={`#${items.bigClassID}`}
+                data-bs-target={`#${items.bigClassName}`}
                 data-bs-id={`${items.bigClassID}`} // 賦予代號
                 aria-expanded="false"
-                aria-controls={`${items.bigClassID}`}
+                aria-controls={`${items.bigClassName}`}
                 onClick={(e) => {
                   handleBigClass(e.target.dataset["bsId"]);
-                  console.log(e.target.dataset["bsId"]);
                 }}
               >
                 {items.bigClassName}
               </button>
               <div
                 className="collapse multi-collapse"
-                id={`${items.bigClassID}`}
+                id={`${items.bigClassName}`}
               >
                 <div className="card card-body">
                   <ul className="list-group">
@@ -127,13 +193,7 @@ function AllCase() {
                               type="checkbox"
                               id={`${item.classID}`}
                               name={`${item.bigClassID}`}
-                              onClick={(e) => {
-                                console.log(e.target.id); // 取得代號
-                                console.log(e.target.checked); // 取得是否打勾
-                                setClassID(
-                                  (preState) => preState + "," + e.target.id
-                                );
-                              }}
+                              onClick={(e) => { handleSubClass(e) }}
                             />
                             <label htmlFor={`${item.classID}`}>
                               {item.className}
@@ -148,38 +208,52 @@ function AllCase() {
             </div>
           ))}
           {/* 地區 */}
-          {locations.map((items, index) => (
-            <div className="mb-3" key={index}>
-              <button
-                className="btn btn-secondary w-100"
+          <button
+            className="btn btn-secondary w-100"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target={`#location`}
+            aria-expanded="false"
+            aria-controls={`location`}
+          >
+            地區
+          </button>
+          {bigCityNames.map((items, index) => (
+            <div className="mb-3 mt-2" key={index}>
+              <div
+                id={`location`}
+                className="collapse btn btn-primary multi-collapse w-75"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={`#${items.title}`}
-                data-bs-id={`${items.id}`} // 賦予代號
+                data-bs-target={`#${items.cityID}`}
+                data-bs-id={`${items.cityID}`} // 賦予代號
                 aria-expanded="false"
-                aria-controls={`${items.title}`}
+                aria-controls={`${items.cityID}`}
                 onClick={(e) => {
-                  console.log(e.target.dataset["bsId"]); // 取得代號
+                  handlebigCity(e.target.dataset["bsId"]); // 取得代號
                 }}
               >
-                {items.title}
-              </button>
-              <div className="collapse multi-collapse" id={`${items.title}`}>
+                {items.city}
+              </div>
+              <div className="collapse multi-collapse" id={`${items.cityID}`}>
                 <div className="card card-body">
                   <ul className="list-group">
-                    {items.subCategory.map((item, index) => (
-                      <li className="list-group-item p-0" key={index}>
-                        <input
-                          type="checkbox"
-                          id={`${items.title}${index}`}
-                          name={`${items.title}`}
-                          onClick={(e) => {
-                            console.log(e.target.id); // 取得代號
-                            console.log(e.target.checked); // 取得是否打勾
-                          }}
-                        />
-                        <label htmlFor={`${items.title}${index}`}>{item}</label>
-                      </li>
+                    {subCityNames.map((item, index) => (
+                      <>
+                        {item["cityID"] === items.cityID && (
+                          <li className="list-group-item p-0" key={index}>
+                            <input
+                              type="checkbox"
+                              id={`${item.districtID}`}
+                              name={`${item.cityID}`}
+                              onClick={(e) => { handleSubCity(e) }}
+                            />
+                            <label htmlFor={`${item.districtID}`}>
+                              {item.district}
+                            </label>
+                          </li>
+                        )}
+                      </>
                     ))}
                   </ul>
                 </div>

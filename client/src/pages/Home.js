@@ -5,6 +5,7 @@ import Case from "../axios/Case";
 
 function Home() {
   // 進到home就取得並放入localstorage，【AllCase】使用
+  // 母類別
   Case.getCategorys()
     .then((result) => {
       localStorage.setItem("bigClassNames", JSON.stringify(result["data"]));
@@ -12,9 +13,26 @@ function Home() {
     .catch((err) => {
       console.error(err);
     });
+  // 子類別
   Case.getSubCategorys()
     .then((result) => {
       localStorage.setItem("subBigClassNames", JSON.stringify(result["data"]));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  // 母地區
+  Case.getCitys()
+    .then((result) => {
+      localStorage.setItem("bigCityNames", JSON.stringify(result["data"]));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  // 子地區
+  Case.getSubCitys()
+    .then((result) => {
+      localStorage.setItem("subCityNames", JSON.stringify(result["data"]));
     })
     .catch((err) => {
       console.error(err);

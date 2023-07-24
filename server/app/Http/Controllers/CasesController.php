@@ -58,12 +58,18 @@ class CasesController extends Controller
         return response()->json($results);
     }
 
-    // 獲得地區
+    // 獲得母、子地區
     public function getCitys()
     {
         $results = DB::select('CALL caseListCity()');
         return $results;
     }
+    public function getSubCitys()
+    {
+        $results = DB::select('CALL caseDistrict()');
+        return $results;
+    }
+
 
     // 搜尋並返回特定條件的案例
     public function getCases(Request $request)

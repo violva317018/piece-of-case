@@ -48,7 +48,8 @@ Route::put('/update-photo/{userID}', 'App\Http\Controllers\InformationController
 Route::post('cases/addCase', [CasesController::class, 'insertCase']); // 新增案件
 Route::get('cases/search', [CasesController::class, 'selectCases']);
 Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案件
-Route::get('cases/getCitys', [CasesController::class, 'getCitys']); // 取得地區類別
+Route::get('cases/getCitys', [CasesController::class, 'getCitys']); // 取得母地區
+Route::get('cases/getSubCitys', [CasesController::class, 'getSubCitys']); // 取得子地區
 Route::get('cases/getCategorys', [CasesController::class, 'getCategorys']); // 取得母類別
 Route::get('cases/getSubCategorys', [CasesController::class, 'getSubCategorys']); // 取得子類別
 Route::post('cases/checkstatus', [CasesController::class, 'checkStatus']);
