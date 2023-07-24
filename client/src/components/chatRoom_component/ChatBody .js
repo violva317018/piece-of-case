@@ -81,83 +81,71 @@ import { GlobelDate } from '../../App';
 // 正式版
 
 const ChatBody = (props) => {
-    const navigate = useNavigate();
+    //     socket.disconnect();
 
-    //   let selectedUser = {
-    //     ...props.selectedUser,
-    //     messages: [],
-    //   };
-
-    const handleLeaveChat = () => {
-        console.log(socket.username);
-        socket.disconnect();
-        navigate("/");
-        window.location.reload();
-    };
-
-    const showMessages = props.messages.map((message) => {
-        if (
-            message.fromSelf === true &&
-            message.toUser === props.selectedUser.username
-        )
-            return (
-                <>
-
-                    <div className="message__sender" ref={props.lastMessageRef}>
-                        <p>{message.time}</p>
-                        <p>{message.content}</p>
-                    </div>
-                </>
-            );
-        if (
-            message.fromSelf === false &&
-            message.fromUser === props.selectedUser.username
-        )
-            return (
-                <>
-
-                    <div className="message__recipient" ref={props.lastMessageRef}>
-                        <p>{message.time}</p>
-                        <p>{message.content}</p>
-                    </div>
-                </>
-            );
-    });
+    // const showMessages = props.messages.map((message) => {
+    //     if (props.userSelected) {
+    //         if (message.fromSelf && message.toUser === props.selectedUser.username)
+    //             return (
+    //                 <>
+    //                     <div className="message__sender" ref={props.lastMessageRef}>
+    //                         <p>{message.time}</p>
+    //                         <p>{message.content}</p>
+    //                     </div>
+    //                 </>
+    //             );
+    //         else if (!message.fromSelf && message.fromUser === props.selectedUser.username)
+    //             return (
+    //                 <>
+    //                     <div className="message__recipient" ref={props.lastMessageRef}>
+    //                         <p>{message.time}</p>
+    //                         <p>{message.content}</p>
+    //                     </div>
+    //                 </>
+    //             );
+    //     }
+    // });
 
     // receive private message from server
     socket.on("private message", ({ content, time, from }) => {
-        let newMessages = {};
         for (let i = 0; i < props.connectedUsers.length; i++) {
             const user = props.connectedUsers[i];
-            if (user.userID === from) {
-                newMessages = {
-                    fromUser: props.connectedUsers[i].username,
+            if (user.username === from) {
+                let newMessages = {
+                    fromUser: from,
                     content,
                     time,
                     fromSelf: false,
                 };
-                const messagesList = [...props.messages, newMessages];
-                props.setMessages(messagesList);
+
+                props.setMessages([...props.messages, newMessages]);
+
+                if (user.username !== props.selectedUser.username) {
+                    user.hasNewMessages = true;
+                } else {
+                    user.hasNewMessages = false;
+                }
+                break;
             }
         }
     });
 
     return (
         <>
-            <header className="chat__mainHeader">
-                <p>{props.selectedUser.username}</p>
-                <button className="leaveChat__btn" onClick={handleLeaveChat}>
-                    LEAVE CHAT
-                </button>
-            </header>
-
-            <div className="message__container">
+            <div className="message__container" >
                 <div className="message__chats">
-                    {showMessages}
+                    {/* {showMessages} */}
+
                 </div>
+                <div />
             </div>
         </>
     );
 };
 
+
+
 export default ChatBody;
+
+
+
