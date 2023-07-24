@@ -65,6 +65,14 @@ class Auth {
     return axios.post(API_URL + `/update-user/${myUserID}/${myUserName}`);
   }
 
+  //修改密碼_確定原密碼
+  checkOldPassword(myUserID, myOldPassword) {
+    return axios.post(API_URL + "/checkoldpassword", {
+      myUserID,
+      myOldPassword,
+    });
+  }
+
   // 綠界測試
   order(item, itemNO, des, price) {
     // 現在要取得資料所以要用 【get】

@@ -27,7 +27,8 @@ Route::post('update-phone/{myuserID}/{myphone}', [InformationController::class, 
 Route::post('update-email/{myuserID}/{myemail}', [InformationController::class, 'updateEmail']);
 Route::post('update-portfolio/{myuserID}/{myportfolio}', [InformationController::class, 'updatePortfolio']);
 Route::post('update-skills', [InformationController::class, 'updateSkills']);
-
+//修改密碼
+Route::post('checkoldpassword', [InformationController::class, 'checkOldPassword']);
 // 軟新增
 Route::get('enterprofile/{token}',[InformationController::class, 'enterProfile']);
 // Route::post('upload-photo', [InformationController::class, 'uploadPhoto']);

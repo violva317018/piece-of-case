@@ -11,9 +11,18 @@ class InformationController extends Controller
     //進入我的帳戶
     public function enterProfile($token)
     {
-        // return $token;
         // $token = $request->token;
         $result = DB::select("CALL enterProfile(?)", [$token]);
+        // return $result[0]->profilePhoto;
+        if ($result[0]->profilePhoto){
+            $file = $result[0]->profilePhoto;
+            $Photo = Storage::get($file);
+            $result[0]->profilePhoto = base64_encode($Photo);
+        } else {
+            $Photo = Storage::get('upload/images.jpeg');
+            $result[0]->profilePhoto = base64_encode($Photo);
+        }
+
         return [
             'message' => $result
         ];
@@ -28,15 +37,15 @@ class InformationController extends Controller
             // 處理上傳圖片
             $image = $request->file('photo');
             $filename = $image->store('documents');
-            $uploadPic = Storage::disk('public')->put($filename, file_get_contents($image->getRealPath()));
-            $photoURL = Storage::disk('public')->url($filename);
+            // $uploadPic = Storage::disk('public')->put($filename, file_get_contents($image->getRealPath()));
+            // $photoURL = Storage::disk('public')->url($filename);
             // return $photoURL;
             // $imageData = base64_encode(file_get_contents($image->getRealPath()));
             // return $imageData;
         } else {
             // 使用默認圖片，路徑 public/upload/images.jpg
-            $filename = '/uploads/images.jpeg';
-            $photoURL = Storage::disk('public')->url($filename);
+            $filename = 'upload/images.jpeg';
+            // $photoURL = Storage::disk('public')->url($filename);
         }
 
         $userID = $request->userID;
@@ -45,16 +54,17 @@ class InformationController extends Controller
 
         $file = DB::select("CALL newPhoto(?, ?)", [$userID, $filename])[0]->profilePhoto;
         $newPhoto = Storage::get($file);
+        // return $newPhoto;
         return response()->json(['profilePhoto' => base64_encode($newPhoto)]);
-        function base64EncodeImage($image_file)
-        {
-            $base64_image = '';
-            $image_info = getimagesize($image_file);
-            $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
-            $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
-            return $base64_image;
-        };
-        return base64EncodeImage($newPhoto);
+        // function base64EncodeImage($image_file)
+        // {
+        //     $base64_image = '';
+        //     $image_info = getimagesize($image_file);
+        //     $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+        //     $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+        //     return $base64_image;
+        // };
+        // return base64EncodeImage($newPhoto);
         // return response()->file(storage_path('http://localhost/storage/123.jpg'));
     }
 
@@ -69,6 +79,17 @@ class InformationController extends Controller
         } catch (\Exception $e) {
             return response()->json(['result' => '修改姓名失败']);
         }
+    }
+
+    //修改密碼
+    public function checkOldPassword(Request $request)
+    {
+        return $request;
+        $hashPassword = DB::select("select hashpassword from users where userID = $myUserID")[0];
+        return $hashPassword;
+        
+            
+        
     }
 
     //修改電話

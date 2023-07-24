@@ -21,12 +21,14 @@ function InfoData() {
   //修改姓名用
   const [changename, setChangeName] = useState(false);
   //修改密碼用
-  const [changepassword, setChangePassword] = useState("");
+  const [oldpassword, setOldPassword] = useState("");
+  const [newpassword, setNewPassword] = useState("");
+  const [newpassword2, setNewPassword2] = useState("");
   const { userID, userinfo, changeheadphoto, setChangeHeadPhoto } =
     useContext(GlobelDate);
   const data = new FormData();
   data.append("photo", changeheadphoto);
-  data.append("userID", userID);
+  data.append("userID", JSON.parse(localStorage.getItem("userID")));
 
   const photoData = new FormData();
   const reader = new FileReader();
@@ -40,23 +42,40 @@ function InfoData() {
         setPortfolio(result["data"]["message"][0]["portfolio"]);
         setTools(result["data"]["message"][0]["softwore"]);
         setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
-        setHeadPhoto(result["data"]["message"][0]["profilePhoto"]);
+        setHeadPhoto(
+          `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
+        );
+        console.log(result);
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
 
+  //修改密碼
+  const handleOldPassword = (e) => {
+    Auth.checkOldPassword(
+      JSON.parse(localStorage.getItem("userID")),
+      oldpassword
+    )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   //修改頭貼
   const handleHeadPhoto = () => {
-    console.log(userID);
-    console.log(data.get("photo"));
+    // console.log(userID);
+    // console.log(data.get("photo"));
     Auth.uploadPhoto(data.get("photo"), data.get("userID"))
       .then((result) => {
         setHeadPhoto(
           `data:image/jpeg;base64, ${result["data"]["profilePhoto"]}`
         );
-        console.log(headphoto);
+        // console.log(result);
         // photoData.append("updatePhoto", result["data"]);
         // console.log(photoData.get("updatePhoto"));
       })
@@ -137,6 +156,7 @@ function InfoData() {
                 <button
                   type="button"
                   className="btn btn-primary"
+                  data-bs-dismiss="modal"
                   onClick={handleHeadPhoto}
                 >
                   上傳
@@ -186,6 +206,7 @@ function InfoData() {
                   />
                   <button
                     type="button"
+                    data-bs-dismiss="modal"
                     className="btn btn-primary"
                     onClick={handleChangeName}
                   >
@@ -245,11 +266,7 @@ function InfoData() {
                         id="avatar1"
                         name="avatar"
                         className="inputText"
-                        onChange={(e) => {
-                          setChangePassword(e.target.value);
-                        }}
                       />
-                      <span style={{ color: "red" }}>密碼錯誤</span>
                     </div>
                     <div className="my-3">
                       <label htmlFor="avatar2">請輸入新密碼：</label>
@@ -259,7 +276,7 @@ function InfoData() {
                         name="avatar"
                         className="inputText"
                         onChange={(e) => {
-                          setChangeName(e.target.value);
+                          setNewPassword(e.target.value);
                         }}
                       />
                     </div>
@@ -271,14 +288,19 @@ function InfoData() {
                         name="avatar"
                         className="inputText"
                         onChange={(e) => {
-                          setChangeName(e.target.value);
+                          setNewPassword2(e.target.value);
                         }}
                       />
                     </div>
+                    {newpassword != newpassword2 && (
+                      <span style={{ color: "red" }}>密碼輸入不一致！</span>
+                    )}
+
                     <button
                       type="button"
                       className="btn btn-primary mx-auto d-block"
-                      onClick={handleChangeName}
+                      data-bs-dismiss="modal"
+                      onClick={handleOldPassword}
                     >
                       修改
                     </button>
