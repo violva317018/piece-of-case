@@ -53,13 +53,11 @@ Route::put('/update-photo/{userID}', 'App\Http\Controllers\InformationController
 
 // 新增案件、取的案件、地區篩選、類別篩選
 Route::post('cases/addCase', [CasesController::class, 'insertCase']); // 新增案件
-Route::get('cases/search', [CasesController::class, 'selectCases']);
 Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案件
 Route::get('cases/getCitys', [CasesController::class, 'getCitys']); // 取得母地區
 Route::get('cases/getSubCitys', [CasesController::class, 'getSubCitys']); // 取得子地區
 Route::get('cases/getCategorys', [CasesController::class, 'getCategorys']); // 取得母類別
 Route::get('cases/getSubCategorys', [CasesController::class, 'getSubCategorys']); // 取得子類別
-Route::post('cases/checkstatus', [CasesController::class, 'checkStatus']);
 Route::get('cases/getCaseInfo', [CasesController::class, 'getCaseInfo']); // 取得當前被點擊案件資訊
 Route::get('cases/getSimilarCase', [CasesController::class, 'getSimilarCase']); // 取得當前被點擊案件的類似案件
 Route::get('cases/getBidder', [CasesController::class, 'getBidder']); // 取得當前被點擊案件的報價人員

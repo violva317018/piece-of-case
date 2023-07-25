@@ -17,7 +17,7 @@ const con = mysql.createConnection({
     port: 33306,
     user: "root",
     password: "",
-    database: "database", // see
+    database: "database",
 });
 
 con.connect(function (err) {
@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
     // 每有一個人連進來(新增一個socket)，就會更新 users
     for (let [id, socket] of io.of("/").sockets) {
         users.push({
-            userID: id, // 
+            userID: id, //
             username: socket.username,
             key: id,
             connected: true,
@@ -62,12 +62,14 @@ io.on("connection", (socket) => {
     socket.emit("users", users);
 
     socket.on("private message", ({ content, to }) => {
+        // 將訊息傳給指定對象
         socket.to(to).emit("private message", {
             content,
             time: moment().format("h:mm a"),
             from: socket.username,
         });
 
+        // 將訊息儲存至DB => 有 【sendMessage】這個 procedure 可用 ，如果這邊將訊息傳入DB就不需再用 API
         con.query(
             `Insert into message (id, from_id, to_id, body, created_at)
         values (NULL, '${socket.id}', '${to}', '${content}', '${moment().format(
