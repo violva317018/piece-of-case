@@ -7,7 +7,7 @@ function UserInfo(props) {
   // 取得全域變數
   const { userID, currentCaseId } = useContext(GlobelDate);
   // 從 CaseView 取得資料
-  const { budget, contactName, caseState, userEqual } = props;
+  const { budget, contactName, caseState, userEqual, profilePhoto } = props;
 
   // caseID , userID , quotation , win , selfRecommended
   const [quotation, setQuotation] = useState(0); // 報價金額
@@ -29,7 +29,7 @@ function UserInfo(props) {
       <h1 className="text-center ">案主資訊</h1>
       <div className="d-flex justify-content-evenly">
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPsxapGtZ2ZF9bbIB_w4Htfi6Del7RBJs-uQ&usqp=CAU"
+          src={profilePhoto}
           width={"100"}
           alt="img"
         />

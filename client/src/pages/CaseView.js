@@ -13,6 +13,7 @@ function CaseView() {
   const { currentCaseId } = useContext(GlobelDate);
 
   // 案件資訊
+  const [classID, setClassID] = useState("");
   const [caseName, setCaseName] = useState("");
   const [budget, setBudget] = useState(0);
   const [deadline, setDeadline] = useState("");
@@ -24,35 +25,41 @@ function CaseView() {
   const [imageA, setImageA] = useState("");
   const [imageB, setImageB] = useState("");
   const [imageC, setImageC] = useState("");
+  const [imageD, setImageD] = useState("");
+  const [imageE, setImageE] = useState("");
   const [bulidCaseUserID, setBulidCaseUserID] = useState(0);
+  const [profilePhoto, setProfilePhoto] = useState('');
 
   // 目前使用者id === 建案子的使用者id
   const userEqual =
     JSON.parse(localStorage.getItem("userID")) === bulidCaseUserID;
 
   // 取得當前使用者ID與被點擊的案件ID並渲染出案件
-  useEffect(() => {
-    // 先 caseID，userID
-    Case.getCaseInfo(currentCaseId, JSON.parse(localStorage.getItem("userID")))
-      .then((result) => {
-        console.log(result["data"][0]);
-        setCaseName(result["data"][0]["caseName"]);
-        setBudget(result["data"][0]["budget"]);
-        setDeadline(result["data"][0]["deadline"]);
-        setDescription(result["data"][0]["description"]);
-        setCity(result["data"][0]["city"]);
-        setDistrict(result["data"][0]["district"]);
-        setCaseState(result["data"][0]["result"]);
-        setContactName(result["data"][0]["contactName"]);
-        setImageA(result["data"][0]["imageA"]);
-        setImageB(result["data"][0]["imageB"]);
-        setImageC(result["data"][0]["imageC"]);
-        setBulidCaseUserID(result["data"][0]["userID"]);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+  // 先 caseID，userID
+  Case.getCaseInfo(currentCaseId, JSON.parse(localStorage.getItem("userID")))
+    .then((result) => {
+      console.log(result["data"][0]);
+      setClassID(result["data"][0]["classID"]);
+      localStorage.setItem("classID", JSON.stringify(result["data"][0]["classID"]))
+      setCaseName(result["data"][0]["caseName"]);
+      setBudget(result["data"][0]["budget"]);
+      setDeadline(result["data"][0]["deadline"]);
+      setDescription(result["data"][0]["description"]);
+      setCity(result["data"][0]["city"]);
+      setDistrict(result["data"][0]["district"]);
+      setCaseState(result["data"][0]["result"]);
+      setContactName(result["data"][0]["contactName"]);
+      setImageA(result["data"][0]["imageA"]);
+      setImageB(result["data"][0]["imageB"]);
+      setImageC(result["data"][0]["imageC"]);
+      setImageD(result["data"][0]["imageD"]);
+      setImageE(result["data"][0]["imageE"]);
+      setBulidCaseUserID(result["data"][0]["userID"]);
+      setProfilePhoto(result["data"][0]["profilePhoto"]);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 
   return (
     <main>
@@ -69,9 +76,12 @@ function CaseView() {
             imageA={imageA}
             imageB={imageB}
             imageC={imageC}
+            imageD={imageD}
+            imageE={imageE}
           />
           {/* 案主資訊 && 報價區域 */}
           <UserInfo
+            profilePhoto={profilePhoto}
             budget={budget}
             contactName={contactName}
             caseState={caseState}
