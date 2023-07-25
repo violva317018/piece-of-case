@@ -14,44 +14,22 @@ function CaseRecommend(porps) {
 
   // 儲存推薦人員
   const [bridder, setBridder] = useState([]);
-
-  // 推薦案子 ， 從後端API取得
-  const recommendCases = [
-    {
-      title: "案件標題",
-      place: "地點",
-      deadline: "時間",
-      price: "預算金額",
-    },
-    {
-      title: "案件標題",
-      place: "地點",
-      deadline: "時間",
-      price: "預算金額",
-    },
-    {
-      title: "案件標題",
-      place: "地點",
-      deadline: "時間",
-      price: "預算金額",
-    },
-    {
-      title: "案件標題",
-      place: "地點",
-      deadline: "時間",
-      price: "預算金額",
-    },
-  ];
+  // 儲存推薦人員
+  const [recommendCases, setRecommendCases] = useState([]);
 
   // 取得推薦案件、推薦人員
   useEffect(() => {
     // 推薦案件
-    // Case.getSimilarCase(currentCaseId);
+    Case.getSimilarCase(JSON.parse(localStorage.getItem("classID"))).then((result) => {
+      setRecommendCases(result['data'])
+    })
+      .catch((err) => {
+        console.error(err);
+      });
 
     // 推薦人員
     Case.getBidder(currentCaseId)
       .then((result) => {
-        console.log(result["data"]);
         setBridder(result["data"]);
       })
       .catch((err) => {
@@ -63,9 +41,8 @@ function CaseRecommend(porps) {
   const handleChat = (item) => {
     // 取得與該對象聊天訊息
     Chat.getMessage(JSON.parse(localStorage.getItem('userID')), item.userID).then((result) => { console.log(result) }).catch((err) => { console.error(err) })
-
     // 取得所有聊過天的使用者資訊
-    // Chat.getChatOtherUser(userID)
+    Chat.getChatOtherUser(JSON.parse(localStorage.getItem('userID'))).then((result) => { console.log(result) }).catch((err) => { console.error(err) })
 
   }
   return (
@@ -78,7 +55,7 @@ function CaseRecommend(porps) {
         {userEqual ? (
           // 以案主身分查看自己的提案 => 報價人員
           <>
-            {bridder.map((item, index) => (
+            {bridder.length === 0 ? <h1>尚未有人報價</h1> : bridder.map((item, index) => (
               <div className="recommend-content-box" key={index}>
                 <div>
                   <p>{item.userName}</p>
@@ -89,8 +66,8 @@ function CaseRecommend(porps) {
                 {/* 三個btn Link */}
                 <div>
                   <button className="recommend-content-box-btn">
-                    <Link to={`/chatRoom/${item.userID}`} >聊聊</Link>
-                    {/* <div onClick={() => handleChat(item)} >聊聊</div> */}
+                    {/* <Link to={`/chatRoom/${item.userID}`} >聊聊</Link> */}
+                    <div onClick={() => handleChat(item)} >聊聊</div>
                   </button>
                   <button className="recommend-content-box-btn">
                     <Link
@@ -112,14 +89,14 @@ function CaseRecommend(porps) {
         ) : (
           // 以接案者身分查看案件 => 推薦案件
           <>
-            {recommendCases.map((item, index) => (
+            {recommendCases ? recommendCases.map((item, index) => (
               <div className="recommend-content-box" key={index}>
-                <p>{item.title}</p>
-                <p>{item.place}</p>
+                <p>{item.caseName}</p>
+                <p>{item.budget}</p>
                 <p>{item.deadline}</p>
-                <p>{item.price}</p>
+                <p>{item.city}{item.district}</p>
               </div>
-            ))}
+            )) : <h1>無相關案件</h1>}
           </>
         )}
         {/* 渲染 recommendCases 內的案件，要使用<Link> */}
