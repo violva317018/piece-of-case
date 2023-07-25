@@ -10,28 +10,48 @@ function InfoData() {
   // const handleRevise = () => {
   //   setModal(true);
   // };
-  const [headphoto, setHeadPhoto] = useState("");
-  const [name, setName] = useState("");
-  const [usernumber, setUserNumber] = useState("");
-  const [phone, setPhone] = useState("");
-  const [experience, setExperience] = useState("");
-  const [portfolio, setPortfolio] = useState("");
-  const [tools, setTools] = useState("");
-  const [autobiography, setAutobiography] = useState("");
+
   //修改姓名用
   const [changename, setChangeName] = useState(false);
   //修改密碼用
   const [oldpassword, setOldPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const [newpassword2, setNewPassword2] = useState("");
-  const { userID, userinfo, changeheadphoto, setChangeHeadPhoto } =
-    useContext(GlobelDate);
+  //修改電話用
+  const [changephone, setChangePhone] = useState("");
+  //修改學經歷
+  const [changeexperience, setChangeExperience] = useState("");
+  //修改作品集
+  const [changeportfolio, setChangePortfolio] = useState();
+  const {
+    usernumber,
+    setUserNumber,
+    phone,
+    setPhone,
+    experience,
+    setExperience,
+    portfolio,
+    setPortfolio,
+    tools,
+    setTools,
+    autobiography,
+    setAutobiography,
+    headphoto,
+    setHeadPhoto,
+    name,
+    setName,
+    userID,
+    userinfo,
+    changeheadphoto,
+    setChangeHeadPhoto,
+  } = useContext(GlobelDate);
   const data = new FormData();
   data.append("photo", changeheadphoto);
   data.append("userID", JSON.parse(localStorage.getItem("userID")));
 
   const photoData = new FormData();
   const reader = new FileReader();
+  //進入我的帳戶就抓資料
   useEffect(() => {
     Auth.enterProfile(userinfo)
       .then((result) => {
@@ -56,10 +76,11 @@ function InfoData() {
   const handleOldPassword = (e) => {
     Auth.checkOldPassword(
       JSON.parse(localStorage.getItem("userID")),
+      newpassword,
       oldpassword
     )
       .then((result) => {
-        console.log(result);
+        window.alert(result["data"]);
       })
       .catch((err) => {
         console.error(err);
@@ -100,6 +121,48 @@ function InfoData() {
       });
   };
 
+  //修改電話
+  const handleChangePhone = () => {
+    Auth.updatePhone(JSON.parse(localStorage.getItem("userID")), changephone)
+      .then((result) => {
+        // console.log(result);
+        setPhone(result["data"]["phone"]);
+        window.alert(result["data"]["result"][0]["result"]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  //修改學經歷
+  const handleChangeExperience = () => {
+    Auth.updateExperience(
+      JSON.parse(localStorage.getItem("userID")),
+      changeexperience
+    )
+      .then((result) => {
+        window.alert(result["data"]["result"][0]["result"]);
+        setExperience(result["data"]["experience"]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  //修改作品集
+  const handleChangePortfolio = () => {
+    console.log(changeportfolio);
+    Auth.updatePortfolio(
+      JSON.parse(localStorage.getItem("userID")),
+      changeportfolio
+    )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <div className="infoDataDiv d-flex">
       <div className="headPhotoDiv">
@@ -208,6 +271,7 @@ function InfoData() {
                     type="button"
                     data-bs-dismiss="modal"
                     className="btn btn-primary"
+                    disabled={!changename}
                     onClick={handleChangeName}
                   >
                     修改
@@ -266,6 +330,10 @@ function InfoData() {
                         id="avatar1"
                         name="avatar"
                         className="inputText"
+                        required
+                        onChange={(e) => {
+                          setOldPassword(e.target.value);
+                        }}
                       />
                     </div>
                     <div className="my-3">
@@ -275,32 +343,50 @@ function InfoData() {
                         id="avatar2"
                         name="avatar"
                         className="inputText"
+                        required
                         onChange={(e) => {
                           setNewPassword(e.target.value);
                         }}
                       />
                     </div>
-                    <div className="my-3">
+                    <div className="my-3 d-inline">
                       <label htmlFor="avatar3">請再輸入密碼：</label>
                       <input
                         type="password"
                         id="avatar3"
                         name="avatar"
                         className="inputText"
+                        required
                         onChange={(e) => {
                           setNewPassword2(e.target.value);
                         }}
                       />
                     </div>
                     {newpassword != newpassword2 && (
-                      <span style={{ color: "red" }}>密碼輸入不一致！</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-x-circle-fill"
+                        viewBox="0 0 16 16"
+                        style={{ color: "red" }}
+                      >
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                      </svg>
                     )}
 
                     <button
-                      type="button"
+                      type="submit"
                       className="btn btn-primary mx-auto d-block"
                       data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
                       onClick={handleOldPassword}
+                      disabled={
+                        newpassword != newpassword2 ||
+                        !oldpassword ||
+                        !newpassword
+                      }
                     >
                       修改
                     </button>
@@ -313,10 +399,65 @@ function InfoData() {
           <hr />
           <div className="infoDiv1">
             <label htmlFor="" className="p2">
-              連絡電話：
+              聯絡電話：
             </label>
             <span>{phone}</span>
-            <button className="float-right">修改</button>
+            <button
+              className="float-right"
+              data-bs-toggle="modal"
+              data-bs-target="#changephone"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changephone"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改聯絡電話</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label htmlFor="avatar1">請輸入聯絡電話：</label>
+                      <input
+                        type="tel"
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        required
+                        onChange={(e) => {
+                          setChangePhone(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mx-auto d-block"
+                      data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
+                      onClick={handleChangePhone}
+                      disabled={!changephone}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -331,7 +472,61 @@ function InfoData() {
               學、經歷
             </label>
             <span>{experience}</span>
-            <button className="float-right">修改</button>
+            <button
+              className="float-right"
+              data-bs-toggle="modal"
+              data-bs-target="#changeexperience"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changeexperience"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改學經歷</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label htmlFor="avatar1">請輸入學經歷：</label>
+                      <input
+                        type="text"
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        required
+                        onChange={(e) => {
+                          setChangeExperience(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mx-auto d-block"
+                      data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
+                      onClick={handleChangeExperience}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
           </div>
           <hr />
           <div className="infoDiv2">
@@ -339,7 +534,62 @@ function InfoData() {
               作品集
             </label>
             <span>{portfolio}</span>
-            <button className="float-right">修改</button>
+            <button
+              className="float-right"
+              data-bs-toggle="modal"
+              data-bs-target="#changeportfolio"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changeportfolio"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改作品集</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label htmlFor="avatar1">請上傳作品集：</label>
+                      <input
+                        type="file"
+                        multiple
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        required
+                        onChange={(e) => {
+                          setChangePortfolio(e.target.files);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mx-auto d-block"
+                      data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
+                      onClick={handleChangePortfolio}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
           </div>
           <hr />
           <div className="infoDiv2">

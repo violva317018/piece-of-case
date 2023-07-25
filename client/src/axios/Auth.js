@@ -65,14 +65,46 @@ class Auth {
     return axios.post(API_URL + `/update-user/${myUserID}/${myUserName}`);
   }
 
-  //修改密碼_確定原密碼
-  checkOldPassword(myUserID, myOldPassword) {
+  //修改密碼
+  checkOldPassword(myUserID, myNewPassword, myOldPassword) {
     return axios.post(API_URL + "/checkoldpassword", {
       myUserID,
+      myNewPassword,
       myOldPassword,
     });
   }
 
+  //修改電話
+  updatePhone(myUserID, myPhone) {
+    return axios.post(API_URL + "/update-phone", {
+      myUserID,
+      myPhone,
+    });
+  }
+
+  //修改學經歷
+  updateExperience(myUserID, myExperience) {
+    return axios.post(API_URL + "/update-education", {
+      myUserID,
+      myExperience,
+    });
+  }
+
+  //修改作品集
+  updatePortfolio(myUserID, myPortfolio) {
+    return axios.post(
+      API_URL + "/update-portfolio",
+      {
+        myUserID,
+        myPortfolio,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  }
   // 綠界測試
   order(item, itemNO, des, price) {
     // 現在要取得資料所以要用 【get】

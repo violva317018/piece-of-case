@@ -9,11 +9,12 @@ import CaseView from "./pages/CaseView";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PersonalInfo from "./pages/PersonalInfo";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatRoom from "./pages/ChatRoom";
 import Scheme from "./pages/Scheme";
 import CheckInfo from "./pages/CheckInfo";
 import socket from "./socket";
+import Auth from "./axios/Auth";
 
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
@@ -74,6 +75,15 @@ function App() {
 
   const [takethecase, setTakethecase] = useState("1");
 
+  const [headphoto, setHeadPhoto] = useState("");
+  const [name, setName] = useState("");
+  const [usernumber, setUserNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const [experience, setExperience] = useState("");
+  const [portfolio, setPortfolio] = useState("");
+  const [tools, setTools] = useState("");
+  const [autobiography, setAutobiography] = useState("");
+
   //登入後的userID
   const [userID, setUserID] = useState("");
 
@@ -86,12 +96,47 @@ function App() {
       ? JSON.parse(localStorage.getItem("userInfo"))
       : ""
   );
+  useEffect(() => {
+    Auth.enterProfile(userinfo)
+      .then((result) => {
+        setName(result["data"]["message"][0]["userName"]);
+        setUserNumber(result["data"]["message"][0]["email"]);
+        setPhone(result["data"]["message"][0]["phone"]);
+        setExperience(result["data"]["message"][0]["education"]);
+        setPortfolio(result["data"]["message"][0]["portfolio"]);
+        setTools(result["data"]["message"][0]["softwore"]);
+        setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
+        setHeadPhoto(
+          `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
+        );
+        console.log(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   return (
     <>
       {/* 提供 GlobelDate 內的所有資料給被包含的所有組件 */}
       <GlobelDate.Provider
         value={{
+          usernumber,
+          setUserNumber,
+          phone,
+          setPhone,
+          experience,
+          setExperience,
+          portfolio,
+          setPortfolio,
+          tools,
+          setTools,
+          autobiography,
+          setAutobiography,
+          headphoto,
+          setHeadPhoto,
+          name,
+          setName,
           infoData, //我的帳戶目前位置
           setInfoData,
           proposal, //提案紀錄目前位置
@@ -128,7 +173,10 @@ function App() {
           <Route path={"/chatRoom"} element={<ChatRoom />} />
           <Route path={"/Scheme"} element={<Scheme />} />
           <Route path={"/checkInfo"} element={<CheckInfo />} />
-          <Route path={"/ChatRoom/:chatid"} element={<ChatRoom connectedUsers={usersList} />} />
+          <Route
+            path={"/ChatRoom/:chatid"}
+            element={<ChatRoom connectedUsers={usersList} />}
+          />
         </Routes>
         <Footer />
       </GlobelDate.Provider>

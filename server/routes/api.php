@@ -23,10 +23,16 @@ Route::post('/auth/logout', [UserController::class, 'logout']);
 // 上傳圖片
 // Route::post('uploadphoto', [InformationController::class, 'uploadPhoto']);
 Route::post('update-user/{myUserName}/{myUserID}', [InformationController::class, 'updateUser']);
-Route::post('update-phone/{myuserID}/{myphone}', [InformationController::class, 'updatePhone']);
+Route::post('update-phone', [InformationController::class, 'updatePhone']);
 Route::post('update-email/{myuserID}/{myemail}', [InformationController::class, 'updateEmail']);
 Route::post('update-portfolio/{myuserID}/{myportfolio}', [InformationController::class, 'updatePortfolio']);
 Route::post('update-skills', [InformationController::class, 'updateSkills']);
+//修改學經歷
+Route::post('update-education', [InformationController::class, 'updateExperience']);
+//修改作品集
+Route::post('update-portfolio', [InformationController::class, 'updatePortfolio']);
+
+
 //修改密碼
 Route::post('checkoldpassword', [InformationController::class, 'checkOldPassword']);
 // 軟新增

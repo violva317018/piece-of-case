@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -31,41 +32,18 @@ class InformationController extends Controller
     //修改大頭照
     public function uploadPhoto(Request $request)
     {
-        // return $request->userID;
         if ($request->hasFile('photo')) {
-            // return getimagesize($request->file('photo'));
-            // 處理上傳圖片
             $image = $request->file('photo');
             $filename = $image->store('documents');
-            // $uploadPic = Storage::disk('public')->put($filename, file_get_contents($image->getRealPath()));
-            // $photoURL = Storage::disk('public')->url($filename);
-            // return $photoURL;
-            // $imageData = base64_encode(file_get_contents($image->getRealPath()));
-            // return $imageData;
         } else {
             // 使用默認圖片，路徑 public/upload/images.jpg
             $filename = 'upload/images.jpeg';
-            // $photoURL = Storage::disk('public')->url($filename);
         }
 
         $userID = $request->userID;
-        // return DB::select("CALL newPhoto(?, ?)", [$userID, $photoURL])[0]->profilePhoto;
-        // DB::statement("CALL newPhoto(?, ?)", [$userID, $photoURL]);
-
         $file = DB::select("CALL newPhoto(?, ?)", [$userID, $filename])[0]->profilePhoto;
         $newPhoto = Storage::get($file);
-        // return $newPhoto;
         return response()->json(['profilePhoto' => base64_encode($newPhoto)]);
-        // function base64EncodeImage($image_file)
-        // {
-        //     $base64_image = '';
-        //     $image_info = getimagesize($image_file);
-        //     $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
-        //     $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
-        //     return $base64_image;
-        // };
-        // return base64EncodeImage($newPhoto);
-        // return response()->file(storage_path('http://localhost/storage/123.jpg'));
     }
 
 
@@ -84,27 +62,38 @@ class InformationController extends Controller
     //修改密碼
     public function checkOldPassword(Request $request)
     {
-        return $request;
-        $hashPassword = DB::select("select hashpassword from users where userID = $myUserID")[0];
-        return $hashPassword;
+        // return gettype($request['myOldPassword']);
+
+        $myUserID = $request['myUserID'];
+        $myNewPassword = $request['myNewPassword'];
+        $myOldPassword = (string)$request['myOldPassword'];
+        $newHashpassword = Hash::make($myNewPassword);
+        // return $newHashpassword;
+        $oldHashPassword = DB::select("select hashpassword from users where userID = '$myUserID'")[0]->hashpassword;
+        // return $hashPassword;
+        // return Hash::check($myOldPassword, $oldHashPassword);
+        if (Hash::check($myOldPassword, $oldHashPassword)) {
+            // return '123';
+            return DB::select("call newHashpassword('$myUserID', '$newHashpassword')")[0]->result;
+        } else {
+            return '原密碼錯誤';
+        }
+        
         
             
         
     }
 
     //修改電話
-    public function updatePhone($myuserID, $myphone)
+    public function updatePhone(Request $request)
     {
-        try {
-            DB::select("CALL newPhone(?, ?)", [$myuserID, $myphone]);
-
-            return response()->json(['result' => '修改電話成功']);
-        } catch (\Exception $e) {
-            return response()->json(['result' => '修改電話失败']);
-        }
+        $myuserID = $request['myUserID'];
+        $myphone = $request['myPhone'];
+        // return $myphone;
+        $result = DB::select("CALL newPhone(?, ?)", [$myuserID, $myphone]);
+        return response()->json(['result' => $result, 'phone' => $myphone]);
     }
-
-
+            
     // 修改信箱
     public function updateEmail($myuserID, $myemail)
     {
@@ -117,19 +106,44 @@ class InformationController extends Controller
         }
     }
 
+    //修改學經歷
+    public function updateExperience(Request $request)
+    {
+        // return '123';
+        $myuserID = $request['myUserID'];
+        $myEucation = $request['myExperience'];
+        $result = DB::select("CALL newEducation(?, ?)", [$myuserID, $myEucation]);
+        return response()->json(['result' => $result, 'experience' => $myEucation]);
+    }
 
+    //修改作品集
+    public function updatePortfolio(Request $request)
+    {
+        // return count($request->file('myPortfolio'));
+        $file = $request->file('myPortfolio');
+        $userID = $request->myUserID;
+        $allFileName = '"';
+        for($i = 0; $i < count($file); $i++){
+            $fileName = $file[$i]->getClientOriginalName();
+            $file[$i]->storeAs('files', $fileName); 
+            $allFileName .= (string)$fileName . ",";      
+        }
+        $allFileName = substr($allFileName, 0, -1) . '"';
+        $result = DB::select("CALL newPortfolio($userID, $allFileName)");
+        return $result;
+    }
 
     // 更新作品集
-    public function updatePortfolio($myuserID, $myportfolio)
-    {
-        try {
-            $result = DB::select("CALL newPortfolio(?, ?)", [$myuserID, $myportfolio]);
-            $resultMessage = $result[0]->result;
-            return response()->json(['result' => $resultMessage]);
-        } catch (\Exception $e) {
-            return response()->json(['result' => '更新作品集失败']);
-        }
-    }
+    // public function updatePortfolio($myuserID, $myportfolio)
+    // {
+    //     try {
+    //         $result = DB::select("CALL newPortfolio(?, ?)", [$myuserID, $myportfolio]);
+    //         $resultMessage = $result[0]->result;
+    //         return response()->json(['result' => $resultMessage]);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['result' => '更新作品集失败']);
+    //     }
+    // }
 
 
     // 更新擅長工具

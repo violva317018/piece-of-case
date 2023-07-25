@@ -23,17 +23,18 @@ class UserController extends Controller
         $userName = $validatedData['userName'];
         $email = $validatedData['email'];
         $password = $validatedData['password'];
-
+        
         // Check if email already exists
         $emailExists = DB::select("SELECT COUNT(*) AS count FROM users WHERE email = ?", [$email])[0]->count;
         if ($emailExists) {
             return response()->json(['message' => 'Email has already registered', 'state' => '400']);
         }
-
-         // 將使用者的密碼以安全的方式存儲在資料庫中
-         $hashPassword = Hash::make($password);
-
+        
+        // 將使用者的密碼以安全的方式存儲在資料庫中
+        $hashPassword = Hash::make($password);
+        
         $result = DB::select("call signUp('$userName', '$email', '$hashPassword')");
+        // return $result;
         return response()->json(['result' => $result, 'state' => '200']);
     }
 

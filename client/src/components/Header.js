@@ -6,7 +6,8 @@ import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
 
 function Header() {
-  const { userinfo, setUserInfo, setInfoData } = useContext(GlobelDate);
+  const { headphoto, userinfo, setUserInfo, setInfoData } =
+    useContext(GlobelDate);
   const handleLogout = () => {
     console.log(userinfo);
     Auth.logout(userinfo)
@@ -47,7 +48,7 @@ function Header() {
               aria-expanded="false"
             >
               <img
-                src="https://github.com/mdo.png"
+                src={headphoto}
                 alt="mdo"
                 width="40"
                 height="40"
