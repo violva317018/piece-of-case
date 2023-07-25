@@ -105,6 +105,45 @@ class Auth {
       }
     );
   }
+
+  // 提案紀錄
+  getProposeCase(userID, caseStatus, page) {
+    console.log(userID, caseStatus, page);
+    return axios.get(API_URL + "/getProposeCase", {
+      params: {
+        userID,
+        caseStatus,
+        page,
+      },
+    });
+  }
+  // 提案紀錄
+  getBidderCase(userID, caseStatus) {
+    console.log(userID, caseStatus);
+    return axios.get(API_URL + "/getBidderCase", {
+      params: {
+        userID,
+        caseStatus,
+      },
+    });
+  }
+  // 刪除案件
+  deleteCase(userID) {
+    return axios.get(API_URL + "/deleteCase", {
+      params: {
+        userID,
+      },
+    });
+  }
+  // 下架案件
+  cancelCase(userID) {
+    return axios.get(API_URL + "/cancelCase", {
+      params: {
+        userID,
+      },
+    });
+  }
+
   // 綠界測試
   order(item, itemNO, des, price) {
     // 現在要取得資料所以要用 【get】

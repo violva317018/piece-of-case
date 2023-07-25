@@ -51,6 +51,15 @@ Route::get('/show-photo/{userID}', 'App\Http\Controllers\InformationController@s
 // 更新頭像
 Route::put('/update-photo/{userID}', 'App\Http\Controllers\InformationController@updatePhoto');
 
+
+// 個人中心
+Route::get('/getProposeCase', [InformationController::class, 'getProposeCase']); // 提案紀錄
+Route::get('/getBidderCase', [InformationController::class, 'getBidderCase']);  // 接案紀錄
+Route::get('/deleteCase', [InformationController::class, 'deleteCase']);  // 刪除案件
+Route::get('/cancelCase', [InformationController::class, 'cancelCase']);  // 下架案件
+
+
+
 // 新增案件、取的案件、地區篩選、類別篩選
 Route::post('cases/addCase', [CasesController::class, 'insertCase']); // 新增案件
 Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案件

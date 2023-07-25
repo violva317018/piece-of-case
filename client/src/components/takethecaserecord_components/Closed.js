@@ -1,7 +1,9 @@
 import React from "react";
 import "./closed.css";
 
-function Closed() {
+function Closed(props) {
+  const { currentProposeCases } = props;
+
   const closedCases = [
     {
       創建者id: "A45",

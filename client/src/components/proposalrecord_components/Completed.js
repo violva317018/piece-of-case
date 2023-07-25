@@ -1,7 +1,8 @@
 import React from "react";
 import "./completed.css";
 
-function Completed() {
+function Completed(props) {
+  const { currentProposeCases } = props;
   const completedCases = [
     {
       創建者id: "A01",
@@ -39,22 +40,26 @@ function Completed() {
 
   return (
     <div>
-      {completedCases.map((item, index) => (
-        <div className="recordDiv3" key={item.caseId}>
-          <div className="d-flex align-items-center">
-            <span className="span1 flex-grow-1">案件名稱</span>
-            <span className="span1 flex-grow-1">成交金額</span>
-            <span className="span1 flex-grow-1">完成日期</span>
-            <span className="span1 del1">成交對象</span>
+      {currentProposeCases.length !== 0 ? (
+        currentProposeCases.map((item) => (
+          <div className="recordDiv3" key={item.caseID}>
+            <div className="d-flex align-items-center">
+              <span className="span1 flex-grow-1">案件名稱</span>
+              <span className="span1 flex-grow-1">成交金額</span>
+              <span className="span1 flex-grow-1">完成日期</span>
+              <span className="span1 del1">成交對象</span>
+            </div>
+            <div className="d-flex align-items-center">
+              <span className="span2 flex-grow-1">{item["caseName"]}</span>
+              <span className="span2 flex-grow-1">{item["budget"]}</span>
+              <span className="span2 flex-grow-1">{item["完成日期"]}</span>
+              <span className="span2 del1">{item["成交對象"]}</span>
+            </div>
           </div>
-          <div className="d-flex align-items-center">
-            <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
-            <span className="span2 flex-grow-1">{item["成交金額"]}</span>
-            <span className="span2 flex-grow-1">{item["完成日期"]}</span>
-            <span className="span2 del1">{item["成交對象"]}</span>
-          </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <h1>尚未完成案件</h1>
+      )}
     </div>
   );
 }

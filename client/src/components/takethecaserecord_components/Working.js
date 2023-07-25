@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./working.css";
 
-function Working() {
+function Working(props) {
+  const { currentProposeCases } = props;
+
   const workingCase = [
     {
       創建者id: "A23",

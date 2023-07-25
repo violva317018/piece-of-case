@@ -78,10 +78,10 @@ class InformationController extends Controller
         } else {
             return '原密碼錯誤';
         }
-        
-        
-            
-        
+
+
+
+
     }
 
     //修改電話
@@ -93,7 +93,7 @@ class InformationController extends Controller
         $result = DB::select("CALL newPhone(?, ?)", [$myuserID, $myphone]);
         return response()->json(['result' => $result, 'phone' => $myphone]);
     }
-            
+
     // 修改信箱
     public function updateEmail($myuserID, $myemail)
     {
@@ -125,8 +125,8 @@ class InformationController extends Controller
         $allFileName = '"';
         for($i = 0; $i < count($file); $i++){
             $fileName = $file[$i]->getClientOriginalName();
-            $file[$i]->storeAs('files', $fileName); 
-            $allFileName .= (string)$fileName . ",";      
+            $file[$i]->storeAs('files', $fileName);
+            $allFileName .= (string)$fileName . ",";
         }
         $allFileName = substr($allFileName, 0, -1) . '"';
         $result = DB::select("CALL newPortfolio($userID, $allFileName)");
@@ -164,4 +164,45 @@ class InformationController extends Controller
 
 
     // 更新專長
+
+
+
+
+
+
+
+    // 提案紀錄
+    public function getProposeCase(Request $request)
+    {
+        $userID = (int)$request['userID'];
+        $caseStatus = $request['caseStatus'];
+        $page = (int)$request['page'];
+        $results = DB::select("CALL proposeCase(?, ?,?)", [$userID, $caseStatus,$page]);
+        return $results;
+    }
+
+    // 接案紀錄
+    public function getBidderCase(Request $request)
+    {
+        $userID = (int)$request['userID'];
+        $caseStatus = $request['caseStatus'];
+        $results = DB::select("CALL enterBidderCase(?, ?)", [$userID, $caseStatus]);
+        return $results;
+    }
+
+    // 刪除案件
+    public function deleteCase(Request $request)
+    {
+        $userID = (int)$request['userID'];
+        $results = DB::select("CALL delCase(?)", [$userID]);
+        return $results;
+    }
+
+    // 下架案件
+    public function cancelCase(Request $request)
+    {
+        $userID = (int)$request['userID'];
+        $results = DB::select("CALL cancelCase(?)", [$userID]);
+        return $results;
+    }
 }
