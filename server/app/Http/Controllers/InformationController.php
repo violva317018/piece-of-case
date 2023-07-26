@@ -193,16 +193,24 @@ class InformationController extends Controller
     // 刪除案件
     public function deleteCase(Request $request)
     {
-        $userID = (int)$request['userID'];
-        $results = DB::select("CALL delCase(?)", [$userID]);
+        $caseID = (int)$request['caseID'];
+        $results = DB::select("CALL delCase(?)", [$caseID]);
         return $results;
     }
 
     // 下架案件
     public function cancelCase(Request $request)
     {
-        $userID = (int)$request['userID'];
-        $results = DB::select("CALL cancelCase(?)", [$userID]);
+        $caseID = (int)$request['caseID'];
+        $results = DB::select("CALL cancelCase(?)", [$caseID]);
+        return $results;
+    }
+
+    // 修改案件
+    public function caseRevise(Request $request)
+    {
+        $caseID = (int)$request['caseID'];
+        $results = DB::select("CALL caseRevise(?)", [$caseID]);
         return $results;
     }
 }

@@ -2,11 +2,11 @@ import React from "react";
 import "./quoted.css";
 
 function Quoted(props) {
-  const { currentProposeCases } = props;
+  const { currentRecordCases } = props;
 
   return (
     <div>
-      {currentProposeCases.map((item, index) => (
+      {currentRecordCases.map((item, index) => (
         // <div className="recordDiv3" key={item["caseId"]}>
         <div className="recordDiv3" key={index}>
           <div className="d-flex align-items-center">

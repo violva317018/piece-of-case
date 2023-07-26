@@ -17,7 +17,7 @@ class Case {
     subCity,
     description,
     contactName,
-    // contactAble
+    contactAble,
     contactPhone,
     contactTime,
     status,
@@ -38,6 +38,7 @@ class Case {
       subCity,
       description,
       contactName,
+      contactAble,
       contactPhone,
       contactTime,
       status,
@@ -59,6 +60,8 @@ class Case {
       page,
     });
   }
+
+
 
   // 取得母地區
   getCitys() {

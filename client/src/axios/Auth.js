@@ -127,19 +127,30 @@ class Auth {
       },
     });
   }
+
   // 刪除案件
-  deleteCase(userID) {
+  deleteCase(caseID) {
     return axios.get(API_URL + "/deleteCase", {
       params: {
-        userID,
+        caseID,
       },
     });
   }
+
   // 下架案件
-  cancelCase(userID) {
+  cancelCase(caseID) {
     return axios.get(API_URL + "/cancelCase", {
       params: {
-        userID,
+        caseID,
+      },
+    });
+  }
+
+  // 修改案件
+  caseRevise(caseID) {
+    return axios.get(API_URL + "/caseRevise", {
+      params: {
+        caseID,
       },
     });
   }

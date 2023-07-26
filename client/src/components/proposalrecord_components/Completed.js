@@ -2,7 +2,7 @@ import React from "react";
 import "./completed.css";
 
 function Completed(props) {
-  const { currentProposeCases } = props;
+  const { currentProposalCases } = props;
   const completedCases = [
     {
       創建者id: "A01",
@@ -40,8 +40,8 @@ function Completed(props) {
 
   return (
     <div>
-      {currentProposeCases.length !== 0 ? (
-        currentProposeCases.map((item) => (
+      {currentProposalCases.length !== 0 ? (
+        currentProposalCases.map((item) => (
           <div className="recordDiv3" key={item.caseID}>
             <div className="d-flex align-items-center">
               <span className="span1 flex-grow-1">案件名稱</span>
