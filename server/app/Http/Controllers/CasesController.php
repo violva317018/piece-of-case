@@ -11,27 +11,28 @@ class CasesController extends Controller
     // 提案
     public function insertCase(Request $request)
     {
-        $userID = $request->input('userID');
-        $name = $request->input('name');
-        $category = $request->input('category');
-        $subCategory = $request->input('subCategory');
-        $budget = $request->input('budget');
-        $deadline = $request->input('deadline');
-        $city = $request->input('city');
-        // $subCity = $request->input('subCity'); 先用假資料 前端還沒弄好
-        $description = $request->input('description');
-        $contactName = $request->input('contactName');
-        $contactPhone = $request->input('contactPhone');
-        $contactTime = $request->input('contactTime');
-        $status = $request->input('status');
-        $imageA = $request->input('imageA');
-        $imageB = $request->input('imageB');
-        $imageC = $request->input('imageC');
-        $imageD = $request->input('imageD');
-        $imageE = $request->input('imageE');
-        return $userID;
+    
+        $userID = $request['userID'];
+        $name = $request['name'];
+        $category = $request['category'];
+        $subCategory = $request['subCategory'];
+        $budget = $request['budget'];
+        $deadline = $request['deadline'];
+        $city = $request['city'];
+        $subCity = $request['subCity'];
+        $description = $request['description'];
+        $contactName = $request['contactName'];
+        $contactAble = $request['contactAble'];
+        $contactPhone = $request['contactPhone'];
+        $contactTime = $request['contactTime'];
+        $status = $request['status'];
+        $imageA = $request['imageA'];
+        $imageB = $request['imageB'];
+        $imageC = $request['imageC'];
+        $imageD = $request['imageD'];
+        $imageE = $request['imageE'];
         try {
-            DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$userID, $name, $category, $subCategory, $budget, $deadline, $city,'A02', $description, $contactName, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
+            DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
             // DB::select("CALL addMyCase($userID,'$name','$category','$subCategory','$budget','$deadline','$city','$subCity','$description','$contactName','$contactPhone','$contactTime','$status','$imageA','$imageB','$imageC','$imageD','$imageE')");
             if ($status == '草稿') {
             $result = '案件已儲存至草稿';
@@ -122,5 +123,6 @@ class CasesController extends Controller
         $results = DB::select('CALL getBidder(?)',[$caseID]);
         return $results;
     }
+
 
 }

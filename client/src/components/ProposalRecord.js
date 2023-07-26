@@ -1,9 +1,9 @@
 // 剩下 進行中 還沒弄
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./proposalrecord.css";
 import { GlobelDate } from "../App";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Draft from "./proposalrecord_components/Draft";
 import Publishing from "./proposalrecord_components/Publishing";
 import Working from "./proposalrecord_components/Working";
@@ -13,33 +13,47 @@ import Auth from "../axios/Auth";
 
 function ProposalRecord(props) {
   const { proposal, setProposal } = useContext(GlobelDate);
-  const {
-    currentProposeState,
-    currentProposePages,
-    currentProposeCases,
-    setCurrentProposeState,
-    setCurrentProposePages,
-    setCurrentProposeCases,
-    handleDelete,
+  const navigate = useNavigate()
+
+
+  const { handleDelete,
+    currentProposalState,
+    currentProposalPages,
+    currentProposalCases,
+    setCurrentProposalState,
+    setCurrentProposalPages,
+    setCurrentProposalCases,
   } = props;
+
 
   // 渲染資料
   useEffect(() => {
     // CALL proposeCase(40,'進行中',1); 會報錯
     Auth.getProposeCase(
       JSON.parse(localStorage.getItem("userID")),
-      currentProposeState,
-      currentProposePages
+      currentProposalState,
+      currentProposalPages
     )
       .then((result) => {
         console.log(result["data"]);
-
-        setCurrentProposeCases(result["data"]);
+        setCurrentProposalCases(result["data"]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [currentProposeState]);
+  }, [currentProposalState]);
+
+
+  // 【草稿】與【已下架】需要
+  const handleRevise = (caseID) => {
+    Auth.caseRevise(caseID).then((result) => {
+      navigate('/proposal', {
+        state: {
+          caseInfo: result['data']
+        }
+      })
+    }).catch((error) => { console.log(error) })
+  }
 
   return (
     <div className="recordDiv">
@@ -48,7 +62,7 @@ function ProposalRecord(props) {
           className="recordDiv2"
           onClick={() => {
             setProposal(1);
-            setCurrentProposeState("草稿");
+            setCurrentProposalState("草稿");
           }}
           style={{ backgroundColor: proposal === 1 && "#ffa500" }}
         >
@@ -58,7 +72,7 @@ function ProposalRecord(props) {
           className="recordDiv2"
           onClick={() => {
             setProposal(2);
-            setCurrentProposeState("刊登中");
+            setCurrentProposalState("刊登中");
           }}
           style={{ backgroundColor: proposal === 2 && "#ffa500" }}
         >
@@ -68,7 +82,7 @@ function ProposalRecord(props) {
           className="recordDiv2"
           onClick={() => {
             setProposal(3);
-            setCurrentProposeState("進行中");
+            setCurrentProposalState("進行中");
           }}
           style={{ backgroundColor: proposal === 3 && "#ffa500" }}
         >
@@ -78,7 +92,7 @@ function ProposalRecord(props) {
           className="recordDiv2"
           onClick={() => {
             setProposal(4);
-            setCurrentProposeState("已下架");
+            setCurrentProposalState("已下架");
           }}
           style={{ backgroundColor: proposal === 4 && "#ffa500" }}
         >
@@ -88,7 +102,7 @@ function ProposalRecord(props) {
           className="recordDiv2"
           onClick={() => {
             setProposal(5);
-            setCurrentProposeState("已完成");
+            setCurrentProposalState("已完成");
           }}
           style={{ backgroundColor: proposal === 5 && "#ffa500" }}
         >
@@ -97,17 +111,21 @@ function ProposalRecord(props) {
       </div>
       {proposal === 1 && (
         <Draft
-          currentProposeCases={currentProposeCases}
+          currentProposalCases={currentProposalCases}
           handleDelete={handleDelete}
+          handleRevise={handleRevise}
         />
       )}
       {proposal === 2 && (
-        <Publishing currentProposeCases={currentProposeCases} />
+        <Publishing currentProposalCases={currentProposalCases} />
       )}
-      {proposal === 3 && <Working currentProposeCases={currentProposeCases} />}
-      {proposal === 4 && <Removed currentProposeCases={currentProposeCases} />}
+      {proposal === 3 && <Working currentProposalCases={currentProposalCases} />}
+      {proposal === 4 && <Removed
+        currentProposalCases={currentProposalCases}
+        handleDelete={handleDelete}
+        handleRevise={handleRevise} />}
       {proposal === 5 && (
-        <Completed currentProposeCases={currentProposeCases} />
+        <Completed currentProposalCases={currentProposalCases} />
       )}
     </div>
   );

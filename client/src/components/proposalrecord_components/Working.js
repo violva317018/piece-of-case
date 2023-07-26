@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import "./working.css";
 import { useEffect } from "react";
 
-function Working() {
+function Working(props) {
+  const { currentProposalCases } = props;
+
   const workingCase = [
     {
       創建者id: "A23",
@@ -197,19 +199,19 @@ function Working() {
 
                 JSON.parse(localStorage.getItem(`showProg${index}`))
                   ? localStorage.setItem(
-                      `arrow${index}`,
-                      JSON.stringify({
-                        position: "relative",
-                        bottom: "2rem",
-                      })
-                    )
+                    `arrow${index}`,
+                    JSON.stringify({
+                      position: "relative",
+                      bottom: "2rem",
+                    })
+                  )
                   : localStorage.setItem(
-                      `arrow${index}`,
-                      JSON.stringify({
-                        transform: "scaleY(-1)",
-                        position: "relative",
-                      })
-                    );
+                    `arrow${index}`,
+                    JSON.stringify({
+                      transform: "scaleY(-1)",
+                      position: "relative",
+                    })
+                  );
                 // 為了確保每一次都能渲染
                 setShow(!show);
               }}

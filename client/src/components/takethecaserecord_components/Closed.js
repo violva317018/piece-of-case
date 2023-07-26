@@ -2,7 +2,7 @@ import React from "react";
 import "./closed.css";
 
 function Closed(props) {
-  const { currentProposeCases } = props;
+  const { currentRecordCases } = props;
 
   const closedCases = [
     {
@@ -25,7 +25,7 @@ function Closed(props) {
   return (
     <div>
       {closedCases.map((item, index) => (
-        <div className="recordDiv3">
+        <div className="recordDiv3" key={index}>
           <div className="d-flex align-items-center">
             <span className="span1 flex-grow-1">案件名稱</span>
             <span className="span1 flex-grow-1">報價金額</span>
@@ -38,7 +38,7 @@ function Closed(props) {
             <span className="span2 flex-grow-1">{item["結案日期"]}</span>
             <span
               className="span2 del1"
-              style={{ color: item["成交狀態"] == "已成交" ? "green" : "red" }}
+              style={{ color: item["成交狀態"] === "已成交" ? "green" : "red" }}
             >
               {item["成交狀態"]}
             </span>

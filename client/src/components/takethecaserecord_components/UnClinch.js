@@ -2,11 +2,11 @@ import React from "react";
 import "./unclinch.css";
 
 function UnClinch(props) {
-  const { currentProposeCases, handleDelete } = props;
+  const { currentRecordCases, handleDelete } = props;
 
   return (
     <div>
-      {currentProposeCases.map((item, index) => (
+      {currentRecordCases.map((item, index) => (
         // <div className="recordDiv3" key={item["caseId"]}>
         <div className="recordDiv3" key={index}>
           <div className="d-flex align-items-center">

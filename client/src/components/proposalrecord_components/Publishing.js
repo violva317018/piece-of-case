@@ -1,64 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./publishing.css";
 import Auth from "../../axios/Auth";
 
 function Publishing(props) {
-  const { currentProposeCases } = props;
-  const handleCancel = (caseID) => {
-    Auth.cancelCase(caseID)
+  const { currentProposalCases } = props;
+  const [cancelA, setCancelA] = useState('')
+  const [cancel, setCancel] = useState(0)
+  const handleCancel = async (caseID) => {
+    await Auth.cancelCase(caseID)
       .then((result) => {
-        console.log(result);
+        console.log(result['data'][0]['result']);
+        setCancelA(result['data'][0]['result'])
+        alert(result['data'][0]['result'])
+        setCancel(cancel + 1)
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  // 刊登中案子的陣列
-  // const publishCases = [
-  //   {
-  //     創建者id: "A01",
-  //     caseId: "1",
-  //     案件名稱: "RWD網站設計",
-  //     預算金額: "5萬",
-  //     報價數: "2／5",
-  //   },
-  //   {
-  //     創建者id: "A02",
-  //     caseId: "2",
-  //     案件名稱: "阿巴巴語言家教",
-  //     預算金額: "15萬",
-  //     報價數: "4／5",
-  //   },
-  //   {
-  //     創建者id: "A03",
-  //     caseId: "3",
-  //     案件名稱: "清潔馬桶",
-  //     預算金額: "5千",
-  //     報價數: "1／5",
-  //   },
-  //   {
-  //     創建者id: "A41",
-  //     caseId: "4",
-  //     案件名稱: "遛狗",
-  //     預算金額: "1萬",
-  //     報價數: "5／5",
-  //   },
-  // ];
+  useEffect(() => {
 
-  // handle function
-  // 我要得到該案件的ID 與 創建者ID
-
+  }, [cancelA])
   return (
     <div>
       {/* 利用陣列渲染 */}
-      {currentProposeCases.length !== 0 ? (
-        currentProposeCases.map((item) => (
+      {currentProposalCases.length !== 0 ? (
+        currentProposalCases.map((item) => (
           <div
             className="recordDiv3"
             key={item.caseID}
-            onClick={() => {
-              console.log(item["caseID"]);
-            }}
           >
             <div className="d-flex align-items-center" key={item.caseID}>
               <span className="span1 flex-grow-1">案件名稱</span>

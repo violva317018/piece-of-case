@@ -58,6 +58,7 @@ Route::get('/getProposeCase', [InformationController::class, 'getProposeCase']);
 Route::get('/getBidderCase', [InformationController::class, 'getBidderCase']);  // 接案紀錄
 Route::get('/deleteCase', [InformationController::class, 'deleteCase']);  // 刪除案件
 Route::get('/cancelCase', [InformationController::class, 'cancelCase']);  // 下架案件
+Route::get('/caseRevise', [InformationController::class, 'caseRevise']);  // 修改案件
 
 
 
