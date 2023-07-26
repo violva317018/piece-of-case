@@ -23,6 +23,13 @@ function InfoData() {
   const [changeexperience, setChangeExperience] = useState("");
   //修改作品集
   const [changeportfolio, setChangePortfolio] = useState();
+  const [portfolioMessange, setPortfolioMessange] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [overFile, setOverFile] = useState();
+  //修改擅長工具
+  const [changeskills, setChangeSkills] = useState("");
+  //修改自傳
+  const [changeselfIntroduction, setChangeSelfIntroduction] = useState("");
   const {
     usernumber,
     setUserNumber,
@@ -55,17 +62,18 @@ function InfoData() {
   useEffect(() => {
     Auth.enterProfile(userinfo)
       .then((result) => {
+        console.log(result);
         setName(result["data"]["message"][0]["userName"]);
         setUserNumber(result["data"]["message"][0]["email"]);
         setPhone(result["data"]["message"][0]["phone"]);
         setExperience(result["data"]["message"][0]["education"]);
         setPortfolio(result["data"]["message"][0]["portfolio"]);
+        setFileName(result["data"]["filesNameArray"]);
         setTools(result["data"]["message"][0]["softwore"]);
         setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
         setHeadPhoto(
           `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
         );
-        console.log(result);
       })
       .catch((err) => {
         console.error(err);
@@ -157,12 +165,43 @@ function InfoData() {
       changeportfolio
     )
       .then((result) => {
-        console.log(result);
+        // console.log(result);
+        setPortfolio(result["data"]["files"]);
+        // console.log(portfolio);
+        setPortfolioMessange(window.alert(result["data"]["result"]));
+        setFileName(result["data"]["fileName"]);
+        portfolioMessange();
       })
       .catch((err) => {
         console.error(err);
       });
   };
+  const fileType = (file) => {
+    if (file.charAt(0) === "/") {
+      return "image/jpeg";
+    } else if (file.charAt(0) === "i") {
+      return "image/png";
+    } else if (file.charAt(0) === "J") {
+      return "application/pdf";
+    } else if (file.charAt(0) === "U") {
+      return "application/pdf";
+    }
+  };
+
+  //修改擅長工具
+  const handleChangeSkills = () => {
+    Auth.updateSkills(JSON.parse(localStorage.getItem("userID")), changeskills)
+      .then((result) => {
+        console.log(result);
+        setTools(result["data"]["skills"]);
+        console.log(tools);
+        window.alert("更新成功！");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <div className="infoDataDiv d-flex">
       <div className="headPhotoDiv">
@@ -468,12 +507,12 @@ function InfoData() {
             <div className="p3">我的履歷</div>
           </div>
           <div className="infoDiv2">
-            <label htmlFor="" className="p2">
+            <label htmlFor="" className="p2 flexGrow1">
               學、經歷
             </label>
-            <span>{experience}</span>
+            <span className="flexGrow2">{experience}</span>
             <button
-              className="float-right"
+              className="float-right flexGrow3"
               data-bs-toggle="modal"
               data-bs-target="#changeexperience"
             >
@@ -530,12 +569,23 @@ function InfoData() {
           </div>
           <hr />
           <div className="infoDiv2">
-            <label htmlFor="" className="p2">
+            <label htmlFor="" className="p2 flexGrow1">
               作品集
             </label>
-            <span>{portfolio}</span>
+            <span className="portfolio flexGrow2">
+              {console.log(portfolio)}
+              {portfolio.map((file, index) => (
+                <a
+                  href={`data:${fileType(file)};base64, ${file}`}
+                  key={index}
+                  download={fileName[index]}
+                >
+                  {fileName[index]}
+                </a>
+              ))}
+            </span>
             <button
-              className="float-right"
+              className="float-right flexGrow3"
               data-bs-toggle="modal"
               data-bs-target="#changeportfolio"
             >
@@ -563,16 +613,25 @@ function InfoData() {
                   </div>
                   <div className="modal-body">
                     <div className="my-3">
-                      <label htmlFor="avatar1">請上傳作品集：</label>
+                      <label htmlFor="avatar1">
+                        請上傳作品集(圖片檔 or PDF檔)：
+                      </label>
                       <input
                         type="file"
                         multiple
                         id="avatar1"
                         name="avatar"
                         className="inputText"
+                        accept="image/jpeg, image/png, application/pdf"
                         required
                         onChange={(e) => {
-                          setChangePortfolio(e.target.files);
+                          if (e.target.files.length > 5) {
+                            setOverFile(false);
+                            return alert(`最多只能選擇5個檔案，請重新選取`);
+                          } else {
+                            setOverFile(true);
+                            setChangePortfolio(e.target.files);
+                          }
                         }}
                       />
                     </div>
@@ -582,6 +641,7 @@ function InfoData() {
                       data-bs-dismiss="modal"
                       style={{ marginTop: "24px" }}
                       onClick={handleChangePortfolio}
+                      disabled={!overFile}
                     >
                       修改
                     </button>
@@ -593,11 +653,66 @@ function InfoData() {
           </div>
           <hr />
           <div className="infoDiv2">
-            <label htmlFor="" className="p2">
+            <label htmlFor="" className="p2 flexGrow1">
               擅長工具
             </label>
-            <span>{tools}</span>
-            <button className="float-right">修改</button>
+            <span className="flexGrow2">{tools}</span>
+            <button
+              className="float-right flexGrow3"
+              data-bs-toggle="modal"
+              data-bs-target="#changeSkills"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changeSkills"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改擅長工具</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label htmlFor="avatar1">請輸入擅長工具：</label>
+                      <input
+                        type="text"
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        defaultValue={tools}
+                        required
+                        onChange={(e) => {
+                          setChangeSkills(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mx-auto d-block"
+                      data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
+                      onClick={handleChangeSkills}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="pos">
             <div className="p3 borderTop">自傳</div>

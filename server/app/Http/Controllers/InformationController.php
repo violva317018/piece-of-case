@@ -14,7 +14,22 @@ class InformationController extends Controller
     {
         // $token = $request->token;
         $result = DB::select("CALL enterProfile(?)", [$token]);
-        // return $result[0]->profilePhoto;
+        // return '123';
+        $filesName = $result[0]->portfolio;
+        $filesArray = explode(',', $filesName);
+        // return $filesArray;
+        // return base64_encode(Storage::get($filesArray[0]));
+        $filesObject = [];
+        
+        for($i = 0; $i < count($filesArray); $i++) {
+            array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
+        }
+        $result[0]->portfolio = $filesObject;
+        $filesNameArray = [];
+        for($i = 0; $i < count($filesArray); $i++){
+            $fileName = substr($filesArray[$i], 6);
+            array_push($filesNameArray, $fileName);
+        }
         if ($result[0]->profilePhoto){
             $file = $result[0]->profilePhoto;
             $Photo = Storage::get($file);
@@ -25,7 +40,8 @@ class InformationController extends Controller
         }
 
         return [
-            'message' => $result
+            'message' => $result,
+            'filesNameArray' => $filesNameArray
         ];
     }
 
@@ -120,17 +136,31 @@ class InformationController extends Controller
     public function updatePortfolio(Request $request)
     {
         // return count($request->file('myPortfolio'));
+        if (!$request->file('myPortfolio')){
+            return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);;
+        }
         $file = $request->file('myPortfolio');
         $userID = $request->myUserID;
-        $allFileName = '"';
+        $allFileName = '"files/';
+        $filesNameArray = [];
         for($i = 0; $i < count($file); $i++){
             $fileName = $file[$i]->getClientOriginalName();
             $file[$i]->storeAs('files', $fileName);
-            $allFileName .= (string)$fileName . ",";
+            $allFileName .= (string)$fileName . ",files/";
+            array_push($filesNameArray, $fileName);
         }
-        $allFileName = substr($allFileName, 0, -1) . '"';
-        $result = DB::select("CALL newPortfolio($userID, $allFileName)");
-        return $result;
+        $allFileName = substr($allFileName, 0, -7) . '"';
+        $result = DB::select("CALL newPortfolio($userID, $allFileName)")[0]->result;
+        $filesName = DB::select("select portfolio from myresume where userID = $userID")[0]->portfolio;
+        $filesArray = explode(',', $filesName);
+        // return $filesArray;
+        // return base64_encode(Storage::get($filesArray[0]));
+        $filesObject = [];
+        
+        for($i = 0; $i < count($file); $i++) {
+            array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
+        }
+        return response()->json(['result' => $result, 'files' => $filesObject, 'fileName' => $filesNameArray]);
     }
 
     // 更新作品集
@@ -149,17 +179,13 @@ class InformationController extends Controller
     // 更新擅長工具
     public function updateSkills(Request $request)
     {
-        $myuserID = $request->input('myuserID');
-        $mysoftwore = $request->input('mysoftwore');
+        // return '123';
+        $myUserID = $request['myUserID'];
+        $mySkills = $request['mySkills'];
 
-        DB::select("CALL newSoftwore(?, ?)", [$myuserID, $mysoftwore]);
-
-        $result = DB::select("SELECT CASE
-                                WHEN (SELECT COUNT(*) FROM myresume WHERE userID = ?) = 1 THEN '更新擅長工具成功'
-                                ELSE '新增擅長工具成功'
-                                END AS result", [$myuserID])[0]->result;
-
-        return response()->json(['result' => $result]);
+        $result = DB::select("CALL newSoftwore(?, ?)", [$myUserID, $mySkills])[0]->result;
+        $Skills = DB::select("select softwore from myresume where userID = $myUserID")[0]->softwore;
+        return response()->json(['result' => $result, 'skills' => $Skills]);
     }
 
 

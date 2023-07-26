@@ -80,7 +80,7 @@ function App() {
   const [usernumber, setUserNumber] = useState("");
   const [phone, setPhone] = useState("");
   const [experience, setExperience] = useState("");
-  const [portfolio, setPortfolio] = useState("");
+  const [portfolio, setPortfolio] = useState([]);
   const [tools, setTools] = useState("");
   const [autobiography, setAutobiography] = useState("");
 

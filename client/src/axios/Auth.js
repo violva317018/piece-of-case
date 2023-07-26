@@ -106,6 +106,13 @@ class Auth {
     );
   }
 
+  updateSkills(myUserID, mySkills) {
+    return axios.post(API_URL + "/update-skills", {
+      myUserID,
+      mySkills,
+    });
+  }
+
   // 提案紀錄
   getProposeCase(userID, caseStatus, page) {
     console.log(userID, caseStatus, page);

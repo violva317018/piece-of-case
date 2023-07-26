@@ -82,6 +82,7 @@
 
 .infoDiv2 {
   padding: 20px;
+  display: flex;
 }
 
 .p4 {
@@ -123,4 +124,24 @@
   width: auto !important;
   margin-right: 1rem;
   border-radius: 0 !important;
+}
+
+.portfolio > a {
+  font-size: 1rem;
+  margin: 0 0.5rem;
+}
+
+.flexGrow1 {
+  display: block;
+  width: 20%;
+}
+
+.flexGrow2 {
+  display: block;
+  width: 70%;
+}
+
+.flexGrow3 {
+  display: block;
+  width: 10%;
 }

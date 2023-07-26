@@ -26,11 +26,12 @@ Route::post('update-user/{myUserName}/{myUserID}', [InformationController::class
 Route::post('update-phone', [InformationController::class, 'updatePhone']);
 Route::post('update-email/{myuserID}/{myemail}', [InformationController::class, 'updateEmail']);
 Route::post('update-portfolio/{myuserID}/{myportfolio}', [InformationController::class, 'updatePortfolio']);
-Route::post('update-skills', [InformationController::class, 'updateSkills']);
 //修改學經歷
 Route::post('update-education', [InformationController::class, 'updateExperience']);
 //修改作品集
 Route::post('update-portfolio', [InformationController::class, 'updatePortfolio']);
+//修改擅長工具
+Route::post('update-skills', [InformationController::class, 'updateSkills']);
 
 
 //修改密碼
