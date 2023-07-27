@@ -16,6 +16,8 @@ import CheckInfo from "./pages/CheckInfo";
 import socket from "./socket";
 import Auth from "./axios/Auth";
 
+localStorage.setItem("text", "hello");
+
 // create useContext => 使跨組件的資料可以傳遞
 export const GlobelDate = React.createContext({});
 
@@ -92,11 +94,7 @@ function App() {
   const [currentCaseId, setCurrentCaseId] = useState("");
 
   //裡面要存Storage的Key=userInfo
-  const [userinfo, setUserInfo] = useState(
-    JSON.parse(localStorage.getItem("userInfo"))
-      ? JSON.parse(localStorage.getItem("userInfo"))
-      : ""
-  );
+  const [userinfo, setUserInfo] = useState("");
 
   useEffect(() => {
     //進入前，先比對token
