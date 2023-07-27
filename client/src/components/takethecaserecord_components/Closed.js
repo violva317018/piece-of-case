@@ -13,38 +13,33 @@ function Closed(props) {
       結案日期: "2023/07/13",
       成交狀態: "已成交",
     },
-    {
-      創建者id: "A98",
-      caseId: "2",
-      案件名稱: "修水管",
-      報價金額: "3000",
-      結案日期: "2023/08/04",
-      成交狀態: "已成交",
-    },
   ];
   return (
     <div>
-      {closedCases.map((item, index) => (
-        <div className="recordDiv3" key={index}>
-          <div className="d-flex align-items-center">
-            <span className="span1 flex-grow-1">案件名稱</span>
-            <span className="span1 flex-grow-1">報價金額</span>
-            <span className="span1 flex-grow-1">結案日期</span>
-            <span className="span1 del1">成交狀態</span>
+      {currentRecordCases.length !== 0 ? (
+        currentRecordCases.map((item) => (
+          <div className="recordDiv3" key={item['caseID']}>
+            <div className="d-flex align-items-center">
+              <span className="span1 flex-grow-1">案件名稱</span>
+              <span className="span1 flex-grow-1">成交金額</span>
+              <span className="span1 flex-grow-1">結案日期</span>
+              <span className="span1 del1">成交狀態</span>
+            </div>
+            <div className="d-flex align-items-center">
+              <span className="span2 flex-grow-1">{item["caseName"]}</span>
+              <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
+              <span className="span2 flex-grow-1">{item["completeTime"]}</span>
+              <span
+                className="span2 del1"
+                style={{ color: "green" }}
+              >
+                {item["caseStatus"]}
+              </span>
+            </div>
           </div>
-          <div className="d-flex align-items-center">
-            <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
-            <span className="span2 flex-grow-1">{item["報價金額"]}</span>
-            <span className="span2 flex-grow-1">{item["結案日期"]}</span>
-            <span
-              className="span2 del1"
-              style={{ color: item["成交狀態"] === "已成交" ? "green" : "red" }}
-            >
-              {item["成交狀態"]}
-            </span>
-          </div>
-        </div>
-      ))}
+        ))
+      ) : <h1>尚未結案</h1>}
+
     </div>
   );
 }

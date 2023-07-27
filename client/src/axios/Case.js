@@ -5,8 +5,8 @@ const API_URL =
   "http://localhost/Full-Stack-Project/server/public/index.php/api/cases";
 
 class Case {
-  // 提案介面(proposal) => location = city,district
   addCase(
+    caseID,
     userID,
     name,
     category,
@@ -28,6 +28,7 @@ class Case {
     imageE
   ) {
     return axios.post(API_URL + "/addCase", {
+      caseID,
       userID,
       name,
       category,

@@ -12,17 +12,18 @@ class CasesController extends Controller
     public function insertCase(Request $request)
     {
     
-        $userID = $request['userID'];
+        $caseID = (int)$request['caseID'];
+        $userID = (int)$request['userID'];
         $name = $request['name'];
         $category = $request['category'];
         $subCategory = $request['subCategory'];
-        $budget = $request['budget'];
+        $budget = (int)$request['budget'];
         $deadline = $request['deadline'];
         $city = $request['city'];
         $subCity = $request['subCity'];
         $description = $request['description'];
         $contactName = $request['contactName'];
-        $contactAble = $request['contactAble'];
+        $contactAble = (int)$request['contactAble'];
         $contactPhone = $request['contactPhone'];
         $contactTime = $request['contactTime'];
         $status = $request['status'];
@@ -31,20 +32,14 @@ class CasesController extends Controller
         $imageC = $request['imageC'];
         $imageD = $request['imageD'];
         $imageE = $request['imageE'];
+        // return [$caseID,$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE];
         try {
-            DB::select("CALL addMyCase(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
-            // DB::select("CALL addMyCase($userID,'$name','$category','$subCategory','$budget','$deadline','$city','$subCity','$description','$contactName','$contactPhone','$contactTime','$status','$imageA','$imageB','$imageC','$imageD','$imageE')");
-            if ($status == '草稿') {
-            $result = '案件已儲存至草稿';
-        } elseif ($status == '刊登中') {
-            $result = '案件已刊登';
-        }
-        return response()->json(['result' => $result]);
+            $results = DB::select("CALL addMyCase(?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)", [$caseID,$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);
+            return $results;
         } catch (\Exception $e) {
             return response()->json(['result' => '插入案件失败']);
         }
-        // CALL addMyCase('17','test10','B','B03','20000','2000/12/23','台南市','東區','good','test','true','0110','發布案件','null','null','null','null','null');
-        // return $result;
+        // CALL addMyCase(0,26,'組裝娃娃','B','B02','20000','2025/12/23','g','g09','幫忙組裝娃娃','娃娃女王',1,'0915758668','0110','刊登中','null','null','null','null','null');
     }
 
     // 獲取母、子類別

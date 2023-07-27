@@ -49,6 +49,7 @@ function ProposalRecord(props) {
     Auth.caseRevise(caseID).then((result) => {
       navigate('/proposal', {
         state: {
+          caseID,
           caseInfo: result['data']
         }
       })
