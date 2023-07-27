@@ -102,9 +102,15 @@ function App() {
     //進入前，先比對token
     Auth.checkToken(userinfo, localStorage.getItem("userID"))
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         if (result["data"] == "請重新登入") {
           //登出後把storage的userinfo改成result
+          localStorage.setItem("userInfo", JSON.stringify(""));
+          //把空字串傳入setUserInfo
+          setUserInfo(JSON.parse(localStorage.getItem("")));
+          alert("請重新登入");
+          navigate("/");
+        } else if (result["data"] == "未登入") {
           localStorage.setItem("userInfo", JSON.stringify(""));
           //把空字串傳入setUserInfo
           setUserInfo(JSON.parse(localStorage.getItem("")));

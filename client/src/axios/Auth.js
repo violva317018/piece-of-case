@@ -141,7 +141,7 @@ class Auth {
       },
     });
   }
-  // 提案紀錄
+  // 接案紀錄
   getBidderCase(userID, caseStatus) {
     console.log(userID, caseStatus);
     return axios.get(API_URL + "/getBidderCase", {

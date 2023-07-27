@@ -140,6 +140,7 @@ class InformationController extends Controller
             return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);;
         }
         $file = $request->file('myPortfolio');
+        // return $file;
         $userID = $request->myUserID;
         $allFileName = '"files/';
         $filesNameArray = [];

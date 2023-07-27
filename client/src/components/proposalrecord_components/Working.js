@@ -70,19 +70,14 @@ function Working(props) {
 
   // 處理進行中
   const handleCaseStep = () => {
-    Auth.getCaseStep(
-      JSON.parse(localStorage.getItem("userID")),
-
-    )
+    Auth.getCaseStep(JSON.parse(localStorage.getItem("userID")))
       .then((result) => {
         console.log(result);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
-
+  };
 
   const progBar = (item) => {
     return (item["案件進度"] / item["階段數量"]) * 100;
@@ -169,7 +164,7 @@ function Working(props) {
   return (
     <div>
       {currentProposalCases.length !== 0 ? (
-        workingCase.map((item, index) => (
+        currentProposalCases.map((item, index) => (
           <div className="recordDiv31" key={index}>
             <div className="d-flex align-items-center">
               <span className="span1 flex-grow-1">案件名稱</span>
@@ -178,10 +173,10 @@ function Working(props) {
               <span className="span1 del1">成交對象</span>
             </div>
             <div className="d-flex align-items-center">
-              <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
-              <span className="span2 flex-grow-1">{item["成交金額"]}</span>
-              <span className="span2 flex-grow-1">{item["成交日期"]}</span>
-              <span className="span2 del1">{item["成交對象"]}</span>
+              <span className="span2 flex-grow-1">{item["caseName"]}</span>
+              <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
+              <span className="span2 flex-grow-1">{item["dealTime"]}</span>
+              <span className="span2 del1">{item["userName"]}</span>
             </div>
 
             {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
@@ -218,19 +213,19 @@ function Working(props) {
 
                   JSON.parse(localStorage.getItem(`showProg${index}`))
                     ? localStorage.setItem(
-                      `arrow${index}`,
-                      JSON.stringify({
-                        position: "relative",
-                        bottom: "2rem",
-                      })
-                    )
+                        `arrow${index}`,
+                        JSON.stringify({
+                          position: "relative",
+                          bottom: "2rem",
+                        })
+                      )
                     : localStorage.setItem(
-                      `arrow${index}`,
-                      JSON.stringify({
-                        transform: "scaleY(-1)",
-                        position: "relative",
-                      })
-                    );
+                        `arrow${index}`,
+                        JSON.stringify({
+                          transform: "scaleY(-1)",
+                          position: "relative",
+                        })
+                      );
                   // 為了確保每一次都能渲染
                   setShow(!show);
                 }}
@@ -243,8 +238,9 @@ function Working(props) {
             </div>
           </div>
         ))
-      ) : <h1>尚未進行案件</h1>}
-
+      ) : (
+        <h1>尚未進行案件</h1>
+      )}
     </div>
   );
 }
