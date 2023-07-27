@@ -27,7 +27,8 @@ function Proposal() {
   // 子地區
   const subCityNames = JSON.parse(localStorage.getItem("subCityNames"))
 
-  // const [status, setStatus] = useState("發布案件");
+  // case information
+  const [caseID, setCaseID] = useState(location.state ? location.state['caseID'] : 0); // 案件ID
   const [name, setName] = useState(location.state ? location.state['caseInfo'][0]['caseName'] : ''); // 案件名稱
   const [budget, setBudget] = useState(location.state ? location.state['caseInfo'][0]['budget'] : ''); // 案件預計金額
   const [deadline, setDeadline] = useState(location.state ? location.state['caseInfo'][0]['deadline'] : null); // 案件預計完成時間
@@ -144,6 +145,7 @@ function Proposal() {
     let userID = JSON.parse(localStorage.getItem("userID"));
     // 將資料傳遞給後端
     Case.addCase(
+      caseID,
       userID,
       name,
       category,
@@ -179,6 +181,7 @@ function Proposal() {
     let status = "草稿";
     let userID = JSON.parse(localStorage.getItem("userID"));
     Case.proposal(
+      caseID,
       userID,
       name,
       category,
@@ -200,7 +203,6 @@ function Proposal() {
       imageE
     )
       .then((result) => {
-        console.log(result);
         alert('已新增草稿')
         navigate('/personalinfo')
       })
@@ -436,3 +438,4 @@ function Proposal() {
 }
 
 export default Proposal;
+

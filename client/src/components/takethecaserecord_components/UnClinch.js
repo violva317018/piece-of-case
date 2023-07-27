@@ -6,9 +6,8 @@ function UnClinch(props) {
 
   return (
     <div>
-      {currentRecordCases.map((item, index) => (
-        // <div className="recordDiv3" key={item["caseId"]}>
-        <div className="recordDiv3" key={index}>
+      {currentRecordCases.length !== 0 ? (currentRecordCases.map((item) => (
+        <div className="recordDiv3" key={item["caseID"]}>
           <div className="d-flex align-items-center">
             <span className="span1 flex-grow-1">案件名稱</span>
             <span className="span1 flex-grow-1">報價金額</span>
@@ -18,7 +17,7 @@ function UnClinch(props) {
           <div className="d-flex align-items-center">
             <span className="span2 flex-grow-1">{item["caseName"]}</span>
             <span className="span2 flex-grow-1">{item["quotation"]}</span>
-            <span className="span2 flex-grow-1">{item["報價日期"]}</span>
+            <span className="span2 flex-grow-1">{item["bidTime"]}</span>
             <span
               className="span2 flex-grow-1 borderR"
               onClick={() => {
@@ -29,7 +28,8 @@ function UnClinch(props) {
             </span>
           </div>
         </div>
-      ))}
+      ))) : <h1>尚未成交</h1>}
+
     </div>
   );
 }

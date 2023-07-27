@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./working.css";
 import { useEffect } from "react";
+import Auth from "../../axios/Auth";
 
 function Working(props) {
   const { currentProposalCases } = props;
@@ -67,12 +68,28 @@ function Working(props) {
     },
   ];
 
+  // 處理進行中
+  const handleCaseStep = () => {
+    Auth.getCaseStep(
+      JSON.parse(localStorage.getItem("userID")),
+
+    )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+
   const progBar = (item) => {
     return (item["案件進度"] / item["階段數量"]) * 100;
   };
 
   const completedBtn = (i, item) => {
-    if (i == 0) {
+    if (i === 0) {
       return (
         <div
           className="btn1"
@@ -98,7 +115,7 @@ function Working(props) {
             style={{ backgroundColor: "#4798b3" }}
           ></div>
           <div className="deadLine">
-            {i == 0 ? "成交日期" : "截止日期"}：{item[`deadLine${i}`]}
+            {i === 0 ? "成交日期" : "截止日期"}：{item[`deadLine${i}`]}
           </div>
           <div
             className="right1"
@@ -151,79 +168,83 @@ function Working(props) {
 
   return (
     <div>
-      {workingCase.map((item, index) => (
-        <div className="recordDiv31" key={index}>
-          <div className="d-flex align-items-center">
-            <span className="span1 flex-grow-1">案件名稱</span>
-            <span className="span1 flex-grow-1">成交金額</span>
-            <span className="span1 flex-grow-1">成交日期</span>
-            <span className="span1 del1">成交對象</span>
-          </div>
-          <div className="d-flex align-items-center">
-            <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
-            <span className="span2 flex-grow-1">{item["成交金額"]}</span>
-            <span className="span2 flex-grow-1">{item["成交日期"]}</span>
-            <span className="span2 del1">{item["成交對象"]}</span>
-          </div>
-          {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
-            <div className="progress1">
-              {circle(item)}
-              <div className="progress prog1">
-                <div
-                  className="progress-bar "
-                  style={{ width: `${progBar(item)}%` }}
-                ></div>
-              </div>
+      {currentProposalCases.length !== 0 ? (
+        workingCase.map((item, index) => (
+          <div className="recordDiv31" key={index}>
+            <div className="d-flex align-items-center">
+              <span className="span1 flex-grow-1">案件名稱</span>
+              <span className="span1 flex-grow-1">成交金額</span>
+              <span className="span1 flex-grow-1">成交日期</span>
+              <span className="span1 del1">成交對象</span>
             </div>
-          )}
+            <div className="d-flex align-items-center">
+              <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
+              <span className="span2 flex-grow-1">{item["成交金額"]}</span>
+              <span className="span2 flex-grow-1">{item["成交日期"]}</span>
+              <span className="span2 del1">{item["成交對象"]}</span>
+            </div>
 
-          <div className="arrowDiv">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-arrow-bar-up arrow2"
-              viewBox="0 0 16 16"
-              style={
-                JSON.parse(localStorage.getItem(`arrow${index}`)) || {
-                  transform: "scaleY(-1)",
+            {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
+              <div className="progress1">
+                {circle(item)}
+                <div className="progress prog1">
+                  <div
+                    className="progress-bar "
+                    style={{ width: `${progBar(item)}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
+
+            <div className="arrowDiv">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-bar-up arrow2"
+                viewBox="0 0 16 16"
+                style={
+                  JSON.parse(localStorage.getItem(`arrow${index}`)) || {
+                    transform: "scaleY(-1)",
+                  }
                 }
-              }
-              onClick={() => {
-                // 變更 localStorage 內的資料
-                localStorage.setItem(
-                  `showProg${index}`,
-                  !JSON.parse(localStorage.getItem(`showProg${index}`))
-                );
-
-                JSON.parse(localStorage.getItem(`showProg${index}`))
-                  ? localStorage.setItem(
-                    `arrow${index}`,
-                    JSON.stringify({
-                      position: "relative",
-                      bottom: "2rem",
-                    })
-                  )
-                  : localStorage.setItem(
-                    `arrow${index}`,
-                    JSON.stringify({
-                      transform: "scaleY(-1)",
-                      position: "relative",
-                    })
+                onClick={() => {
+                  // 變更 localStorage 內的資料
+                  localStorage.setItem(
+                    `showProg${index}`,
+                    !JSON.parse(localStorage.getItem(`showProg${index}`))
                   );
-                // 為了確保每一次都能渲染
-                setShow(!show);
-              }}
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"
-              />
-            </svg>
+
+                  JSON.parse(localStorage.getItem(`showProg${index}`))
+                    ? localStorage.setItem(
+                      `arrow${index}`,
+                      JSON.stringify({
+                        position: "relative",
+                        bottom: "2rem",
+                      })
+                    )
+                    : localStorage.setItem(
+                      `arrow${index}`,
+                      JSON.stringify({
+                        transform: "scaleY(-1)",
+                        position: "relative",
+                      })
+                    );
+                  // 為了確保每一次都能渲染
+                  setShow(!show);
+                }}
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : <h1>尚未進行案件</h1>}
+
     </div>
   );
 }

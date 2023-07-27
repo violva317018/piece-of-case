@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./working.css";
+import Auth from "../../axios/Auth";
 
 function Working(props) {
   const { currentRecordCases } = props;
 
+  // fake data
   const workingCase = [
     {
       創建者id: "A23",
@@ -45,12 +47,52 @@ function Working(props) {
     },
   ];
 
+  // 處理進行中
+  const handleCaseStep = (item) => {
+    // 變更 localStorage 內的資料
+    localStorage.setItem(
+      `showProg${item['caseID']}`,
+      !JSON.parse(localStorage.getItem(`showProg${item['caseID']}`))
+    );
+
+    JSON.parse(localStorage.getItem(`showProg${item['caseID']}`))
+      ? localStorage.setItem(
+        `arrow${item['caseID']}`,
+        JSON.stringify({
+          position: "relative",
+          bottom: "2rem",
+        })
+      )
+      : localStorage.setItem(
+        `arrow${item['caseID']}`,
+        JSON.stringify({
+          transform: "scaleY(-1)",
+          position: "relative",
+        })
+      );
+    // 為了確保每一次都能渲染
+    setShow(!show);
+
+    Auth.getCaseStep(
+      JSON.parse(localStorage.getItem("userID")),
+      item['caseID']
+    )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  // progress bar 
   const progBar = (item) => {
     return (item["案件進度"] / item["階段數量"]) * 100;
   };
 
+  // check complete
   const completedBtn = (i, item) => {
-    if (i == 0) {
+    if (i === 0) {
       return (
         <div
           className="btn1"
@@ -76,7 +118,7 @@ function Working(props) {
             style={{ backgroundColor: "#4798b3" }}
           ></div>
           <div className="deadLine">
-            {i == 0 ? "成交日期" : "截止日期"}：{item[`deadLine${i}`]}
+            {i === 0 ? "成交日期" : "截止日期"}：{item[`deadLine${i}`]}
           </div>
           <div
             className="right1"
@@ -99,11 +141,9 @@ function Working(props) {
             className="progCircle"
             style={{ backgroundColor: "#b8b8b8" }}
           ></div>
-
           <div className="deadLine">
             截止日期：{item[`deadLine${item["案件進度"] + i + 1}`]}
           </div>
-
           <div
             className="right1"
             style={{
@@ -119,31 +159,37 @@ function Working(props) {
         </div>
       );
     }
-
     return circleResult;
   };
 
+  // 
   const [show, setShow] = useState(true);
-
+  // 
   const [arrowStyle, setArrowStyle] = useState();
 
   return (
     <div>
-      {workingCase.map((item, index) => (
-        <div className="recordDiv31" key={index}>
+      {currentRecordCases.length !== 0 ? (currentRecordCases.map((item) => (
+        <div className="recordDiv31" key={item['caseID']}>
+
+          {/* 上方案件資訊 Title */}
           <div className="d-flex align-items-center">
             <span className="span1 flex-grow-1">案件名稱</span>
-            <span className="span1 flex-grow-1">報價金額</span>
+            <span className="span1 flex-grow-1">成交金額</span>
             <span className="span1 flex-grow-1">成交日期</span>
             <span className="span1 del1">成交對象</span>
           </div>
+
+          {/* 上方案件資訊 data */}
           <div className="d-flex align-items-center">
-            <span className="span2 flex-grow-1">{item["案件名稱"]}</span>
-            <span className="span2 flex-grow-1">{item["報價金額"]}</span>
-            <span className="span2 flex-grow-1">{item["成交日期"]}</span>
-            <span className="span2 del1">{item["成交對象"]}</span>
+            <span className="span2 flex-grow-1">{item["caseName"]}</span>
+            <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
+            <span className="span2 flex-grow-1">{item["dealTime"]}</span>
+            <span className="span2 del1">{item["userName"]}</span>
           </div>
-          {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
+
+          {/* 下拉式Icon */}
+          {JSON.parse(localStorage.getItem(`showProg${item['caseID']}`)) && (
             <div className="progress1">
               {circle(item)}
               <div className="progress prog1">
@@ -155,6 +201,7 @@ function Working(props) {
             </div>
           )}
 
+          {/* Show 進度條 */}
           <div className="arrowDiv">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -164,35 +211,11 @@ function Working(props) {
               className="bi bi-arrow-bar-up arrow2"
               viewBox="0 0 16 16"
               style={
-                JSON.parse(localStorage.getItem(`arrow${index}`)) || {
+                JSON.parse(localStorage.getItem(`arrow${item['caseID']}`)) || {
                   transform: "scaleY(-1)",
                 }
               }
-              onClick={() => {
-                // 變更 localStorage 內的資料
-                localStorage.setItem(
-                  `showProg${index}`,
-                  !JSON.parse(localStorage.getItem(`showProg${index}`))
-                );
-
-                JSON.parse(localStorage.getItem(`showProg${index}`))
-                  ? localStorage.setItem(
-                    `arrow${index}`,
-                    JSON.stringify({
-                      position: "relative",
-                      bottom: "2rem",
-                    })
-                  )
-                  : localStorage.setItem(
-                    `arrow${index}`,
-                    JSON.stringify({
-                      transform: "scaleY(-1)",
-                      position: "relative",
-                    })
-                  );
-                // 為了確保每一次都能渲染
-                setShow(!show);
-              }}
+              onClick={() => { handleCaseStep(item) }}
             >
               <path
                 fillRule="evenodd"
@@ -201,7 +224,8 @@ function Working(props) {
             </svg>
           </div>
         </div>
-      ))}
+      ))) : <h1>尚未進行案件</h1>}
+
     </div>
   );
 }
