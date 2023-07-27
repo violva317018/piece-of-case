@@ -48,29 +48,12 @@ function Proposal() {
   const [imageC, setImageC] = useState(location.state ? location.state['caseInfo'][0]['imageC'] : 'null');
   const [imageD, setImageD] = useState(location.state ? location.state['caseInfo'][0]['imageD'] : 'null');
   const [imageE, setImageE] = useState(location.state ? location.state['caseInfo'][0]['imageE'] : 'null');
+  // 所有檔案
+  const [allFiles, setAllFiles] = useState();
+  const [overFile, setOverFile] = useState(); // 防止超過五張還按送出
 
-  // handle function
-  const handlename = (event) => {
-    setName(event.target.value);
-  };
-  const handlebudget = (event) => {
-    setBudget(event.target.value);
-  };
-  const handledeadline = (event) => {
-    setDeadline(event.target.value);
-  };
-  const handledescription = (event) => {
-    setDescription(event.target.value);
-  };
-  const handleContactName = (event) => {
-    setContactName(event.target.value);
-  };
-  const handleContactPhone = (event) => {
-    setContactPhone(event.target.value);
-  };
-  const handleIsContactPhone = (event) => {
-    setIsContactPhone(event.target.value);
-  };
+
+
   // 處理【聯絡時間】的boolean
   const handlecontactTime = (event) => {
     // setContactTime(event.target.checked)
@@ -116,6 +99,10 @@ function Proposal() {
 
   // 判別【聯絡時間】的boolean
 
+  // 處理所有檔案
+  const handleFiles = () => {
+
+  }
 
   //  取得當前母類別資料
   const handleCategoryChange = (event) => {
@@ -160,6 +147,7 @@ function Proposal() {
       contactPhone,
       contactTime,
       status,
+      allFiles,
       imageA,
       imageB,
       imageC,
@@ -168,8 +156,8 @@ function Proposal() {
     )
       .then((result) => {
         console.log(result);
-        alert('刊登成功')
-        navigate('/personalinfo')
+        // alert('刊登成功')
+        // navigate('/personalinfo')
       })
       .catch((err) => {
         console.error(err);
@@ -224,7 +212,7 @@ function Proposal() {
           <input
             type="text"
             placeholder="請填寫案件名稱"
-            onChange={handlename}
+            onChange={(event) => setName(event.target.value)}
             value={name}
           />
         </div>
@@ -274,7 +262,7 @@ function Proposal() {
             type="number"
             id="caseMoney"
             placeholder="請輸入預期的金額"
-            onChange={handlebudget}
+            onChange={(event) => { setBudget(event.target.value); }}
             value={budget}
           />
         </div>
@@ -286,7 +274,7 @@ function Proposal() {
           <br />
           <input type="radio" name="deadline" id="yesTime" />
           <label htmlFor="yesTime">指定日期 </label>
-          <input type="date" id="yesTime" onChange={handledeadline} value={deadline} />
+          <input type="date" id="yesTime" onChange={(event) => setDeadline(event.target.value)} value={deadline} />
         </div>
         {/* 地點 */}
         <div className="box">
@@ -332,7 +320,7 @@ function Proposal() {
           <textarea
             className="form-control"
             aria-label="With textarea"
-            onChange={handledescription}
+            onChange={(event) => setDescription(event.target.value)}
             value={description}
           ></textarea>
         </div>
@@ -348,7 +336,19 @@ function Proposal() {
             <span className="text-danger fw-bolder">請勿</span>
             上傳內含個資圖片(如：個人名片或或其他聯絡方式)。
           </p>
-          <input type="file" />
+          <input type="file"
+            multiple
+            accept="image/jpeg, image/png, application/pdf"
+            required
+            onChange={(e) => {
+              if (e.target.files.length > 5) {
+                setOverFile(false);
+                return alert(`最多只能選擇5個檔案，請重新選取`);
+              } else {
+                setOverFile(true);
+                setAllFiles(e.target.files);
+              }
+            }} />
         </div>
         {/* 聯絡方式 */}
         <div className="box">
@@ -356,14 +356,14 @@ function Proposal() {
           <input
             type="text"
             placeholder="請輸入聯絡人名稱"
-            onChange={handleContactName}
+            onChange={(event) => setContactName(event.target.value)}
             value={contactName}
           />
           <h4>允許接案人透過電話聯絡您嗎?</h4>
           <select
             className="form-select"
             aria-label="Default select example"
-            onChange={handleIsContactPhone}
+            onChange={(event) => setIsContactPhone(event.target.value)}
             value={isContactPhone}
           >
             <option selected disabled>
@@ -376,7 +376,7 @@ function Proposal() {
           <input
             type="text"
             placeholder="請輸入連絡人電話號碼"
-            onChange={handleContactPhone}
+            onChange={(event) => setContactPhone(event.target.value)}
             value={contactPhone}
           />
           <h4>請勾選希望接案人聯絡時段?</h4>
@@ -421,6 +421,7 @@ function Proposal() {
             type="button"
             className="btn btn-secondary"
             onClick={handleDraftCase}
+            disabled={!overFile} // 預防檔案超過
           >
             儲存至草稿
           </button>
@@ -428,6 +429,7 @@ function Proposal() {
             type="button"
             className="btn btn-primary"
             onClick={handlePublishCase}
+            disabled={!overFile} // 預防檔案超過
           >
             發布案件
           </button>

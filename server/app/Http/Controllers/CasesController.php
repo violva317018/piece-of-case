@@ -32,6 +32,35 @@ class CasesController extends Controller
         $imageC = $request['imageC'];
         $imageD = $request['imageD'];
         $imageE = $request['imageE'];
+        $Files = $request->file('allFiles');
+
+        // 處理檔案附檔名及轉碼問題
+        $allFileName = '"files/'; // 初始設定標頭【files/】
+        $filesNameArray = []; // 存放所有的檔案包括檔名.副檔名
+        // return [$userID,$filesNameArray,$allFileName];
+
+        for($i = 0; $i < count($Files); $i++){
+            $fileName = $Files[$i]->getClientOriginalName(); // 檔案名稱
+            $Files[$i]->storeAs('files', $fileName); // storage 資料夾名稱
+            $allFileName .= (string)$fileName . ",files/"; // 將 加上逗號
+            array_push($filesNameArray, $fileName); // 將 【$fileName】 push to 【$filesNameArray】
+        }
+        
+        $allFileName = substr($allFileName, 0, -7) . '"';
+        return [$userID,$filesNameArray,$allFileName];
+        $result = DB::select("CALL newPortfolio($userID, $allFileName)")[0]->result;
+        $filesName = DB::select("select portfolio from myresume where userID = $userID")[0]->portfolio;
+        $filesArray = explode(',', $filesName);
+        // return $filesArray;
+        // return base64_encode(Storage::get($filesArray[0]));
+        $filesObject = [];
+        
+        for($i = 0; $i < count($file); $i++) {
+            array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
+        }
+        // return response()->json(['result' => $result, 'files' => $filesObject, 'fileName' => $filesNameArray]);
+
+
         // return [$caseID,$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE];
         try {
             $results = DB::select("CALL addMyCase(?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)", [$caseID,$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE]);

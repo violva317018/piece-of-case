@@ -163,19 +163,6 @@ class InformationController extends Controller
         return response()->json(['result' => $result, 'files' => $filesObject, 'fileName' => $filesNameArray]);
     }
 
-    // 更新作品集
-    // public function updatePortfolio($myuserID, $myportfolio)
-    // {
-    //     try {
-    //         $result = DB::select("CALL newPortfolio(?, ?)", [$myuserID, $myportfolio]);
-    //         $resultMessage = $result[0]->result;
-    //         return response()->json(['result' => $resultMessage]);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['result' => '更新作品集失败']);
-    //     }
-    // }
-
-
     // 更新擅長工具
     public function updateSkills(Request $request)
     {

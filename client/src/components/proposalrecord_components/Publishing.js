@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./publishing.css";
 import Auth from "../../axios/Auth";
+import { useNavigate } from "react-router-dom";
+import { GlobelDate } from "../../App";
 
 function Publishing(props) {
+  const navigate = useNavigate()
+  const { setCurrentCaseId } = useContext(GlobelDate)
   const { currentProposalCases } = props;
   const [cancelA, setCancelA] = useState('')
   const [cancel, setCancel] = useState(0)
@@ -28,7 +32,12 @@ function Publishing(props) {
         currentProposalCases.map((item) => (
           <div
             className="recordDiv3"
+            style={{ cursor: 'pointer' }}
             key={item.caseID}
+            onClick={() => {
+              setCurrentCaseId(item.caseID);
+              navigate('/caseview');
+            }}
           >
             <div className="d-flex align-items-center" key={item.caseID}>
               <span className="span1 flex-grow-1">案件名稱</span>

@@ -5,6 +5,8 @@ const API_URL =
   "http://localhost/Full-Stack-Project/server/public/index.php/api/cases";
 
 class Case {
+
+  // 新增案件
   addCase(
     caseID,
     userID,
@@ -21,12 +23,14 @@ class Case {
     contactPhone,
     contactTime,
     status,
+    allFiles,
     imageA,
     imageB,
     imageC,
     imageD,
     imageE
   ) {
+    console.log(allFiles);
     return axios.post(API_URL + "/addCase", {
       caseID,
       userID,
@@ -43,11 +47,16 @@ class Case {
       contactPhone,
       contactTime,
       status,
+      allFiles,
       imageA,
       imageB,
       imageC,
       imageD,
       imageE,
+    }, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
   }
 
