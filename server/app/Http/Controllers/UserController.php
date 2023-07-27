@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -56,6 +57,7 @@ class UserController extends Controller
         // 假如密碼匹配成功就登入
         if (Hash::check($password, $hashPassword)){
             $result = DB::select("CALL login('$email', '$hashPassword')");
+            $result[0]->profilePhoto = base64_encode(Storage::get($result[0]->profilePhoto));
             return $result;
         }else{
             return '帳號或密碼錯誤';
@@ -116,5 +118,23 @@ class UserController extends Controller
         return [
             'message' => $result
         ];
+    }
+
+    //比對token
+    public function checkToken(Request $request)
+    {
+        $token = $request->token;
+        $userID = $request->userID;
+        // return $request;
+        $dataBaseToken = DB::select('select token from users where userID = ?', [$userID])[0]->token;
+        // return $dataBaseToken;
+        if($token != '' && $token == $dataBaseToken) {
+            return '已登入';
+        }else if($dataBaseToken == Null) {
+            return '未登入';
+        }else {
+            DB::update('UPDATE users SET token = NULL WHERE userID = ?',[$userID]);
+            return '請重新登入';
+        }
     }
 }

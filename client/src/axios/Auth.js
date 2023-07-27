@@ -32,6 +32,14 @@ class Auth {
     });
   }
 
+  //進入前比對token
+  checkToken(token, userID) {
+    return axios.post(API_URL + "/checktoken", {
+      token,
+      userID,
+    });
+  }
+
   userInfo(email) {
     // 現在要取得資料所以要用 【get】
     // 利用網址參數傳遞給後端
@@ -106,10 +114,19 @@ class Auth {
     );
   }
 
+  //修改擅長工具
   updateSkills(myUserID, mySkills) {
     return axios.post(API_URL + "/update-skills", {
       myUserID,
       mySkills,
+    });
+  }
+
+  //修改自傳
+  updateSelfIntroduction(myUserID, mySelfIntroduction) {
+    return axios.post(API_URL + "/update-SelfIntroduction", {
+      myUserID,
+      mySelfIntroduction,
     });
   }
 

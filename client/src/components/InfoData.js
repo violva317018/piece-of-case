@@ -29,7 +29,7 @@ function InfoData() {
   //修改擅長工具
   const [changeskills, setChangeSkills] = useState("");
   //修改自傳
-  const [changeselfIntroduction, setChangeSelfIntroduction] = useState("");
+  const [changeSelfIntroduction, setChangeSelfIntroduction] = useState("");
   const {
     usernumber,
     setUserNumber,
@@ -49,6 +49,7 @@ function InfoData() {
     setName,
     userID,
     userinfo,
+    setUserInfo,
     changeheadphoto,
     setChangeHeadPhoto,
   } = useContext(GlobelDate);
@@ -60,9 +61,10 @@ function InfoData() {
   const reader = new FileReader();
   //進入我的帳戶就抓資料
   useEffect(() => {
+    // console.log(userinfo);
     Auth.enterProfile(userinfo)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setName(result["data"]["message"][0]["userName"]);
         setUserNumber(result["data"]["message"][0]["email"]);
         setPhone(result["data"]["message"][0]["phone"]);
@@ -159,7 +161,7 @@ function InfoData() {
 
   //修改作品集
   const handleChangePortfolio = () => {
-    console.log(changeportfolio);
+    // console.log(changeportfolio);
     Auth.updatePortfolio(
       JSON.parse(localStorage.getItem("userID")),
       changeportfolio
@@ -192,9 +194,24 @@ function InfoData() {
   const handleChangeSkills = () => {
     Auth.updateSkills(JSON.parse(localStorage.getItem("userID")), changeskills)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setTools(result["data"]["skills"]);
-        console.log(tools);
+        // console.log(tools);
+        window.alert("更新成功！");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  //修改自傳
+  const handleChangeSelfIntroduction = () => {
+    Auth.updateSelfIntroduction(
+      JSON.parse(localStorage.getItem("userID")),
+      changeSelfIntroduction
+    )
+      .then((result) => {
+        setAutobiography(result["data"]["SelfIntroduction"]);
         window.alert("更新成功！");
       })
       .catch((err) => {
@@ -573,7 +590,6 @@ function InfoData() {
               作品集
             </label>
             <span className="portfolio flexGrow2">
-              {console.log(portfolio)}
               {portfolio.map((file, index) => (
                 <a
                   href={`data:${fileType(file)};base64, ${file}`}
@@ -719,7 +735,72 @@ function InfoData() {
             <div>
               <p className="p5">{autobiography}</p>
             </div>
-            <button className="float-right2">修改</button>
+            <button
+              className="float-right2"
+              data-bs-toggle="modal"
+              data-bs-target="#changeSelfIntroduction"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changeSelfIntroduction"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered modalSize">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改自傳</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label
+                        htmlFor="avatar1"
+                        style={{
+                          display: "block",
+                          textAlign: "center",
+                          fontSize: "1.3rem",
+                          fontWeight: "bold",
+                          margin: "0",
+                        }}
+                      >
+                        請輸入自傳
+                      </label>
+                      <textarea
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        defaultValue={autobiography}
+                        required
+                        onChange={(e) => {
+                          setChangeSelfIntroduction(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mx-auto d-block"
+                      data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
+                      onClick={handleChangeSelfIntroduction}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

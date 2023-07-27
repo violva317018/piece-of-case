@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -20,6 +20,7 @@ import Auth from "./axios/Auth";
 export const GlobelDate = React.createContext({});
 
 function App() {
+  const navigate = useNavigate();
   // chat --- start
   const [usersList, addUsers] = useState([]);
   // When the user is login fetched_userName from Login.js with submit
@@ -96,7 +97,25 @@ function App() {
       ? JSON.parse(localStorage.getItem("userInfo"))
       : ""
   );
+
   useEffect(() => {
+    //進入前，先比對token
+    Auth.checkToken(userinfo, localStorage.getItem("userID"))
+      .then((result) => {
+        // console.log(result);
+        if (result["data"] == "請重新登入") {
+          //登出後把storage的userinfo改成result
+          localStorage.setItem("userInfo", JSON.stringify(""));
+          //把空字串傳入setUserInfo
+          setUserInfo(JSON.parse(localStorage.getItem("")));
+          alert("請重新登入");
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
     Auth.enterProfile(userinfo)
       .then((result) => {
         setName(result["data"]["message"][0]["userName"]);
@@ -109,7 +128,6 @@ function App() {
         setHeadPhoto(
           `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
         );
-        console.log(result);
       })
       .catch((err) => {
         console.error(err);

@@ -109,6 +109,7 @@
   padding: 2rem;
   letter-spacing: 3px;
   line-height: 3rem;
+  overflow: auto;
 }
 
 .spanCenter {
@@ -121,8 +122,11 @@
 }
 
 .inputText {
-  width: auto !important;
-  margin-right: 1rem;
+  display: block;
+  /* text-align: center; */
+  width: 80% !important;
+  min-height: 15rem;
+  margin: 3rem auto !important;
   border-radius: 0 !important;
 }
 
@@ -144,4 +148,8 @@
 .flexGrow3 {
   display: block;
   width: 10%;
+}
+
+.modalSize {
+  max-width: 40%;
 }

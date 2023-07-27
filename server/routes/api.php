@@ -15,6 +15,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth/signup', [UserController::class, 'signup']);
 Route::post('/auth/login', [UserController::class, 'login']);
 Route::post('/auth/logout', [UserController::class, 'logout']);
+//進入前比對token
+Route::post('checktoken',[UserController::class, 'checkToken']);
 
 
 //InformationController
@@ -32,6 +34,9 @@ Route::post('update-education', [InformationController::class, 'updateExperience
 Route::post('update-portfolio', [InformationController::class, 'updatePortfolio']);
 //修改擅長工具
 Route::post('update-skills', [InformationController::class, 'updateSkills']);
+//修改自傳
+Route::post('update-SelfIntroduction', [InformationController::class, 'updateSelfIntroduction']);
+
 
 
 //修改密碼

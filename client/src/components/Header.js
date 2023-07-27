@@ -9,10 +9,8 @@ function Header() {
   const { headphoto, userinfo, setUserInfo, setInfoData } =
     useContext(GlobelDate);
   const handleLogout = () => {
-    console.log(userinfo);
     Auth.logout(userinfo)
       .then((result) => {
-        console.log(result);
         //登出後把storage的userinfo改成result
         localStorage.setItem(
           "userInfo",

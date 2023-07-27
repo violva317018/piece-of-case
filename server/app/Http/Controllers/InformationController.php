@@ -14,7 +14,7 @@ class InformationController extends Controller
     {
         // $token = $request->token;
         $result = DB::select("CALL enterProfile(?)", [$token]);
-        // return '123';
+        // return $token;
         $filesName = $result[0]->portfolio;
         $filesArray = explode(',', $filesName);
         // return $filesArray;
@@ -189,11 +189,15 @@ class InformationController extends Controller
     }
 
 
-    // 更新專長
-
-
-
-
+    // 更新自傳
+    public function updateSelfIntroduction(Request $request)
+    {
+        $myUserID = $request['myUserID'];
+        $mySelfIntroduction = $request['mySelfIntroduction'];
+        $result = DB::select("CALL newSelfIntroduction(?, ?)", [$myUserID, $mySelfIntroduction])[0]->result;
+        $SelfIntroduction = DB::select("select selfIntroduction from myresume where userID = $myUserID")[0]->selfIntroduction;
+        return response()->json(['result' => $result, 'SelfIntroduction' => $SelfIntroduction]);
+    }
 
 
 
