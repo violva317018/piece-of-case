@@ -13,6 +13,7 @@ function Login() {
     setUserInfo,
     setUserEmail,
     setUserPassword,
+    setHeadPhoto,
     userEmail,
     userPassword,
     userID,
@@ -40,6 +41,9 @@ function Login() {
         setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
         //登入後存userid
         setUserID(result["data"][0]["userID"]);
+        setHeadPhoto(
+          `data:image/jpeg;base64, ${result["data"][0]["profilePhoto"]}`
+        );
         localStorage.setItem(
           "userID",
           JSON.stringify(result["data"][0]["userID"])

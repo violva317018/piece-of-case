@@ -23,7 +23,7 @@ function Header() {
         console.error(err);
       });
   };
-
+  // console.log(headphoto);
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">

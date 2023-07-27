@@ -779,7 +779,7 @@ function InfoData() {
                       <textarea
                         id="avatar1"
                         name="avatar"
-                        className="inputText"
+                        className="inputText2"
                         defaultValue={autobiography}
                         required
                         onChange={(e) => {
