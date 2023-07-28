@@ -7,7 +7,7 @@ import { GlobelDate } from "../App";
 function UserInfo(props) {
   const navigate = useNavigate()
   // 取得全域變數
-  const { userID, currentCaseId } = useContext(GlobelDate);
+  const { setInfoData, currentCaseId } = useContext(GlobelDate);
   // 從 CaseView 取得資料
   const { budget, contactName, caseState, userEqual, profilePhoto } = props;
 
@@ -20,6 +20,8 @@ function UserInfo(props) {
     Case.newBidder(currentCaseId, JSON.parse(localStorage.getItem('userID')), quotation, win, selfRecommended)
       .then((result) => {
         console.log(result);
+        alert(result['data'][0]['result'])
+        setInfoData(4)
         navigate('/personalinfo')
       })
       .catch((error) => {
