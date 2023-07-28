@@ -67,6 +67,7 @@ function Working(props) {
       階段5結清: "未結清",
     },
   ];
+  const [caseProgress, setCaseProgress] = useState([]);
 
   // 處理進行中
   const handleCaseStep = () => {
@@ -83,26 +84,20 @@ function Working(props) {
     return (item["案件進度"] / item["階段數量"]) * 100;
   };
 
-  const completedBtn = (i, item) => {
+  const completedBtn = (i, caseProgress) => {
     if (i === 0) {
       return (
-        <div
-          className="btn1"
-          onClick={() => {
-            item["案件進度"] += 1;
-            console.log(item["案件進度"]);
-          }}
-        >
+        <div className="btn1" onClick={() => {}}>
           完成
         </div>
       );
     }
   };
 
-  const circle = (item) => {
+  const circle = (caseProgress) => {
     let circleResult = [];
 
-    for (let i = 0; i < item["案件進度"] + 1; i++) {
+    for (let i = 0; i < caseProgress[0]["總流程"] + 1; i++) {
       circleResult.push(
         <div className="progressCircle" key={i}>
           <div
@@ -110,45 +105,61 @@ function Working(props) {
             style={{ backgroundColor: "#4798b3" }}
           ></div>
           <div className="deadLine">
-            {i === 0 ? "成交日期" : "截止日期"}：{item[`deadLine${i}`]}
+            {i === 0 ? "成交日期" : "截止日期"}：
+            {caseProgress[i]["stepDeadline"]}
           </div>
           <div
             className="right1"
             style={{
-              color: item[`階段${i}結清`] === "未結清" ? "red" : "green",
+              color: caseProgress[i]["結清狀態"] === "未結清" ? "red" : "green",
               width: "3rem",
             }}
           >
-            {item[`階段${i}結清`]}
+            {caseProgress[i]["結清狀態"]}
           </div>
         </div>
       );
     }
 
-    for (let i = 0; i < item["階段數量"] - item["案件進度"]; i++) {
+    for (
+      let i = 0;
+      i < caseProgress[0]["總流程"] - caseProgress[0]["caseSchedule"];
+      i++
+    ) {
       circleResult.push(
         <div className="progressCircle" key={i + 10}>
-          {completedBtn(i, item)}
+          {completedBtn(i, caseProgress)}
           <div
             className="progCircle"
             style={{ backgroundColor: "#b8b8b8" }}
           ></div>
 
           <div className="deadLine">
-            截止日期：{item[`deadLine${item["案件進度"] + i + 1}`]}
+            截止日期：
+            {
+              caseProgress[i + caseProgress[0]["caseSchedule"] + 1][
+                "stepDeadline"
+              ]
+            }
           </div>
 
           <div
             className="right1"
             style={{
               color:
-                item[`階段${item["案件進度"] + i + 1}結清`] === "未結清"
+                caseProgress[i + caseProgress[0]["caseSchedule"] + 1][
+                  "moneyStatus"
+                ] === "未結清"
                   ? "red"
                   : "green",
               width: "3rem",
             }}
           >
-            {item[`階段${item["案件進度"] + i + 1}結清`]}
+            {
+              caseProgress[i + caseProgress[0]["caseSchedule"] + 1][
+                "moneyStatus"
+              ]
+            }
           </div>
         </div>
       );
@@ -181,7 +192,7 @@ function Working(props) {
 
             {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
               <div className="progress1">
-                {circle(item)}
+                {circle(caseProgress)}
                 <div className="progress prog1">
                   <div
                     className="progress-bar "
@@ -228,6 +239,17 @@ function Working(props) {
                       );
                   // 為了確保每一次都能渲染
                   setShow(!show);
+                  Auth.enterCaseStepClient(
+                    JSON.parse(localStorage.getItem("userID")),
+                    item["caseID"]
+                  )
+                    .then((result) => {
+                      console.log(result);
+                      setCaseProgress(result);
+                    })
+                    .catch((err) => {
+                      console.error(err);
+                    });
                 }}
               >
                 <path

@@ -36,6 +36,8 @@ Route::post('update-portfolio', [InformationController::class, 'updatePortfolio'
 Route::post('update-skills', [InformationController::class, 'updateSkills']);
 //修改自傳
 Route::post('update-SelfIntroduction', [InformationController::class, 'updateSelfIntroduction']);
+//提案進度條
+Route::get('enterCaseStepClient', [InformationController::class, 'enterCaseStepClient']);
 
 
 

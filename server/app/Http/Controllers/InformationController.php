@@ -231,4 +231,14 @@ class InformationController extends Controller
         $results = DB::select("CALL caseRevise(?)", [$caseID]);
         return $results;
     }
+
+    //提案進度條
+    public function enterCaseStepClient(Request $request)
+    {
+        $userID = $request['userID'];
+        $caseID = $request['caseID'];
+        // return $caseID;
+        $result = DB::select("CALL enterCaseStepClient(?, ?)", [$userID, $caseID]);
+        return $result;
+    }
 }
