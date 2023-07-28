@@ -179,6 +179,16 @@ class Auth {
     });
   }
 
+  //提案進度條
+  enterCaseStepClient(userID, caseID) {
+    return axios.get(API_URL + "/enterCaseStepClient", {
+      params: {
+        userID,
+        caseID,
+      },
+    });
+  }
+
   // 綠界測試
   order(item, itemNO, des, price) {
     // 現在要取得資料所以要用 【get】
