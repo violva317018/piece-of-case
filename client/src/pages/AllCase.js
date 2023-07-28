@@ -48,9 +48,6 @@ function AllCase() {
     Case.getCases(bigClassStr, subClassStr, bigCityStr, subCityStr, page)
       .then((result) => {
         console.log(result["data"]);
-        // result["data"].map((item) => {
-        //   console.log(item["image"]);
-        // });
         setCases(result["data"]);
       })
       .catch((err) => {
@@ -271,16 +268,16 @@ function AllCase() {
             <div className="allCaseBox">
               {/* 顯示案子 */}
               <section className="d-flex flex-wrap">
-                {cases.map((item, index) => (
+                {cases.map((item) => (
                   <div
                     className="case border border-2 border-warning p-2"
-                    key={index}
+                    key={item.caseID}
                   >
                     <img
-                      src={item.imageA}
+                      src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
                       alt="img"
                       width={150}
-                      height={100}
+                      height={150}
                       className="mb-3"
                     />
                     <p>案件標題 : {item.caseName}</p>

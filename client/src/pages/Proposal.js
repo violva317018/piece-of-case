@@ -9,7 +9,7 @@ function Proposal() {
   const location = useLocation(); // get case data from ProposalRecord
 
   // 選擇全域變數
-  const {} = useContext(GlobelDate);
+  const { } = useContext(GlobelDate);
   // 儲存選擇的母、子類別
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
@@ -65,22 +65,6 @@ function Proposal() {
   const [contactTimeItem3, setContactTimeItem3] = useState(
     location.state ? location.state["caseInfo"][0]["contactTime"][3] : "0"
   );
-  // 儲存5張圖片
-  const [imageA, setImageA] = useState(
-    location.state ? location.state["caseInfo"][0]["imageA"] : "null"
-  );
-  const [imageB, setImageB] = useState(
-    location.state ? location.state["caseInfo"][0]["imageB"] : "null"
-  );
-  const [imageC, setImageC] = useState(
-    location.state ? location.state["caseInfo"][0]["imageC"] : "null"
-  );
-  const [imageD, setImageD] = useState(
-    location.state ? location.state["caseInfo"][0]["imageD"] : "null"
-  );
-  const [imageE, setImageE] = useState(
-    location.state ? location.state["caseInfo"][0]["imageE"] : "null"
-  );
   // 所有檔案
   const [allFiles, setAllFiles] = useState();
   const [overFile, setOverFile] = useState(); // 防止超過五張還按送出
@@ -129,9 +113,6 @@ function Proposal() {
   };
 
   // 判別【聯絡時間】的boolean
-
-  // 處理所有檔案
-  const handleFiles = () => {};
 
   //  取得當前母類別資料
   const handleCategoryChange = (event) => {
