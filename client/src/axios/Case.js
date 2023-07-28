@@ -5,7 +5,6 @@ const API_URL =
   "http://localhost/Full-Stack-Project/server/public/index.php/api/cases";
 
 class Case {
-
   // 新增案件
   addCase(
     caseID,
@@ -23,41 +22,35 @@ class Case {
     contactPhone,
     contactTime,
     status,
-    allFiles,
-    imageA,
-    imageB,
-    imageC,
-    imageD,
-    imageE
+    allFiles
   ) {
     console.log(allFiles);
-    return axios.post(API_URL + "/addCase", {
-      caseID,
-      userID,
-      name,
-      category,
-      subCategory,
-      budget,
-      deadline,
-      city,
-      subCity,
-      description,
-      contactName,
-      contactAble,
-      contactPhone,
-      contactTime,
-      status,
-      allFiles,
-      imageA,
-      imageB,
-      imageC,
-      imageD,
-      imageE,
-    }, {
-      headers: {
-        "Content-Type": "multipart/form-data",
+    return axios.post(
+      API_URL + "/addCase",
+      {
+        caseID,
+        userID,
+        name,
+        category,
+        subCategory,
+        budget,
+        deadline,
+        city,
+        subCity,
+        description,
+        contactName,
+        contactAble,
+        contactPhone,
+        contactTime,
+        status,
+        allFiles,
       },
-    });
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
   }
 
   // 取得所有刊登資料
@@ -70,8 +63,6 @@ class Case {
       page,
     });
   }
-
-
 
   // 取得母地區
   getCitys() {
