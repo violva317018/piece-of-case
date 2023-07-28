@@ -61,10 +61,14 @@ function InfoData() {
   const reader = new FileReader();
   //進入我的帳戶就抓資料
   useEffect(() => {
-    // console.log(userinfo);
+    setUserInfo(
+      localStorage
+        .getItem("userInfo")
+        .substring(1, localStorage.getItem("userInfo").length - 1)
+    );
     Auth.enterProfile(userinfo)
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         setName(result["data"]["message"][0]["userName"]);
         setUserNumber(result["data"]["message"][0]["email"]);
         setPhone(result["data"]["message"][0]["phone"]);

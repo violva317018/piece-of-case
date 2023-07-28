@@ -98,7 +98,10 @@ function App() {
 
   useEffect(() => {
     //進入前，先比對token
-    Auth.checkToken(userinfo, localStorage.getItem("userID"))
+    Auth.checkToken(
+      localStorage.getItem("userInfo"),
+      localStorage.getItem("userID")
+    )
       .then((result) => {
         console.log(result);
         if (result["data"] == "請重新登入") {
@@ -120,7 +123,11 @@ function App() {
         console.error(err);
       });
 
-    Auth.enterProfile(userinfo)
+    Auth.enterProfile(
+      localStorage
+        .getItem("userInfo")
+        .substring(1, localStorage.getItem("userInfo").length - 1)
+    )
       .then((result) => {
         setName(result["data"]["message"][0]["userName"]);
         setUserNumber(result["data"]["message"][0]["email"]);

@@ -137,10 +137,10 @@ class UserController extends Controller
     {
         $token = $request->token;
         $userID = $request->userID;
-        // return $request;
+        // return substr($token, 1, -1);
         $dataBaseToken = DB::select('select token from users where userID = ?', [$userID])[0]->token;
         // return $dataBaseToken;
-        if($token != '' && $token == $dataBaseToken) {
+        if($token != '' && substr($token, 1, -1) == $dataBaseToken) {
             return '已登入';
         }else if($dataBaseToken == Null) {
             return '未登入';

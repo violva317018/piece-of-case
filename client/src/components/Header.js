@@ -6,7 +6,7 @@ import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
 
 function Header() {
-  const { headphoto, userinfo, setUserInfo, setInfoData } =
+  const { headphoto, setHeadPhoto, userinfo, setUserInfo, setInfoData } =
     useContext(GlobelDate);
   const handleLogout = () => {
     Auth.logout(userinfo)
@@ -23,7 +23,24 @@ function Header() {
         console.error(err);
       });
   };
-  // console.log(headphoto);
+
+  useEffect(() => {
+    setUserInfo(
+      localStorage
+        .getItem("userInfo")
+        .substring(1, localStorage.getItem("userInfo").length - 1)
+    );
+    Auth.enterProfile(userinfo)
+      .then((result) => {
+        setHeadPhoto(
+          `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  // console.log(JSON.stringify(localStorage.getItem("userInfo")));
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
