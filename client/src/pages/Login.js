@@ -28,6 +28,9 @@ function Login() {
     Auth.login(userEmail, userPassword)
       .then((result) => {
         console.log(result);
+        if (result["data"] == "帳號或密碼錯誤") {
+          alert(result["data"]);
+        }
         //登入後localStorage存userInfo
         localStorage.setItem(
           "userInfo",
