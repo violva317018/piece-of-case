@@ -95,6 +95,7 @@ function Working(props) {
   };
 
   const circle = (caseProgress) => {
+    console.log(caseProgress);
     let circleResult = [];
 
     for (let i = 0; i < caseProgress[0]["總流程"] + 1; i++) {
@@ -176,89 +177,91 @@ function Working(props) {
     <div>
       {currentProposalCases.length !== 0 ? (
         currentProposalCases.map((item, index) => (
-          <div className="recordDiv31" key={index}>
-            <div className="d-flex align-items-center">
-              <span className="span1 flex-grow-1">案件名稱</span>
-              <span className="span1 flex-grow-1">成交金額</span>
-              <span className="span1 flex-grow-1">成交日期</span>
-              <span className="span1 del1">成交對象</span>
-            </div>
-            <div className="d-flex align-items-center">
-              <span className="span2 flex-grow-1">{item["caseName"]}</span>
-              <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
-              <span className="span2 flex-grow-1">{item["dealTime"]}</span>
-              <span className="span2 del1">{item["userName"]}</span>
-            </div>
-
-            {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
-              <div className="progress1">
-                {circle(caseProgress)}
-                <div className="progress prog1">
-                  <div
-                    className="progress-bar "
-                    style={{ width: `${progBar(item)}%` }}
-                  ></div>
-                </div>
+          <>
+            {Auth.enterCaseStepClient(
+              JSON.parse(localStorage.getItem("userID")),
+              item["caseID"]
+            )
+              .then((result) => {
+                console.log(result);
+                setCaseProgress(result);
+              })
+              .catch((err) => {
+                console.error(err);
+              })}
+            <div className="recordDiv31" key={index}>
+              <div className="d-flex align-items-center">
+                <span className="span1 flex-grow-1">案件名稱</span>
+                <span className="span1 flex-grow-1">成交金額</span>
+                <span className="span1 flex-grow-1">成交日期</span>
+                <span className="span1 del1">成交對象</span>
               </div>
-            )}
+              <div className="d-flex align-items-center">
+                <span className="span2 flex-grow-1">{item["caseName"]}</span>
+                <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
+                <span className="span2 flex-grow-1">{item["dealTime"]}</span>
+                <span className="span2 del1">{item["userName"]}</span>
+              </div>
 
-            <div className="arrowDiv">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-arrow-bar-up arrow2"
-                viewBox="0 0 16 16"
-                style={
-                  JSON.parse(localStorage.getItem(`arrow${index}`)) || {
-                    transform: "scaleY(-1)",
+              {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
+                <div className="progress1">
+                  {circle(caseProgress)}
+                  <div className="progress prog1">
+                    <div
+                      className="progress-bar "
+                      style={{ width: `${progBar(item)}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+
+              <div className="arrowDiv">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-bar-up arrow2"
+                  viewBox="0 0 16 16"
+                  style={
+                    JSON.parse(localStorage.getItem(`arrow${index}`)) || {
+                      transform: "scaleY(-1)",
+                    }
                   }
-                }
-                onClick={() => {
-                  // 變更 localStorage 內的資料
-                  localStorage.setItem(
-                    `showProg${index}`,
-                    !JSON.parse(localStorage.getItem(`showProg${index}`))
-                  );
+                  onClick={() => {
+                    // 變更 localStorage 內的資料
+                    localStorage.setItem(
+                      `showProg${index}`,
+                      !JSON.parse(localStorage.getItem(`showProg${index}`))
+                    );
 
-                  JSON.parse(localStorage.getItem(`showProg${index}`))
-                    ? localStorage.setItem(
-                        `arrow${index}`,
-                        JSON.stringify({
-                          position: "relative",
-                          bottom: "2rem",
-                        })
-                      )
-                    : localStorage.setItem(
-                        `arrow${index}`,
-                        JSON.stringify({
-                          transform: "scaleY(-1)",
-                          position: "relative",
-                        })
-                      );
-                  // 為了確保每一次都能渲染
-                  setShow(!show);
-                  Auth.enterCaseStepClient(
-                    JSON.parse(localStorage.getItem("userID")),
-                    item["caseID"]
-                  )
-                    .then((result) => {
-                      console.log(result);
-                      setCaseProgress(result);
-                    })
-                    .catch((err) => {
-                      console.error(err);
-                    });
-                }}
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"
-                />
-              </svg>
+                    JSON.parse(localStorage.getItem(`showProg${index}`))
+                      ? localStorage.setItem(
+                          `arrow${index}`,
+                          JSON.stringify({
+                            position: "relative",
+                            bottom: "2rem",
+                          })
+                        )
+                      : localStorage.setItem(
+                          `arrow${index}`,
+                          JSON.stringify({
+                            transform: "scaleY(-1)",
+                            position: "relative",
+                          })
+                        );
+                    // 為了確保每一次都能渲染
+                    setShow(!show);
+                  }}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+          </>
         ))
       ) : (
         <h1>尚未進行案件</h1>
