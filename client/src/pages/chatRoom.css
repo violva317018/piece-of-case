@@ -233,3 +233,11 @@
     height: calc(100vh - 200px);
     /* height: 100%; */
 }
+
+.chat__noRoom {
+    /* position: absolute; */
+    top: 10%;
+    font-size: 50px;
+    color: rgb(197, 197, 197);
+    cursor: default;
+}

@@ -2,13 +2,32 @@
 
 ## react 問題
 
-1. 因 .gitignore 原因所以要 【npm i react-scripts】取得依賴包
+1. 因 .gitignore 原因所以要取得依賴包 
+    ```
+    npm i react-scripts
+    ```
 
 ## laravel 問題
 
-1. 因 .gitignore 原因所以要 【composer install】取得依賴包
+1. 因 .gitignore 原因所以要取得依賴包
+    ```
+    composer install
+    ```
+
 2. 複製【.env.example】名稱改為【.env】修改設定檔
-3. 取得 APP_KEY 在終端機輸入【php artisan key:generate】
+    Linux
+    ```
+    cp .env.example .env ()
+    ```
+    Windows
+    ```
+    copy .env.example .env ()
+    ```
+
+3. 取得 APP_KEY 在終端機輸入
+     ```
+    php artisan key:generate
+    ```
 
 ## 目前進度
 

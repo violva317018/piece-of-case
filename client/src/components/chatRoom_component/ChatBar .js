@@ -1,57 +1,32 @@
-import React from "react";
+import "./ChatBar.css";
 
 const ChatBar = (props) => {
-  const { connectedUsers, selectUser, allUser } = props; // 從 ChatRoom 得到的資訊
-  // const userList = props.connectedUsers; // 上線 ，直接用 connectedUsers 為甚麼還要用 userList？
 
-  // console.log("In sidebar userlist:", userList);
+    // 取得被點擊人的info
+    const userSelect = (e) => {
+        const selectedUserDetails = props.allUser.find(
+            (user) => user.userName === e.target.innerText
+        );
+        props.setSelectedUser(selectedUserDetails);
+        props.setSelected(true);
+    };
 
-  let selectedUser = "";
-
-  // 取得被點擊人的info
-  const userName_from_click = (e) => {
-    selectedUser = e.target.innerText;
-    let selectedUserDetails = connectedUsers.find(
-      (user) => user.username === selectedUser
-    );
-    console.log("In sidebar the user details:", selectedUserDetails);
-    props.selectUser(selectedUserDetails); // 被點擊【聊聊】的使用者 info
-  };
-
-  // 秀出其他連線的使用者
-  let showUsers = connectedUsers.map((user) => {
-    if (!user.self) {
-      return (
-        <>
-          {allUser &&
-            allUser.map((item) => (
-              <div key={item.userID}>
-                <div
-                  key={user.key}
-                  className="chat__users"
-                  onClick={(e) => userName_from_click(e)}
-                >
-                  {item.userName}
+    return (
+        <div className="chat__sidebar">
+            <h4 className="chat__header">聊天用戶</h4>
+            {props.allUser.map((user) => (
+                <div className="chatbarUsers" onClick={userSelect}>
+                    {/* 可以拿聊天用戶的頭貼來用 */}
+                    <img
+                        className="chatbarImg"
+                        src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
+                        alt=""
+                    />
+                    <span className="chatbarName">{user.userName}</span>
                 </div>
-                <div>{user.connected ? "online" : "offline"}</div>
-                {user.hasNewMessages ? "!" : ""}
-              </div>
             ))}
-        </>
-      );
-    }
-  });
-
-  return (
-    <div className="chat__sidebar">
-      <h2>Open Chat</h2>
-      <div>
-        <h4 className="chat__header">ACTIVE USERS</h4>
-        <div>{showUsers}</div>
-        {/* 顯示所有使用者 DB get */}
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default ChatBar;

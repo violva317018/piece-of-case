@@ -33,7 +33,7 @@ class ChatController extends Controller
         $toID =  (int)$request['toID'];
         $message =  $request['message'];
         $image =  $request['image'];
-        $results = DB::select('CALL sendMessage(?)',[$fromID,$toID,$message,$image]);
+        $results = DB::select('CALL sendMessage(?,?,?,?)',[$fromID,$toID,$message,$image]);
         return $results;
     }
 
