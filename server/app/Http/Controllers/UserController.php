@@ -42,22 +42,34 @@ class UserController extends Controller
     // 登錄
     public function login(Request $request)
     {
-        // return $request;
         $validatedData = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
-
+        
         // 轉成變數
         $email = $validatedData['email'];
         $password = $validatedData['password'];
-
+        // return DB::select("call getHashPassword(?)",[$email]);
         // get hash password
-        $hashPassword = DB::select("call getHashPassword(?)",[$email])[0]->hashpassword;;
+        if (!DB::select("call getHashPassword(?)",[$email])){
+            return '帳號或密碼錯誤';
+        }
+        $hashPassword = DB::select("call getHashPassword(?)",[$email])[0]->hashpassword;
         // 假如密碼匹配成功就登入
         if (Hash::check($password, $hashPassword)){
             $result = DB::select("CALL login('$email', '$hashPassword')");
-            $result[0]->profilePhoto = base64_encode(Storage::get($result[0]->profilePhoto));
+            // return $result;
+            if ($result[0]->profilePhoto != null){
+                $result[0]->profilePhoto = base64_encode(Storage::get($result[0]->profilePhoto));
+            } else if ($result[0]->profilePhoto == null){
+                $filename = 'upload/images.jpeg';
+                // 更新使用者的個人頭像
+                DB::select("UPDATE users SET profilePhoto = '$filename' WHERE email = '$email'");
+                // 取回更新後的頭像資料
+                $profilePhoto = DB::select("SELECT profilePhoto FROM users WHERE email = '$email'");
+                $result[0]->profilePhoto = base64_encode(Storage::get($profilePhoto[0]->profilePhoto));
+            }
             return $result;
         }else{
             return '帳號或密碼錯誤';
