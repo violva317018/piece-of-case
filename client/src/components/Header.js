@@ -25,20 +25,23 @@ function Header() {
   };
 
   useEffect(() => {
-    setUserInfo(
-      localStorage
-        .getItem("userInfo")
-        .substring(1, localStorage.getItem("userInfo").length - 1)
-    );
-    Auth.enterProfile(userinfo)
-      .then((result) => {
-        setHeadPhoto(
-          `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (localStorage.getItem("userInfo")) {
+      setUserInfo(
+        localStorage
+          .getItem("userInfo")
+          .substring(1, localStorage.getItem("userInfo").length - 1)
+      );
+      Auth.enterProfile(userinfo)
+        .then((result) => {
+          setHeadPhoto(
+            `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
   }, []);
   // console.log(JSON.stringify(localStorage.getItem("userInfo")));
   return (

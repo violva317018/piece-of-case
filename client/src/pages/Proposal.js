@@ -4,9 +4,8 @@ import { GlobelDate } from "../App";
 import Case from "../axios/Case";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 function Proposal() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation(); // get case data from ProposalRecord
 
   // 選擇全域變數
@@ -19,40 +18,56 @@ function Proposal() {
   const [subCity, setSubCity] = useState();
 
   // 母類別
-  const bigClassNames = JSON.parse(localStorage.getItem("bigClassNames"))
+  const bigClassNames = JSON.parse(localStorage.getItem("bigClassNames"));
   // 子類別
-  const subBigClassNames = JSON.parse(localStorage.getItem("subBigClassNames"))
+  const subBigClassNames = JSON.parse(localStorage.getItem("subBigClassNames"));
   // 母地區
-  const bigCityNames = JSON.parse(localStorage.getItem("bigCityNames"))
+  const bigCityNames = JSON.parse(localStorage.getItem("bigCityNames"));
   // 子地區
-  const subCityNames = JSON.parse(localStorage.getItem("subCityNames"))
+  const subCityNames = JSON.parse(localStorage.getItem("subCityNames"));
 
   // case information
-  const [caseID, setCaseID] = useState(location.state ? location.state['caseID'] : 0); // 案件ID
-  const [name, setName] = useState(location.state ? location.state['caseInfo'][0]['caseName'] : ''); // 案件名稱
-  const [budget, setBudget] = useState(location.state ? location.state['caseInfo'][0]['budget'] : ''); // 案件預計金額
-  const [deadline, setDeadline] = useState(location.state ? location.state['caseInfo'][0]['deadline'] : null); // 案件預計完成時間
-  const [description, setDescription] = useState(location.state ? location.state['caseInfo'][0]['description'] : ''); // 案件描述
-  const [contactName, setContactName] = useState(location.state ? location.state['caseInfo'][0]['contactName'] : ''); // 聯絡人姓名
-  const [isContactPhone, setIsContactPhone] = useState(location.state ? location.state['caseInfo'][0]['contactAble'] : null); // 是否可以聯絡
-  const [contactPhone, setContactPhone] = useState(location.state ? location.state['caseInfo'][0]['contactPhone'] : ''); // 聯絡的電話
+  const [caseID, setCaseID] = useState(
+    location.state ? location.state["caseID"] : 0
+  ); // 案件ID
+  const [name, setName] = useState(
+    location.state ? location.state["caseInfo"][0]["caseName"] : ""
+  ); // 案件名稱
+  const [budget, setBudget] = useState(
+    location.state ? location.state["caseInfo"][0]["budget"] : ""
+  ); // 案件預計金額
+  const [deadline, setDeadline] = useState(
+    location.state ? location.state["caseInfo"][0]["deadline"] : null
+  ); // 案件預計完成時間
+  const [description, setDescription] = useState(
+    location.state ? location.state["caseInfo"][0]["description"] : ""
+  ); // 案件描述
+  const [contactName, setContactName] = useState(
+    location.state ? location.state["caseInfo"][0]["contactName"] : ""
+  ); // 聯絡人姓名
+  const [isContactPhone, setIsContactPhone] = useState(
+    location.state ? location.state["caseInfo"][0]["contactAble"] : null
+  ); // 是否可以聯絡
+  const [contactPhone, setContactPhone] = useState(
+    location.state ? location.state["caseInfo"][0]["contactPhone"] : ""
+  ); // 聯絡的電話
   // 儲存可連絡時間
   const [contactTime, setContactTime] = useState("0000");
-  const [contactTimeItem0, setContactTimeItem0] = useState(location.state ? location.state['caseInfo'][0]['contactTime'][0] : "0");
-  const [contactTimeItem1, setContactTimeItem1] = useState(location.state ? location.state['caseInfo'][0]['contactTime'][1] : "0");
-  const [contactTimeItem2, setContactTimeItem2] = useState(location.state ? location.state['caseInfo'][0]['contactTime'][2] : "0");
-  const [contactTimeItem3, setContactTimeItem3] = useState(location.state ? location.state['caseInfo'][0]['contactTime'][3] : "0");
-  // 儲存5張圖片
-  const [imageA, setImageA] = useState(location.state ? location.state['caseInfo'][0]['imageA'] : 'null');
-  const [imageB, setImageB] = useState(location.state ? location.state['caseInfo'][0]['imageB'] : 'null');
-  const [imageC, setImageC] = useState(location.state ? location.state['caseInfo'][0]['imageC'] : 'null');
-  const [imageD, setImageD] = useState(location.state ? location.state['caseInfo'][0]['imageD'] : 'null');
-  const [imageE, setImageE] = useState(location.state ? location.state['caseInfo'][0]['imageE'] : 'null');
+  const [contactTimeItem0, setContactTimeItem0] = useState(
+    location.state ? location.state["caseInfo"][0]["contactTime"][0] : "0"
+  );
+  const [contactTimeItem1, setContactTimeItem1] = useState(
+    location.state ? location.state["caseInfo"][0]["contactTime"][1] : "0"
+  );
+  const [contactTimeItem2, setContactTimeItem2] = useState(
+    location.state ? location.state["caseInfo"][0]["contactTime"][2] : "0"
+  );
+  const [contactTimeItem3, setContactTimeItem3] = useState(
+    location.state ? location.state["caseInfo"][0]["contactTime"][3] : "0"
+  );
   // 所有檔案
   const [allFiles, setAllFiles] = useState();
   const [overFile, setOverFile] = useState(); // 防止超過五張還按送出
-
-
 
   // 處理【聯絡時間】的boolean
   const handlecontactTime = (event) => {
@@ -99,11 +114,6 @@ function Proposal() {
 
   // 判別【聯絡時間】的boolean
 
-  // 處理所有檔案
-  const handleFiles = () => {
-
-  }
-
   //  取得當前母類別資料
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -147,22 +157,17 @@ function Proposal() {
       contactPhone,
       contactTime,
       status,
-      allFiles,
-      imageA,
-      imageB,
-      imageC,
-      imageD,
-      imageE
+      allFiles
     )
       .then((result) => {
         console.log(result);
-        // alert('刊登成功')
-        // navigate('/personalinfo')
+        alert("刊登成功");
+        navigate("/personalinfo");
       })
       .catch((err) => {
         console.error(err);
       });
-  }
+  };
 
   // 處理 => 儲存至草稿
   const handleDraftCase = () => {
@@ -184,15 +189,11 @@ function Proposal() {
       contactPhone,
       contactTime,
       status,
-      imageA,
-      imageB,
-      imageC,
-      imageD,
-      imageE
+      allFiles
     )
       .then((result) => {
-        alert('已新增草稿')
-        navigate('/personalinfo')
+        alert("已新增草稿");
+        navigate("/personalinfo");
       })
       .catch((err) => {
         console.error(err);
@@ -202,8 +203,7 @@ function Proposal() {
   return (
     <main className="container">
       {/* 未登入導向至登入介面 */}
-      {JSON.parse(localStorage.getItem('userInfo')) === '' && <h1>尚未登入</h1>}
-
+      {JSON.parse(localStorage.getItem("userInfo")) === "" && <h1>尚未登入</h1>}
 
       <div className="caseBox">
         {/* 案件名稱 */}
@@ -229,7 +229,11 @@ function Proposal() {
             <option selected disabled>
               請選擇....
             </option>
-            {bigClassNames.map((item) => (<option key={item['bigClassID']} value={item['bigClassID']} >{item['bigClassName']}</option>))}
+            {bigClassNames.map((item) => (
+              <option key={item["bigClassID"]} value={item["bigClassID"]}>
+                {item["bigClassName"]}
+              </option>
+            ))}
           </select>
           <br />
           {/* 依不同的母類別找尋相對應的子類別 */}
@@ -246,8 +250,8 @@ function Proposal() {
               {subBigClassNames.map((item) => (
                 <>
                   {item["bigClassID"] === category && (
-                    <option key={item['classID']} value={item['classID']}>
-                      {item['className']}
+                    <option key={item["classID"]} value={item["classID"]}>
+                      {item["className"]}
                     </option>
                   )}
                 </>
@@ -262,7 +266,9 @@ function Proposal() {
             type="number"
             id="caseMoney"
             placeholder="請輸入預期的金額"
-            onChange={(event) => { setBudget(event.target.value); }}
+            onChange={(event) => {
+              setBudget(event.target.value);
+            }}
             value={budget}
           />
         </div>
@@ -274,7 +280,12 @@ function Proposal() {
           <br />
           <input type="radio" name="deadline" id="yesTime" />
           <label htmlFor="yesTime">指定日期 </label>
-          <input type="date" id="yesTime" onChange={(event) => setDeadline(event.target.value)} value={deadline} />
+          <input
+            type="date"
+            id="yesTime"
+            onChange={(event) => setDeadline(event.target.value)}
+            value={deadline}
+          />
         </div>
         {/* 地點 */}
         <div className="box">
@@ -288,7 +299,11 @@ function Proposal() {
             <option selected disabled>
               請選擇....
             </option>
-            {bigCityNames.map((item) => (<option key={item['cityID']} value={item['cityID']} >{item['city']}</option>))}
+            {bigCityNames.map((item) => (
+              <option key={item["cityID"]} value={item["cityID"]}>
+                {item["city"]}
+              </option>
+            ))}
           </select>
           <br />
           {/* 依不同的母類別找尋相對應的子類別 */}
@@ -305,8 +320,8 @@ function Proposal() {
               {subCityNames.map((item) => (
                 <>
                   {item["cityID"] === city && (
-                    <option key={item['districtID']} value={item['districtID']}>
-                      {item['district']}
+                    <option key={item["districtID"]} value={item["districtID"]}>
+                      {item["district"]}
                     </option>
                   )}
                 </>
@@ -336,7 +351,8 @@ function Proposal() {
             <span className="text-danger fw-bolder">請勿</span>
             上傳內含個資圖片(如：個人名片或或其他聯絡方式)。
           </p>
-          <input type="file"
+          <input
+            type="file"
             multiple
             accept="image/jpeg, image/png, application/pdf"
             required
@@ -348,7 +364,8 @@ function Proposal() {
                 setOverFile(true);
                 setAllFiles(e.target.files);
               }
-            }} />
+            }}
+          />
         </div>
         {/* 聯絡方式 */}
         <div className="box">
@@ -363,14 +380,17 @@ function Proposal() {
           <select
             className="form-select"
             aria-label="Default select example"
-            onChange={(event) => setIsContactPhone(event.target.value)}
+            onChange={(event) => {
+              setIsContactPhone(event.target.value);
+              console.log(event.target.value);
+            }}
             value={isContactPhone}
           >
             <option selected disabled>
               請選擇...
             </option>
-            <option value="true">允許</option>
-            <option value="false">不允許</option>
+            <option value="1">允許</option>
+            <option value="0">不允許</option>
           </select>
           <h4>連絡人電話號碼</h4>
           <input
@@ -386,9 +406,7 @@ function Proposal() {
             name="time"
             onClick={handlecontactTime}
           />
-          <label htmlFor="time0">
-            上午00:00~上午08:00
-          </label>
+          <label htmlFor="time0">上午00:00~上午08:00</label>
           <br />
           <input
             type="checkbox"
@@ -440,4 +458,3 @@ function Proposal() {
 }
 
 export default Proposal;
-

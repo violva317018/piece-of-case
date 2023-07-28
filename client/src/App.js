@@ -122,27 +122,28 @@ function App() {
       .catch((err) => {
         console.error(err);
       });
-
-    Auth.enterProfile(
-      localStorage
-        .getItem("userInfo")
-        .substring(1, localStorage.getItem("userInfo").length - 1)
-    )
-      .then((result) => {
-        setName(result["data"]["message"][0]["userName"]);
-        setUserNumber(result["data"]["message"][0]["email"]);
-        setPhone(result["data"]["message"][0]["phone"]);
-        setExperience(result["data"]["message"][0]["education"]);
-        setPortfolio(result["data"]["message"][0]["portfolio"]);
-        setTools(result["data"]["message"][0]["softwore"]);
-        setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
-        setHeadPhoto(
-          `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (localStorage.getItem("userInfo")) {
+      Auth.enterProfile(
+        localStorage
+          .getItem("userInfo")
+          .substring(1, localStorage.getItem("userInfo").length - 1)
+      )
+        .then((result) => {
+          setName(result["data"]["message"][0]["userName"]);
+          setUserNumber(result["data"]["message"][0]["email"]);
+          setPhone(result["data"]["message"][0]["phone"]);
+          setExperience(result["data"]["message"][0]["education"]);
+          setPortfolio(result["data"]["message"][0]["portfolio"]);
+          setTools(result["data"]["message"][0]["softwore"]);
+          setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
+          setHeadPhoto(
+            `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }, []);
 
   return (

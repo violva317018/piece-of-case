@@ -6,8 +6,7 @@ import { GlobelDate } from "../App";
 
 function AllCase() {
   // 取得全域變數
-  const { setCurrentCaseId,
-    setCurrentCaseClassId } = useContext(GlobelDate);
+  const { setCurrentCaseId, setCurrentCaseClassId } = useContext(GlobelDate);
 
   // 處理頁數
   const [page, setPage] = useState(1);
@@ -27,14 +26,13 @@ function AllCase() {
 
   // 進到【home】就取得並放入localstorage 給【AllCase】 使用
   // 母類別
-  const bigClassNames = JSON.parse(localStorage.getItem("bigClassNames"))
+  const bigClassNames = JSON.parse(localStorage.getItem("bigClassNames"));
   // 子類別
-  const subBigClassNames = JSON.parse(localStorage.getItem("subBigClassNames"))
+  const subBigClassNames = JSON.parse(localStorage.getItem("subBigClassNames"));
   // 母地區
-  const bigCityNames = JSON.parse(localStorage.getItem("bigCityNames"))
+  const bigCityNames = JSON.parse(localStorage.getItem("bigCityNames"));
   // 子地區
-  const subCityNames = JSON.parse(localStorage.getItem("subCityNames"))
-
+  const subCityNames = JSON.parse(localStorage.getItem("subCityNames"));
 
   const locations = [
     {
@@ -49,7 +47,7 @@ function AllCase() {
   useEffect(() => {
     Case.getCases(bigClassStr, subClassStr, bigCityStr, subCityStr, page)
       .then((result) => {
-        // console.log(result["data"]);
+        console.log(result["data"]);
         setCases(result["data"]);
       })
       .catch((err) => {
@@ -82,7 +80,7 @@ function AllCase() {
 
   // 處理子類別的字串
   const handleSubClass = (e) => {
-    const { id } = e.target // 取得代號
+    const { id } = e.target; // 取得代號
     setSubClassID(id);
     if (subClassStr.indexOf(id) === -1) {
       // 進到頁面是否為第一次做篩選，為了避免,號
@@ -129,7 +127,7 @@ function AllCase() {
 
   // 處理子地區的字串
   const handleSubCity = (e) => {
-    const { id } = e.target // 取得代號
+    const { id } = e.target; // 取得代號
     setSubCityID(id);
     if (subCityStr.indexOf(id) === -1) {
       // 進到頁面是否為第一次做篩選，為了避免,號
@@ -151,182 +149,189 @@ function AllCase() {
     }
   };
 
-
-
   return (
     <main className="container my-4">
       <div className="takeTheCaseBox d-flex">
-        {bigClassNames === null ? <h1>伺服器在睡覺中 勿擾</h1> : (<>
-          {/* 左側篩選欄 */}
-          <div className="condition mx-3">
-            {/* 類別 */}
-            {bigClassNames.map((items, index) => (
-              <div className="mb-3" key={index}>
-                <button
-                  className="btn btn-secondary w-100"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={`#${items.bigClassName}`}
-                  data-bs-id={`${items.bigClassID}`} // 賦予代號
-                  aria-expanded="false"
-                  aria-controls={`${items.bigClassName}`}
-                  onClick={(e) => {
-                    handleBigClass(e.target.dataset["bsId"]);
-                  }}
-                >
-                  {items.bigClassName}
-                </button>
-                <div
-                  className="collapse multi-collapse"
-                  id={`${items.bigClassName}`}
-                >
-                  <div className="card card-body">
-                    <ul className="list-group">
-                      {subBigClassNames.map((item, index) => (
-                        <>
-                          {item["bigClassID"] === items.bigClassID && (
-                            <li className="list-group-item p-0" key={index}>
-                              <input
-                                type="checkbox"
-                                id={`${item.classID}`}
-                                name={`${item.bigClassID}`}
-                                onClick={(e) => { handleSubClass(e) }}
-                              />
-                              <label htmlFor={`${item.classID}`}>
-                                {item.className}
-                              </label>
-                            </li>
-                          )}
-                        </>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {/* 地區 */}
-            <button
-              className="btn btn-secondary w-100"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target={`#location`}
-              aria-expanded="false"
-              aria-controls={`location`}
-            >
-              地區
-            </button>
-            {bigCityNames.map((items, index) => (
-              <div className="mb-3 mt-2" key={index}>
-                <div
-                  id={`location`}
-                  className="collapse btn btn-primary multi-collapse w-75"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={`#${items.cityID}`}
-                  data-bs-id={`${items.cityID}`} // 賦予代號
-                  aria-expanded="false"
-                  aria-controls={`${items.cityID}`}
-                  onClick={(e) => {
-                    handlebigCity(e.target.dataset["bsId"]); // 取得代號
-                  }}
-                >
-                  {items.city}
-                </div>
-                <div className="collapse multi-collapse" id={`${items.cityID}`}>
-                  <div className="card card-body">
-                    <ul className="list-group">
-                      {subCityNames.map((item, index) => (
-                        <>
-                          {item["cityID"] === items.cityID && (
-                            <li className="list-group-item p-0" key={index}>
-                              <input
-                                type="checkbox"
-                                id={`${item.districtID}`}
-                                name={`${item.cityID}`}
-                                onClick={(e) => { handleSubCity(e) }}
-                              />
-                              <label htmlFor={`${item.districtID}`}>
-                                {item.district}
-                              </label>
-                            </li>
-                          )}
-                        </>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* 右側接案區 */}
-          <div className="allCaseBox">
-            {/* 顯示案子 */}
-            <section className="d-flex flex-wrap">
-              {cases.map((item, index) => (
-                <div
-                  className="case border border-2 border-warning p-2"
-                  key={index}
-                >
-                  <img
-                    src={item.imageA}
-                    alt="img"
-                    width={150}
-                    height={100}
-                    className="mb-3"
-                  />
-                  <p>案件標題 : {item.caseName}</p>
-                  <p>
-                    地點: {item.city}
-                    {item.district}
-                  </p>
-                  <p>預算: {item.budget}</p>
-                  <p>預計完成日期: {item.deadline}</p>
-                  <Link
-                    className="moreView"
-                    to={"/caseview"}
-                    data-caseid={item.caseID}
-                    onClick={(e) =>
-                      // 取得當前點擊的case ID，並導向至caseview
-                      setCurrentCaseId(e.target["dataset"]["caseid"])}
+        {bigClassNames === null ? (
+          <h1>伺服器在睡覺中 勿擾</h1>
+        ) : (
+          <>
+            {/* 左側篩選欄 */}
+            <div className="condition mx-3">
+              {/* 類別 */}
+              {bigClassNames.map((items, index) => (
+                <div className="mb-3" key={index}>
+                  <button
+                    className="btn btn-secondary w-100"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={`#${items.bigClassName}`}
+                    data-bs-id={`${items.bigClassID}`} // 賦予代號
+                    aria-expanded="false"
+                    aria-controls={`${items.bigClassName}`}
+                    onClick={(e) => {
+                      handleBigClass(e.target.dataset["bsId"]);
+                    }}
                   >
-                    more view
-                  </Link>
+                    {items.bigClassName}
+                  </button>
+                  <div
+                    className="collapse multi-collapse"
+                    id={`${items.bigClassName}`}
+                  >
+                    <div className="card card-body">
+                      <ul className="list-group">
+                        {subBigClassNames.map((item, index) => (
+                          <>
+                            {item["bigClassID"] === items.bigClassID && (
+                              <li className="list-group-item p-0" key={index}>
+                                <input
+                                  type="checkbox"
+                                  id={`${item.classID}`}
+                                  name={`${item.bigClassID}`}
+                                  onClick={(e) => {
+                                    handleSubClass(e);
+                                  }}
+                                />
+                                <label htmlFor={`${item.classID}`}>
+                                  {item.className}
+                                </label>
+                              </li>
+                            )}
+                          </>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               ))}
-            </section>
-            {/* 顯示page */}
-            <ul className="pagination">
-              <li className="page-item">
-                <p className="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </p>
-              </li>
-              <li className="page-item">
-                <p className="page-link" href="#">
-                  1
-                </p>
-              </li>
-              <li className="page-item">
-                <p className="page-link" href="#">
-                  2
-                </p>
-              </li>
-              <li className="page-item">
-                <p className="page-link" href="#">
-                  3
-                </p>
-              </li>
-              <li className="page-item">
-                <p className="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </p>
-              </li>
-            </ul>
-          </div>
-        </>
-
+              {/* 地區 */}
+              <button
+                className="btn btn-secondary w-100"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target={`#location`}
+                aria-expanded="false"
+                aria-controls={`location`}
+              >
+                地區
+              </button>
+              {bigCityNames.map((items, index) => (
+                <div className="mb-3 mt-2" key={index}>
+                  <div
+                    id={`location`}
+                    className="collapse btn btn-primary multi-collapse w-75"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={`#${items.cityID}`}
+                    data-bs-id={`${items.cityID}`} // 賦予代號
+                    aria-expanded="false"
+                    aria-controls={`${items.cityID}`}
+                    onClick={(e) => {
+                      handlebigCity(e.target.dataset["bsId"]); // 取得代號
+                    }}
+                  >
+                    {items.city}
+                  </div>
+                  <div
+                    className="collapse multi-collapse"
+                    id={`${items.cityID}`}
+                  >
+                    <div className="card card-body">
+                      <ul className="list-group">
+                        {subCityNames.map((item, index) => (
+                          <>
+                            {item["cityID"] === items.cityID && (
+                              <li className="list-group-item p-0" key={index}>
+                                <input
+                                  type="checkbox"
+                                  id={`${item.districtID}`}
+                                  name={`${item.cityID}`}
+                                  onClick={(e) => {
+                                    handleSubCity(e);
+                                  }}
+                                />
+                                <label htmlFor={`${item.districtID}`}>
+                                  {item.district}
+                                </label>
+                              </li>
+                            )}
+                          </>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* 右側接案區 */}
+            <div className="allCaseBox">
+              {/* 顯示案子 */}
+              <section className="d-flex flex-wrap">
+                {cases.map((item) => (
+                  <div
+                    className="case border border-2 border-warning p-2"
+                    key={item.caseID}
+                  >
+                    <img
+                      src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
+                      alt="img"
+                      width={150}
+                      height={150}
+                      className="mb-3"
+                    />
+                    <p>案件標題 : {item.caseName}</p>
+                    <p>
+                      地點: {item.city}
+                      {item.district}
+                    </p>
+                    <p>預算: {item.budget}</p>
+                    <p>預計完成日期: {item.deadline}</p>
+                    <Link
+                      className="moreView"
+                      to={"/caseview"}
+                      data-caseid={item.caseID}
+                      onClick={(e) =>
+                        // 取得當前點擊的case ID，並導向至caseview
+                        setCurrentCaseId(e.target["dataset"]["caseid"])
+                      }
+                    >
+                      more view
+                    </Link>
+                  </div>
+                ))}
+              </section>
+              {/* 顯示page */}
+              <ul className="pagination">
+                <li className="page-item">
+                  <p className="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </p>
+                </li>
+                <li className="page-item">
+                  <p className="page-link" href="#">
+                    1
+                  </p>
+                </li>
+                <li className="page-item">
+                  <p className="page-link" href="#">
+                    2
+                  </p>
+                </li>
+                <li className="page-item">
+                  <p className="page-link" href="#">
+                    3
+                  </p>
+                </li>
+                <li className="page-item">
+                  <p className="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </>
         )}
-
       </div>
     </main>
   );
