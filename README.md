@@ -15,11 +15,11 @@
     ```
 
 2. 複製【.env.example】名稱改為【.env】修改設定檔
-    Linux
+    >Linux
     ```
     cp .env.example .env ()
     ```
-    Windows
+    >Windows
     ```
     copy .env.example .env ()
     ```
