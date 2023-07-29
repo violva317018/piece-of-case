@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./userinfo.css";
 import Case from "../axios/Case";
 import { GlobelDate } from "../App";
+import Payment from "../axios/Payment";
 
 function UserInfo(props) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // 取得全域變數
   const { setInfoData, currentCaseId } = useContext(GlobelDate);
   // 從 CaseView 取得資料
@@ -15,19 +16,38 @@ function UserInfo(props) {
   const [quotation, setQuotation] = useState(0); // 報價金額
   const [win, setWin] = useState(false); // 預設
   const [selfRecommended, setSelfRecommended] = useState(""); // 自我推薦
+  let MerchantTradeNo = "Test1000";
+  let ItemName = "Test ECPay 100NT *1";
+  let TotalAmount = 1000;
+  let TradeDesc = "Test ECPay";
   // 將報價者資料傳至資料庫
   const handleBidder = () => {
-    Case.newBidder(currentCaseId, JSON.parse(localStorage.getItem('userID')), quotation, win, selfRecommended)
+    // 將訂單資訊傳入ECPay
+    Payment.pay(MerchantTradeNo, ItemName, TotalAmount, TradeDesc)
       .then((result) => {
         console.log(result);
-        alert(result['data'][0]['result'])
-        setInfoData(4)
-        navigate('/personalinfo')
       })
-      .catch((error) => {
-        console.error(error);
-        alert(error)
+      .catch((err) => {
+        console.log(err);
       });
+    // 將報價資訊寫入DB
+    // Case.newBidder(
+    //   currentCaseId,
+    //   JSON.parse(localStorage.getItem("userID")),
+    //   quotation,
+    //   win,
+    //   selfRecommended
+    // )
+    //   .then((result) => {
+    //     console.log(result);
+    //     alert(result["data"][0]["result"]);
+    //     setInfoData(4);
+    //     navigate("/personalinfo");
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     alert(error);
+    //   });
   };
   return (
     <div className="user-info">
@@ -41,7 +61,7 @@ function UserInfo(props) {
         />
         <div className="profile-info">
           {/* <p>XXX股份有限公司</p> */}
-          {/* <p>{contactName}</p> */}
+          <p>{contactName}</p>
         </div>
       </div>
       <p>案主自介............................</p>

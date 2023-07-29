@@ -86,12 +86,8 @@ Route::get('chat/getMessage', [ChatController::class, 'getMessage']); // 獲得�
 Route::get('chat/getChatOtherUser', [ChatController::class, 'getChatOtherUser']); // 獲得其他曾經聊過的使用者
 Route::post('chat/sendMessage', [ChatController::class, 'sendMessage']); // 發送訊息
 
-// 綠界
-// Route::post('/payment/pay', [PaymentController::class, 'payByECPay']);
-Route::post('payment/pay', [PaymentController::class, 'payByECPay']);
+// ECPay
+Route::post('payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
+Route::get('payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
 
-
-// 這兩個功能？
-// Route::get('/showInfo',['middleware' => 'auth', 'uses' => 'InformationController@showInfo']);
-// Route::post('postInfo',['middleware' => 'auth', 'uses' => 'InformationController@postInfo']);
 
