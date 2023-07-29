@@ -11,8 +11,8 @@ import Auth from "../axios/Auth";
 function TakeTheCaseRecord(props) {
   const { takethecase, setTakethecase } = useContext(GlobelDate);
 
-
-  const { handleDelete,
+  const {
+    handleDelete,
     currentRecordState,
     currentRecordPages,
     currentRecordCases,
@@ -78,33 +78,17 @@ function TakeTheCaseRecord(props) {
           <Link className="white1">已結案</Link>
         </div>
       </div>
-      {takethecase === 1 && (
-        <Quoted currentRecordCases={currentRecordCases} />
-      )}
+      {takethecase === 1 && <Quoted currentRecordCases={currentRecordCases} />}
       {takethecase === 2 && (
         <UnClinch
           currentRecordCases={currentRecordCases}
           handleDelete={handleDelete}
         />
       )}
-      {takethecase === 3 && (
-        <Working currentRecordCases={currentRecordCases} />
-      )}
-      {takethecase === 4 && (
-        <Closed currentRecordCases={currentRecordCases} />
-      )}
+      {takethecase === 3 && <Working currentRecordCases={currentRecordCases} />}
+      {takethecase === 4 && <Closed currentRecordCases={currentRecordCases} />}
     </div>
   );
 }
 
 export default TakeTheCaseRecord;
-
-/*
-
-已報價 => caseID
-未成交 => caseID、 報價日期
-進行中 => caseID、成交日期、階段數量、案件進度、deadLine0、deadLine1、階段1結清、階段2結清
-已結案 => 直接報錯
-CALL enterBidderCase(40,'已結案');
-
-*/

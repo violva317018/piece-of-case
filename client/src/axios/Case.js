@@ -90,8 +90,10 @@ class Case {
   }
 
   // 取得當前被點擊的類似案件
-  getSimilarCase(classID) {
-    return axios.get(API_URL + `/getSimilarCase`, { params: { classID } });
+  getSimilarCase(currentCaseId) {
+    return axios.get(API_URL + `/getSimilarCase`, {
+      params: { currentCaseId },
+    });
   }
 
   // 取得當前被點擊的報價人員

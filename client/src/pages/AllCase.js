@@ -6,7 +6,7 @@ import { GlobelDate } from "../App";
 
 function AllCase() {
   // 取得全域變數
-  const { setCurrentCaseId, setCurrentCaseClassId } = useContext(GlobelDate);
+  const { setCurrentCaseId } = useContext(GlobelDate);
 
   // 處理頁數
   const [page, setPage] = useState(1);
@@ -291,10 +291,11 @@ function AllCase() {
                       className="moreView"
                       to={"/caseview"}
                       data-caseid={item.caseID}
-                      onClick={(e) =>
+                      onClick={(e) => {
+                        console.log(e.target["dataset"]["caseid"]);
                         // 取得當前點擊的case ID，並導向至caseview
-                        setCurrentCaseId(e.target["dataset"]["caseid"])
-                      }
+                        setCurrentCaseId(e.target["dataset"]["caseid"]);
+                      }}
                     >
                       more view
                     </Link>

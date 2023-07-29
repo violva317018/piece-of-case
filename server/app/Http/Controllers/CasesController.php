@@ -172,9 +172,9 @@ class CasesController extends Controller
     // 取得當前被點擊案件的類似案件
     public function getSimilarCase(Request $request)
     {
-        $classID =  $request['classID'];
+        $currentCaseId =  $request['currentCaseId'];
         // return $classID;
-        $results = DB::select('CALL similarCase(?)',[$classID]);
+        $results = DB::select('CALL similarCase(?)',[$currentCaseId]);
         return $results;
     }
 

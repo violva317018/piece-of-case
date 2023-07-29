@@ -1,16 +1,15 @@
 import React, { useState, useContext } from "react";
 import "./scheme.css";
 import SchemeProgress from "../components/SchemeProgress";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GlobelDate } from "../App";
 
 function Scheme() {
-  // use content
-  const { setInfoData } = useContext(GlobelDate);
+  // 從網址取得 bidder ID
+  const { bidderID } = useParams();
   // recode progress
   const [finalPrice, setFinalPrice] = useState(0); // 最終金額
   const [progressStage, setProgressStage] = useState(0); // 排程階段次數
-  const [schemeTextArea, setSchemeTextArea] = useState("");
   // handle Function
   const handleFinalPrice = (event) => {
     // 判斷是否低於最低價位，先假設最低金額500
@@ -62,28 +61,13 @@ function Scheme() {
         </div>
 
         {/* 假如進度排程大於0，就顯示進度條 */}
-        {progressStage > 0 && <SchemeProgress progressStatus={progressStage} />}
-
-        {/* 顯示備註欄 */}
-        <div className="box">
-          <h4 htmlFor="caseMoney">備註 :</h4>
-          <textarea
-            className="scheme-textarea"
-            onChange={(event) => {
-              setSchemeTextArea(event.target.value);
-            }}
-          ></textarea>
-        </div>
-
-        {/* btn */}
-        <div className="box d-flex justify-content-evenly">
-          {/* 跳轉至哪裡 => 先跳到個人帳戶 > 提案紀錄 */}
-          <Link to="/personalinfo" onClick={() => setInfoData("3")}>
-            <button type="button" className="btn btn-primary">
-              合作愉快
-            </button>
-          </Link>
-        </div>
+        {progressStage > 0 && (
+          <SchemeProgress
+            progressStatus={progressStage}
+            bidderID={bidderID}
+            finalPrice={finalPrice}
+          />
+        )}
       </div>
     </main>
   );

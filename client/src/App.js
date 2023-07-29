@@ -104,14 +104,14 @@ function App() {
     )
       .then((result) => {
         console.log(result);
-        if (result["data"] == "請重新登入") {
+        if (result["data"] === "請重新登入") {
           //登出後把storage的userinfo改成result
           localStorage.setItem("userInfo", JSON.stringify(""));
           //把空字串傳入setUserInfo
           setUserInfo(JSON.parse(localStorage.getItem("")));
           alert("請重新登入");
           navigate("/");
-        } else if (result["data"] == "未登入") {
+        } else if (result["data"] === "未登入") {
           localStorage.setItem("userInfo", JSON.stringify(""));
           //把空字串傳入setUserInfo
           setUserInfo(JSON.parse(localStorage.getItem("")));
@@ -201,7 +201,7 @@ function App() {
           <Route path={"/allCase"} element={<AllCase />} />
           <Route path={"/CaseView"} element={<CaseView />} />
           <Route path={"/chatRoom"} element={<ChatRoom />} />
-          <Route path={"/Scheme"} element={<Scheme />} />
+          <Route path={"/Scheme/:bidderID"} element={<Scheme />} />
           <Route path={"/checkInfo"} element={<CheckInfo />} />
           <Route
             path={"/ChatRoom/:chatid"}
