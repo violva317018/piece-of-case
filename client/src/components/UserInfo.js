@@ -8,7 +8,7 @@ import Payment from "../axios/Payment";
 function UserInfo(props) {
   const navigate = useNavigate();
   // 取得全域變數
-  const { setInfoData, currentCaseId } = useContext(GlobelDate);
+  const { setInfoData, currentCaseId, setEcpayHtml } = useContext(GlobelDate);
   // 從 CaseView 取得資料
   const { budget, contactName, caseState, userEqual, profilePhoto } = props;
 
@@ -16,16 +16,19 @@ function UserInfo(props) {
   const [quotation, setQuotation] = useState(0); // 報價金額
   const [win, setWin] = useState(false); // 預設
   const [selfRecommended, setSelfRecommended] = useState(""); // 自我推薦
-  let MerchantTradeNo = "Test1000";
+  let MerchantTradeNo = "Test1000"; // 不可以空格
   let ItemName = "Test ECPay 100NT *1";
   let TotalAmount = 1000;
   let TradeDesc = "Test ECPay";
   // 將報價者資料傳至資料庫
+
   const handleBidder = () => {
     // 將訂單資訊傳入ECPay
     Payment.pay(MerchantTradeNo, ItemName, TotalAmount, TradeDesc)
       .then((result) => {
-        console.log(result);
+        console.log(result["data"]);
+        setEcpayHtml(result["data"]);
+        navigate("/Ecpay");
       })
       .catch((err) => {
         console.log(err);

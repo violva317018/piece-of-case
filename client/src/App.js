@@ -15,6 +15,7 @@ import Scheme from "./pages/Scheme";
 import CheckInfo from "./pages/CheckInfo";
 import socket from "./socket";
 import Auth from "./axios/Auth";
+import Ecpay from "./pages/Ecpay";
 
 localStorage.setItem("text", "hello");
 
@@ -95,6 +96,9 @@ function App() {
 
   //裡面要存Storage的Key=userInfo
   const [userinfo, setUserInfo] = useState("");
+
+  // 存取綠界返回的原始碼 => 【UserInfo】 取得 ，【Ecpay】渲染
+  const [ecpayHtml, setEcpayHtml] = useState("");
 
   useEffect(() => {
     //進入前，先比對token
@@ -189,6 +193,8 @@ function App() {
           setUserID,
           currentCaseId,
           setCurrentCaseId,
+          ecpayHtml,
+          setEcpayHtml,
         }}
       >
         <Header />
@@ -203,6 +209,7 @@ function App() {
           <Route path={"/chatRoom"} element={<ChatRoom />} />
           <Route path={"/Scheme/:bidderID"} element={<Scheme />} />
           <Route path={"/checkInfo"} element={<CheckInfo />} />
+          <Route path={"/Ecpay"} element={<Ecpay />} />
           <Route
             path={"/ChatRoom/:chatid"}
             element={<ChatRoom connectedUsers={usersList} />}

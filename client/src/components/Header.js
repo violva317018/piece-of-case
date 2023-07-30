@@ -41,7 +41,6 @@ function Header() {
           console.error(err);
         });
     }
-
   }, []);
   // console.log(JSON.stringify(localStorage.getItem("userInfo")));
   return (
