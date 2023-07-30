@@ -64,3 +64,7 @@
    ```
 
    會回傳字串原始碼，前端想辦法渲染
+
+## Storage 檔案儲存
+
+先將有儲存到 storage/app 底下的檔案都 cope 一份到 public/files

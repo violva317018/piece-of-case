@@ -34,17 +34,8 @@ function AllCase() {
   // 子地區
   const subCityNames = JSON.parse(localStorage.getItem("subCityNames"));
 
-  const locations = [
-    {
-      title: "地區",
-      id: "C",
-      subCategory: ["台北市", "新北市", "台中市", "台南市", "高雄市"],
-    },
-  ];
-
-  // 畫面一掛載從資料庫取得所有案件
-
   useEffect(() => {
+    // 畫面一掛載從資料庫取得所有案件
     Case.getCases(bigClassStr, subClassStr, bigCityStr, subCityStr, page)
       .then((result) => {
         console.log(result["data"]);

@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useNavigate } from "react";
 import { Link } from "react-router-dom";
 import { GlobelDate } from "../App";
+import Scheme from "../axios/Scheme";
 
 // Scheme 的 component
 function SchemeProgress(props) {
+  const navigate = useNavigate();
   const { setInfoData, currentCaseId } = useContext(GlobelDate);
   const { progressStatus, bidderID, finalPrice } = props;
   // 每個階段的 時間與報酬 => 有沒有辦法動態生成
@@ -109,6 +111,7 @@ function SchemeProgress(props) {
   let stageDate = [];
   let stagePrice = [];
   let schemeTextArea = [];
+  let schemeJson = [];
   const handleBtn = () => {
     setInfoData("3");
     runProgressStatusDiv().map((item) => {
@@ -116,12 +119,24 @@ function SchemeProgress(props) {
       stagePrice.push(item.price);
       schemeTextArea.push(item.textArea);
     });
-    console.log("caseID : ", currentCaseId);
-    console.log("finalPrice : ", finalPrice);
-    console.log("bidderID : ", bidderID);
-    console.log("deadline : ", `'${stageDate}'`);
-    console.log("price : ", `'${stagePrice}'`);
-    console.log("Content : ", `'${schemeTextArea}'`);
+
+    // 轉成這個樣子給資料庫
+    schemeJson.push({
+      caseID: currentCaseId,
+      detail: schemeTextArea,
+      stepDeadline: stageDate,
+      money: stagePrice,
+    });
+    schemeJson = JSON.stringify(schemeJson);
+    // schemeJson = `${schemeJson}`;
+    Scheme.newScheme(schemeJson, bidderID)
+      .then((result) => {
+        alert(result["data"][0][result]);
+        navigate("/personalinfo");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
   return (
     <>

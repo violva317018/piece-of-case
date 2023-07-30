@@ -68,7 +68,6 @@ Route::get('/cancelCase', [InformationController::class, 'cancelCase']);  // 下
 Route::get('/caseRevise', [InformationController::class, 'caseRevise']);  // 修改案件
 
 
-
 // 新增案件、取的案件、地區篩選、類別篩選
 Route::post('cases/addCase', [CasesController::class, 'insertCase']); // 新增案件
 Route::post('cases', [CasesController::class, 'getCases']); // 取得所有案件
@@ -85,6 +84,10 @@ Route::post('cases/newBidder', [CasesController::class, 'newBidder']); // 新增
 Route::get('chat/getMessage', [ChatController::class, 'getMessage']); // 獲得當前被點擊【聊聊】的使用者訊息
 Route::get('chat/getChatOtherUser', [ChatController::class, 'getChatOtherUser']); // 獲得其他曾經聊過的使用者
 Route::post('chat/sendMessage', [ChatController::class, 'sendMessage']); // 發送訊息
+
+// 排程 API
+Route::post('scheme/newCaseStep', [SchemeController::class, 'newCaseStep']); // 發送訊息
+
 
 // ECPay
 Route::post('payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
