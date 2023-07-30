@@ -1,0 +1,49 @@
+.user {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.user:hover {
+  background-color: rgb(245, 243, 243);
+}
+
+.userImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.userStatus {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgb(180, 180, 180);
+    position: relative;
+    top: 15px;
+    right: 20px;
+}
+
+.userStatus.online {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: limegreen;
+    position: relative;
+    top: 15px;
+    right: 20px;
+}
+
+.userName {
+  font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+  .userName {
+    display: none;
+  }
+}
