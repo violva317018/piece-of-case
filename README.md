@@ -20,13 +20,13 @@
    > Linux
 
    ```
-   cp .env.example .env ()
+   cp .env.example .env
    ```
 
    > Windows
 
    ```
-   copy .env.example .env ()
+   copy .env.example .env
    ```
 
 3. 取得 APP_KEY 在終端機輸入

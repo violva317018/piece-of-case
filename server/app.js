@@ -1,6 +1,5 @@
 const app = require("express")();
 const http = require("http").Server(app);
-const mysql = require("mysql");
 const moment = require("moment");
 const PORT = 4000;
 
@@ -11,84 +10,45 @@ const io = require("socket.io")(http, {
     },
 });
 
-// database connection
-const con = mysql.createConnection({
-    host: "localhost",
-    port: 33306,
-    user: "root",
-    password: "",
-    database: "database",
-});
+let users = [];
 
-con.connect(function (err) {
-    if (err) {
-        throw err;
-    }
-    console.log("Database connected");
-});
+const addUser = (userId, socketId) => {
+    !users.some((user) => user.userId === userId) &&
+        users.push({ userId, socketId });
+};
 
-// A middleware which checks the username and allows the connection
-io.use((socket, next) => {
-    const username = socket.handshake.auth.fetched_userName;
-    if (!username) {
-        return next(new Error("invalid username"));
-    }
-    socket.username = username;
-    next();
-});
+const removeUser = (socketId) => {
+    users = users.filter(user => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+    return users.find(user => user.userId === userId);
+}
 
 io.on("connection", (socket) => {
-    const users = [];
+    // when connect
+    console.log(`a ${socket.id} connected.`);
 
-    // 每有一個人連進來(新增一個socket)，就會更新 users
-    for (let [id, socket] of io.of("/").sockets) {
-        users.push({
-            userID: id, //
-            username: socket.username,
-            key: id,
-            connected: true,
+    // get userID & socketID from user
+    socket.on("addUser", (userId) => {
+        addUser(userId, socket.id);
+        io.emit("getUsers", users);
+    })
+
+    // when send message
+    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+        const user = getUser(receiverId);
+        io.to(user.socketId).emit("getMessage", {
+            senderId,
+            text,
         });
-    }
-
-    // other user login
-    socket.broadcast.emit("other user connect", {
-        userID: socket.id,
-        username: socket.username,
-        key: socket.id,
-        self: false,
-        connected: true,
     });
 
-    socket.emit("users", users);
-
-    socket.on("private message", ({ content, to }) => {
-        // 將訊息傳給指定對象
-        socket.to(to).emit("private message", {
-            content,
-            time: moment().format("h:mm a"),
-            from: socket.username,
-        });
-
-        // 將訊息儲存至DB => 有 【sendMessage】這個 procedure 可用 ，如果這邊將訊息傳入DB就不需再用 API
-        con.query(
-            `Insert into message (id, from_id, to_id, body, created_at)
-        values (NULL, '${socket.id}', '${to}', '${content}', '${moment().format(
-                "YYYY-MM-DD HH:mm:ss"
-            )}')`,
-            function (err, res) {
-                if (err) {
-                    throw err;
-                }
-                console.log("Message send to db");
-            }
-        );
-    });
-
-    socket.on("disconnect", () => {
-        socket.broadcast.emit("user disconnected", {
-            userID: socket.id,
-            username: socket.username,
-        });
+    // when disconnect
+    socket.on("disconnect", (userId) => {
+        console.log("a user disconnected!");
+        removeUser(socket.id);
+        io.emit("getUsers", users);
     });
 });
 
