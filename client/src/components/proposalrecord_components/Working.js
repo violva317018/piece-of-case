@@ -80,8 +80,8 @@ function Working(props) {
       });
   };
 
-  const progBar = (item) => {
-    return (item["案件進度"] / item["階段數量"]) * 100;
+  const progBar = (caseProgress, i) => {
+    return (caseProgress[i]["caseSchedule"] / caseProgress[i]["總流程"]) * 100;
   };
 
   const completedBtn = (i, caseProgress) => {
@@ -98,7 +98,7 @@ function Working(props) {
     console.log(caseProgress);
     let circleResult = [];
 
-    for (let i = 0; i < caseProgress[0]["總流程"] + 1; i++) {
+    for (let i = 0; i < caseProgress[0]["總流程"]; i++) {
       circleResult.push(
         <div className="progressCircle" key={i}>
           <div
@@ -112,11 +112,12 @@ function Working(props) {
           <div
             className="right1"
             style={{
-              color: caseProgress[i]["結清狀態"] === "未結清" ? "red" : "green",
+              color:
+                caseProgress[i]["moneyStatus"] === "未結清" ? "red" : "green",
               width: "3rem",
             }}
           >
-            {caseProgress[i]["結清狀態"]}
+            {caseProgress[i]["moneyStatus"]}
           </div>
         </div>
       );
@@ -165,7 +166,16 @@ function Working(props) {
         </div>
       );
     }
-
+    for (let i = 0; i < caseProgress[0]["總流程"]; i++) {
+      circleResult.push(
+        <div className="progress prog1">
+          <div
+            className="progress-bar "
+            style={{ width: `${progBar(caseProgress)}%` }}
+          ></div>
+        </div>
+      );
+    }
     return circleResult;
   };
 
@@ -173,22 +183,23 @@ function Working(props) {
 
   const [arrowStyle, setArrowStyle] = useState();
 
+  useEffect(() => {
+    Auth.enterCaseStepClient(JSON.parse(localStorage.getItem("userID")), "19")
+      .then((result) => {
+        // console.log(result);
+        setCaseProgress(result["data"]);
+        // console.log(caseProgress);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  console.log(caseProgress);
   return (
     <div>
       {currentProposalCases.length !== 0 ? (
         currentProposalCases.map((item, index) => (
           <>
-            {Auth.enterCaseStepClient(
-              JSON.parse(localStorage.getItem("userID")),
-              item["caseID"]
-            )
-              .then((result) => {
-                console.log(result);
-                setCaseProgress(result);
-              })
-              .catch((err) => {
-                console.error(err);
-              })}
             <div className="recordDiv31" key={index}>
               <div className="d-flex align-items-center">
                 <span className="span1 flex-grow-1">案件名稱</span>
@@ -204,15 +215,7 @@ function Working(props) {
               </div>
 
               {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
-                <div className="progress1">
-                  {circle(caseProgress)}
-                  <div className="progress prog1">
-                    <div
-                      className="progress-bar "
-                      style={{ width: `${progBar(item)}%` }}
-                    ></div>
-                  </div>
-                </div>
+                <div className="progress1">{circle(caseProgress)}</div>
               )}
 
               <div className="arrowDiv">

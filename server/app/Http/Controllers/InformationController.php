@@ -236,9 +236,9 @@ class InformationController extends Controller
     public function enterCaseStepClient(Request $request)
     {
         $userID = $request['userID'];
-        $caseID = $request['caseID'];
+        $page = $request['page'];
         // return $caseID;
-        $result = DB::select("CALL enterCaseStepClient(?, ?)", [$userID, $caseID]);
+        $result = DB::select("CALL enterCaseStepClient(?, ?)", [$userID, $page]);
         return $result;
     }
 }

@@ -181,11 +181,11 @@ class Auth {
   }
 
   //提案進度條
-  enterCaseStepClient(userID, caseID) {
+  enterCaseStepClient(userID, page) {
     return axios.get(API_URL + "/enterCaseStepClient", {
       params: {
         userID,
-        caseID,
+        page,
       },
     });
   }
