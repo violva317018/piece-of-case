@@ -68,6 +68,11 @@ function Login() {
 
   useEffect(() => {
     localStorage.setItem("rememberID", JSON.stringify(false));
+
+    // 預防介面刷新，email 取不到問題
+    if (JSON.parse(localStorage.getItem("rememberID")) === true) {
+      setUserEmail(JSON.parse(localStorage.getItem("accountNumber")));
+    }
   }, []);
 
   return (

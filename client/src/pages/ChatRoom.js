@@ -1,17 +1,18 @@
-import "./chatRoom.css";
-import React, { useState, useRef, useEffect } from "react";
+import "./chatRoom.css"
+import React, { useState, useRef, useEffect } from "react"
 import User from "../components/chatRoom_component/user/User"
 import Message from "../components/chatRoom_component/message/Message"
-import Chat from "../axios/Chat";
-import { io } from "socket.io-client";
+import Chat from "../axios/Chat"
+import { io } from "socket.io-client"
 
-function ChatRoom(props) {
+function ChatRoom() {
     const [conversations, setConversations] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState(null);
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [messageSend, setMessageSend] = useState([]);
     const socket = useRef(io("http://localhost:4000"))
     const scrollRef = useRef();
     const currentUserID = JSON.parse(localStorage.getItem("userID"));
@@ -41,10 +42,6 @@ function ChatRoom(props) {
         })
     }, [currentUserID]);
 
-    useEffect(() => {
-        console.log("onlineUsers", onlineUsers);
-    }, [onlineUsers]);
-
     // 訊息滾動至最新一筆
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -55,11 +52,12 @@ function ChatRoom(props) {
         Chat.getChatOtherUser(currentUserID)
             .then((res) => {
                 setConversations(res['data']);
+                console.log("getChatOtherUser", res['data']);
             })
             .catch((err) => {
                 console.error(err);
             });
-    }, [currentUserID]);
+    }, [currentUserID, messageSend]);
 
     // 得到兩人之間的歷史訊息
     useEffect(() => {
@@ -86,7 +84,9 @@ function ChatRoom(props) {
 
         Chat.sendMessage(currentUserID, currentChat.userID, newMessage, null)
             .then((res) => {
+                console.log("sendMessage",res['data']);
                 setMessages([...messages, res['data']]); // ! 還未能獲取最新一筆剛傳入的訊息 procedure?
+                setMessageSend([...messageSend, res['data']])
             })
             .catch((err) => {
                 console.error(err);
@@ -98,9 +98,9 @@ function ChatRoom(props) {
         <div className="messenger">
             <div className="chatMenu">
                 <div className="chatMenuWrapper">
-                    <input placeholder="Search for friends" className="chatMenuInput" />
+                    {/* <input placeholder="Search for friends" className="chatMenuInput" /> */}
                     {conversations.map((c) => (
-                        <div onClick={() => setCurrentChat(c)}>
+                        <div className="chatMenuUser" onClick={() => setCurrentChat(c)}>
                             <User user={c} online={onlineUsers.some((o) => c.userID === o.userId)} />
                         </div>
                     ))}
@@ -113,17 +113,17 @@ function ChatRoom(props) {
                             <div className="chatBoxTop">
                                 {messages.map((m) => (
                                     <div ref={scrollRef}>
-                                        <Message message={m} own={m.fromID === currentUserID} />
+                                        <Message message={m} own={m.fromID === currentUserID} chatUser={currentChat} />
                                     </div>
                                 ))}
                             </div>
                             <div className="chatBoxBottom">
-                                <textarea
+                                <input
                                     className="chatMessageInput"
                                     placeholder="write something..."
                                     onChange={(e) => setNewMessage(e.target.value)}
                                     value={newMessage}
-                                ></textarea>
+                                ></input>
                                 <button className="chatSubmitButton" onClick={handleSubmit}>
                                     Send
                                 </button>
@@ -136,7 +136,6 @@ function ChatRoom(props) {
                     )}
                 </div>
             </div>
-
         </div>
     );
 }

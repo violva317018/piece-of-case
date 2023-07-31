@@ -132,7 +132,7 @@ function SchemeProgress(props) {
     Scheme.newScheme(schemeJson, bidderID)
       .then((result) => {
         alert(result["data"][0][result]);
-        navigate("/personalinfo");
+        // navigate("/personalinfo");
       })
       .catch((err) => {
         console.error(err);

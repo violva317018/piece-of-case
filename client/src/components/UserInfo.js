@@ -28,7 +28,7 @@ function UserInfo(props) {
       .then((result) => {
         console.log(result["data"]);
         setEcpayHtml(result["data"]);
-        navigate("/Ecpay");
+        navigate("/Ecpay"); // ! 會由綠界跳轉所以不用設定
       })
       .catch((err) => {
         console.log(err);

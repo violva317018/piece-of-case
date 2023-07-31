@@ -53,12 +53,13 @@ class InformationController extends Controller
             $filename = $image->store('documents');
         } else {
             // 使用默認圖片，路徑 public/upload/images.jpg
-            $filename = 'upload/images.jpeg';
+            $filename = 'upload/image.jpg';
         }
 
         $userID = $request->userID;
         $file = DB::select("CALL newPhoto(?, ?)", [$userID, $filename])[0]->profilePhoto;
         $newPhoto = Storage::get($file);
+        // return $file;
         return response()->json(['profilePhoto' => base64_encode($newPhoto)]);
     }
 
