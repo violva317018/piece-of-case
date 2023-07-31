@@ -2,9 +2,9 @@ import axios from "axios";
 
 // 後端給的網址
 const API_URL =
-  " https://0ef3-106-64-175-47.ngrok-free.app/index.php/api/payment";
+  "https://e9f4-118-163-218-100.ngrok-free.app/index.php/api/payment";
 // const API_URL =
-//   "http://localhost/Full-Stack-Project/server/public/index.php/api/payment";
+// "http://localhost/Full-Stack-Project/server/public/index.php/api/payment";
 
 class Payment {
   // 發送訂單資訊
