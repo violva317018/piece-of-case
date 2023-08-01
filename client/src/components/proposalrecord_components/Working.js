@@ -80,25 +80,34 @@ function Working(props) {
       });
   };
 
-  const progBar = (caseProgress, i) => {
-    return (caseProgress[i]["caseSchedule"] / caseProgress[i]["總流程"]) * 100;
+  const progBar = (caseProgress, caseID, i) => {
+    return (
+      (caseProgress[caseID][i]["caseSchedule"] /
+        caseProgress[caseID][i]["總流程"]) *
+      100
+    );
   };
 
   const completedBtn = (i, caseProgress) => {
     if (i === 0) {
       return (
-        <div className="btn1" onClick={() => {}}>
+        <div className="btn1" onClick={() => handleCompletedBtn}>
           完成
         </div>
       );
     }
   };
 
-  const circle = (caseProgress) => {
+  const handleCompletedBtn = () => {
+    Auth.clickCompletedBtn();
+  };
+
+  const circle = (caseProgress, caseID) => {
     console.log(caseProgress);
+    console.log(caseID);
     let circleResult = [];
 
-    for (let i = 0; i < caseProgress[0]["總流程"]; i++) {
+    for (let i = 0; i < caseProgress[caseID][0]["總流程"]; i++) {
       circleResult.push(
         <div className="progressCircle" key={i}>
           <div
@@ -107,17 +116,19 @@ function Working(props) {
           ></div>
           <div className="deadLine">
             {i === 0 ? "成交日期" : "截止日期"}：
-            {caseProgress[i]["stepDeadline"]}
+            {caseProgress[caseID][i]["stepDeadline"]}
           </div>
           <div
             className="right1"
             style={{
               color:
-                caseProgress[i]["moneyStatus"] === "未結清" ? "red" : "green",
+                caseProgress[caseID][i]["moneyStatus"] === "未結清"
+                  ? "red"
+                  : "green",
               width: "3rem",
             }}
           >
-            {caseProgress[i]["moneyStatus"]}
+            {caseProgress[caseID][i]["moneyStatus"]}
           </div>
         </div>
       );
@@ -125,7 +136,9 @@ function Working(props) {
 
     for (
       let i = 0;
-      i < caseProgress[0]["總流程"] - caseProgress[0]["caseSchedule"];
+      i <
+      caseProgress[caseID][0]["總流程"] -
+        caseProgress[caseID][0]["caseSchedule"];
       i++
     ) {
       circleResult.push(
@@ -139,9 +152,9 @@ function Working(props) {
           <div className="deadLine">
             截止日期：
             {
-              caseProgress[i + caseProgress[0]["caseSchedule"] + 1][
-                "stepDeadline"
-              ]
+              caseProgress[caseID][
+                i + caseProgress[caseID][0]["caseSchedule"] + 1
+              ]["stepDeadline"]
             }
           </div>
 
@@ -149,29 +162,29 @@ function Working(props) {
             className="right1"
             style={{
               color:
-                caseProgress[i + caseProgress[0]["caseSchedule"] + 1][
-                  "moneyStatus"
-                ] === "未結清"
+                caseProgress[caseID][
+                  i + caseProgress[caseID][0]["caseSchedule"] + 1
+                ]["moneyStatus"] === "未結清"
                   ? "red"
                   : "green",
               width: "3rem",
             }}
           >
             {
-              caseProgress[i + caseProgress[0]["caseSchedule"] + 1][
-                "moneyStatus"
-              ]
+              caseProgress[caseID][
+                i + caseProgress[caseID][0]["caseSchedule"] + 1
+              ]["moneyStatus"]
             }
           </div>
         </div>
       );
     }
-    for (let i = 0; i < caseProgress[0]["總流程"]; i++) {
+    for (let i = 0; i < caseProgress[caseID][0]["總流程"]; i++) {
       circleResult.push(
         <div className="progress prog1">
           <div
             className="progress-bar "
-            style={{ width: `${progBar(caseProgress)}%` }}
+            style={{ width: `${progBar(caseProgress, caseID, i)}%` }}
           ></div>
         </div>
       );
@@ -182,13 +195,25 @@ function Working(props) {
   const [show, setShow] = useState(true);
 
   const [arrowStyle, setArrowStyle] = useState();
+  let caseItem = {};
 
   useEffect(() => {
-    Auth.enterCaseStepClient(JSON.parse(localStorage.getItem("userID")), "19")
+    Auth.enterCaseStepClient(JSON.parse(localStorage.getItem("userID")), "1")
       .then((result) => {
-        // console.log(result);
-        setCaseProgress(result["data"]);
-        // console.log(caseProgress);
+        console.log(result);
+        result["data"].map((myCase) => {
+          const caseID = myCase["caseID"];
+          if (!caseItem[caseID]) {
+            // console.log(caseItem[caseID]);
+            caseItem = { ...caseItem, [caseID]: [myCase] };
+            // console.log(caseItem);
+          } else {
+            // console.log("123");
+            caseItem[caseID].push(myCase);
+          }
+        });
+        // console.log(caseItem);
+        setCaseProgress(caseItem);
       })
       .catch((err) => {
         console.error(err);
@@ -215,7 +240,9 @@ function Working(props) {
               </div>
 
               {JSON.parse(localStorage.getItem(`showProg${index}`)) && (
-                <div className="progress1">{circle(caseProgress)}</div>
+                <div className="progress1">
+                  {circle(caseProgress, item["caseID"])}
+                </div>
               )}
 
               <div className="arrowDiv">
