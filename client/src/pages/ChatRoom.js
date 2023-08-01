@@ -13,39 +13,69 @@ function ChatRoom() {
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [messageSend, setMessageSend] = useState([]);
-    const socket = useRef(io("http://localhost:4000"))
+    const [notification, setNotification] = useState([]);
+    const [socket, setSocket] = useState(null);
     const scrollRef = useRef();
+    const MessageRef = useRef(null);
     const currentUserID = JSON.parse(localStorage.getItem("userID"));
 
-    // 對方傳來訊息(透過socket.io)
+    console.log("notification", notification);
+
+    // #region Socket.io
+    // * Socket.io 連線
     useEffect(() => {
-        socket.current = io("http://localhost:4000");
-        socket.current.on("getMessage", data => {
+        const newSocket = io("http://localhost:4000");
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        }
+    }, [currentUserID]);
+
+    // * 取得上線用戶
+    useEffect(() => {
+        if (socket === null) return;
+        socket.emit("addUser", currentUserID);
+        socket.on("getUsers", (users) => {
+            setOnlineUsers(users);
+        })
+    }, [socket]);
+
+
+    // * 取得對方傳來的訊息(透過socket.io)
+    useEffect(() => {
+        if (socket === null) return;
+        socket.on("getMessage", data => {
             setArrivalMessage({
                 fromID: data.senderId,
                 message: data.text,
             })
         })
-    });
 
+        socket.on("getNotification", data => {
+            const isChatOpen = currentChat.userID === data.senderId;
+
+            if (isChatOpen) {
+                setNotification(prev => [{...data, isRead:true}, ...prev]);
+            } else {
+                setNotification(prev => [data, ...prev]);
+            }
+        })
+
+
+        return () => {
+            socket.off("getMessage");
+            socket.off("getNotification");
+        };
+    }, [socket, currentChat]);
+    // #endregion
+
+    // 將從對方取得的訊息存到 messages 陣列中
     useEffect(() => {
         if (arrivalMessage && currentChat.userID === arrivalMessage.fromID) {
             setMessages((prev) => [...prev, arrivalMessage])
         }
     }, [arrivalMessage, currentChat]);
-
-    // 用戶上線
-    useEffect(() => {
-        socket.current.emit("addUser", currentUserID);
-        socket.current.on("getUsers", (users) => {
-            setOnlineUsers(users);
-        })
-    }, [currentUserID]);
-
-    // 訊息滾動至最新一筆
-    useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
 
     // 畫面一掛載時，將當前使用者ID傳入，並取得其他已聊過的人員資訊
     useEffect(() => {
@@ -75,8 +105,10 @@ function ChatRoom() {
     // 按下 Send 傳送訊息
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        socket.current.emit("sendMessage", {
+        MessageRef.current.value = '';
+        // 傳送訊息給對方(透過 socket.io server 端 -> )
+        if (socket === null) return;
+        socket.emit("sendMessage", {
             senderId: currentUserID,
             receiverId: currentChat.userID,
             text: newMessage,
@@ -84,14 +116,19 @@ function ChatRoom() {
 
         Chat.sendMessage(currentUserID, currentChat.userID, newMessage, null)
             .then((res) => {
-                console.log("sendMessage",res['data']);
-                setMessages([...messages, res['data']]); // ! 還未能獲取最新一筆剛傳入的訊息 procedure?
+                console.log("sendMessage", res['data']);
+                setMessages([...messages, res['data'][0]]);
                 setMessageSend([...messageSend, res['data']])
             })
             .catch((err) => {
                 console.error(err);
             });
     }
+
+    // 訊息滾動至最新一筆
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
 
     return (
@@ -119,10 +156,10 @@ function ChatRoom() {
                             </div>
                             <div className="chatBoxBottom">
                                 <input
+                                    ref={MessageRef}
                                     className="chatMessageInput"
                                     placeholder="write something..."
                                     onChange={(e) => setNewMessage(e.target.value)}
-                                    value={newMessage}
                                 ></input>
                                 <button className="chatSubmitButton" onClick={handleSubmit}>
                                     Send
