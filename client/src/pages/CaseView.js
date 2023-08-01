@@ -1,16 +1,15 @@
 // 接案者點進案子後的介面
-import React, { useContext, useEffect, useState } from "react";
-import "../App.css";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./caseView.css";
 import CaseContent from "../components/CaseContent";
 import UserInfo from "../components/UserInfo";
 import CaseRecommend from "../components/CaseRecommend";
-import { GlobelDate } from "../App";
 import Case from "../axios/Case";
 
 function CaseView() {
-  // 取得全域變數
-  const { currentCaseId } = useContext(GlobelDate);
+  // 從網址取得參數
+  const { caseID } = useParams();
 
   // 案件資訊
   const [classID, setClassID] = useState("");
@@ -24,7 +23,7 @@ function CaseView() {
   const [contactName, setContactName] = useState("");
   const [files, setFiles] = useState([]);
   const [bulidCaseUserID, setBulidCaseUserID] = useState(0);
-  const [profilePhoto, setProfilePhoto] = useState('');
+  const [profilePhoto, setProfilePhoto] = useState("");
 
   // 目前使用者id === 建案子的使用者id
   const userEqual =
@@ -33,11 +32,14 @@ function CaseView() {
   // 取得當前使用者ID與被點擊的案件ID並渲染出案件
   // 先 caseID，userID
   useEffect(() => {
-    Case.getCaseInfo(currentCaseId, JSON.parse(localStorage.getItem("userID")))
+    Case.getCaseInfo(caseID, JSON.parse(localStorage.getItem("userID")))
       .then((result) => {
-        console.log(result['data'][0]);
+        console.log(result["data"][0]);
         setClassID(result["data"][0]["classID"]);
-        localStorage.setItem("classID", JSON.stringify(result["data"][0]["classID"]))
+        localStorage.setItem(
+          "classID",
+          JSON.stringify(result["data"][0]["classID"])
+        );
         setCaseName(result["data"][0]["caseName"]);
         setBudget(result["data"][0]["budget"]);
         setDeadline(result["data"][0]["deadline"]);
@@ -53,8 +55,7 @@ function CaseView() {
       .catch((err) => {
         console.error(err);
       });
-  }, [])
-
+  }, []);
 
   return (
     <main>

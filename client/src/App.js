@@ -205,7 +205,7 @@ function App() {
           <Route path={"/register"} element={<Register />} />
           <Route path={"/proposal"} element={<Proposal />} />
           <Route path={"/allCase"} element={<AllCase />} />
-          <Route path={"/CaseView"} element={<CaseView />} />
+          <Route path={"/CaseView/:caseID"} element={<CaseView />} />
           <Route path={"/chatRoom"} element={<ChatRoom />} />
           <Route path={"/Scheme/:bidderID"} element={<Scheme />} />
           <Route path={"/checkInfo"} element={<CheckInfo />} />
