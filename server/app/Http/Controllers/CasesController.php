@@ -150,7 +150,9 @@ class CasesController extends Controller
     {
         $caseID =  (int)$request['caseID'];
         $userID =  (int)$request['userID'];
+
         $results = DB::select('CALL enterCase(?,?)',[$caseID, $userID]);
+        // return $results;
         // 處理檔案編碼
         $results[0]->image = explode(',', $results[0]->image);
         for($i = 0; $i < count($results[0]->image); $i++){
@@ -190,5 +192,13 @@ class CasesController extends Controller
         return $results;
     }
 
+    // 取得當前被點擊案件的報價人員
+    public function addCollection(Request $request)
+    {
+        $caseID =  (int)$request['caseID'];
+        $userID =  (int)$request['userID'];
+        $results = DB::select('CALL createCollection(?,?)',[$userID,$caseID]);
+        return $results;
+    }
 
 }

@@ -24,6 +24,7 @@ function CaseView() {
   const [files, setFiles] = useState([]);
   const [bulidCaseUserID, setBulidCaseUserID] = useState(0);
   const [profilePhoto, setProfilePhoto] = useState("");
+  const [collection, setCollection] = useState(0);
 
   // 目前使用者id === 建案子的使用者id
   const userEqual =
@@ -34,7 +35,8 @@ function CaseView() {
   useEffect(() => {
     Case.getCaseInfo(caseID, JSON.parse(localStorage.getItem("userID")))
       .then((result) => {
-        console.log(result["data"][0]);
+        console.log(result["data"]);
+        setCollection(result["data"][0]["collection"]);
         setClassID(result["data"][0]["classID"]);
         localStorage.setItem(
           "classID",
@@ -70,6 +72,10 @@ function CaseView() {
             city={city}
             district={district}
             files={files}
+            caseID={caseID}
+            userEqual={userEqual}
+            collection={collection}
+            setCollection={setCollection}
           />
           {/* 案主資訊 && 報價區域 */}
           <UserInfo

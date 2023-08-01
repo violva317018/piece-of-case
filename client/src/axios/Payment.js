@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 後端給的網址
-const API_URL = "  https://98a9-118-163-218-100.ngrok-free.app/api/payment";
+const API_URL = "https://f83b-118-163-218-100.ngrok-free.app/api/payment";
 
 class Payment {
   // 發送訂單資訊

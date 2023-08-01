@@ -17,7 +17,7 @@ function UserInfo(props) {
   const [quotation, setQuotation] = useState(0); // 報價金額
   const [win, setWin] = useState(false); // 預設
   const [selfRecommended, setSelfRecommended] = useState(""); // 自我推薦
-  let MerchantTradeNo = "Test1000"; // 不可以空格
+  let MerchantTradeNo = "Test1000"; // !不可以空格
   let ItemName = "Test ECPay 100NT *1";
   let TotalAmount = 1000;
   let TradeDesc = "Test ECPay";
