@@ -29,31 +29,23 @@ class CasesController extends Controller
         $contactPhone = $request['contactPhone'];
         $contactTime = $request['contactTime'];
         $status = $request['status'];
-        $imageA = $request['imageA'];
-        $imageB = $request['imageB'];
-        $imageC = $request['imageC'];
-        $imageD = $request['imageD'];
-        $imageE = $request['imageE'];
         $Files = $request->file('allFiles');
-
-        // 處理檔案附檔名及轉碼問題
-        $allFileName = 'proposalFiles/'; // 初始設定標頭【proposalFiles/】，自定義的folder name
-        $filesNameArray = []; // 存放所有的檔案包括檔名.副檔名
-
-        for($i = 0; $i < count($Files); $i++){
-            $fileName = $Files[$i]->getClientOriginalName(); // 檔案名稱
-            $Files[$i]->storeAs('proposalFiles', $fileName); // 將要儲存在 storage 的哪個資料夾名稱
-            $allFileName .= (string)$fileName . ",proposalFiles/"; // 將 加上逗號
-            array_push($filesNameArray, $fileName); // 將 【$fileName】 push to 【$filesNameArray】
+        $allFileName = '';
+        if($Files !== null){
+             // 處理檔案附檔名及轉碼問題
+            $allFileName = 'proposalFiles/'; // 初始設定標頭【proposalFiles/】，自定義的folder name
+            $filesNameArray = []; // 存放所有的檔案包括檔名.副檔名
+            for($i = 0; $i < count($Files); $i++){
+                $fileName = $Files[$i]->getClientOriginalName(); // 檔案名稱
+                $Files[$i]->storeAs('proposalFiles', $fileName); // 將要儲存在 storage 的哪個資料夾名稱
+                $allFileName .= (string)$fileName . ",proposalFiles/"; // 將 加上逗號
+                array_push($filesNameArray, $fileName); // 將 【$fileName】 push to 【$filesNameArray】
+            }
+            $allFileName = substr($allFileName, 0, -15) . ''; // 將最後的【,files/】移除並加上【"】
         }
-
-        $allFileName = substr($allFileName, 0, -15) . ''; // 將最後的【,files/】移除並加上【"】
-
         // 為了將其取出
         // $result = DB::select("CALL newPortfolio($userID, $allFileName)")[0]->result; // file name saved in DB
         // $filesName = DB::select("select portfolio from myresume where userID = $userID")[0]->portfolio; // get the file name from the DB
-
-        // return [$caseID,$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $imageA, $imageB, $imageC, $imageD, $imageE];
         try {
             $results = DB::select("CALL addMyCase(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [$caseID,$userID, $name, $category, $subCategory, $budget, $deadline, $city,$subCity, $description, $contactName,$contactAble, $contactPhone, $contactTime, $status, $allFileName]);
             return $results;

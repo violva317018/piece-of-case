@@ -280,7 +280,7 @@ function AllCase() {
                     <p>預計完成日期: {item.deadline}</p>
                     <Link
                       className="moreView"
-                      to={"/caseview"}
+                      to={`/caseview/${item.caseID}`}
                       data-caseid={item.caseID}
                       onClick={(e) => {
                         console.log(e.target["dataset"]["caseid"]);
