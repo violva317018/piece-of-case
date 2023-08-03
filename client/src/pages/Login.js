@@ -31,6 +31,7 @@ function Login() {
         if (result["data"] == "帳號或密碼錯誤") {
           alert(result["data"]);
         }
+
         //登入後localStorage存userInfo
         localStorage.setItem(
           "userInfo",
@@ -57,8 +58,12 @@ function Login() {
           window.alert("登入失敗");
         } else if (result["data"][0]["result"] === "登入成功") {
           window.alert("登入成功");
-          // 導向至首頁
+          // 導向至首頁, 如果是管理員帳號的話導向到後台
+          if (result["data"][0]["membershipLevel"] === "root") {
+          navigate("/Backstage");
+         } else {
           navigate("/");
+                }
         }
       })
       .catch((err) => {

@@ -15,8 +15,12 @@ import Scheme from "./pages/Scheme";
 import CheckInfo from "./pages/CheckInfo";
 import Auth from "./axios/Auth";
 import Ecpay from "./pages/Ecpay";
+<<<<<<< HEAD
+import Backstage from "./pages/Backstage";
+=======
 import Chat from "./axios/Chat";
 import unreadNotificationFunc from "./components/chatRoom_component/notification/unreadNotificationFunc";
+>>>>>>> b733934a287a77245c91b7c5fddd2af2ea230b40
 
 localStorage.setItem("text", "hello");
 
@@ -200,6 +204,7 @@ function App() {
             path={"/ChatRoom/:chatid"}
             element={<ChatRoom />}
           />
+          <Route path={"/Backstage"} element={<Backstage/>} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>

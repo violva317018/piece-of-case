@@ -58,8 +58,8 @@ class UserController extends Controller
         $hashPassword = DB::select("call getHashPassword(?)",[$email])[0]->hashpassword;
         // 假如密碼匹配成功就登入
         if (Hash::check($password, $hashPassword)){
+            //2023/8/3 login改多回傳一個membershipLevel讓前端判斷是否為管理員
             $result = DB::select("CALL login('$email', '$hashPassword')");
-            // return $result;
             if ($result[0]->profilePhoto != null){
                 $result[0]->profilePhoto = base64_encode(Storage::get($result[0]->profilePhoto));
             } else if ($result[0]->profilePhoto == null){
