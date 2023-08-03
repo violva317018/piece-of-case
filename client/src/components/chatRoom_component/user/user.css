@@ -43,6 +43,13 @@
   font-weight: 500;
 }
 
+.userNotification {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+}
+
 @media screen and (max-width: 768px) {
   .userName {
     display: none;

@@ -6,7 +6,7 @@ import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
 
 function Header() {
-  const { headphoto, setHeadPhoto, userinfo, setUserInfo, setInfoData } =
+    const { headphoto, setHeadPhoto, userinfo, setUserInfo, setInfoData, unreadNotifications } =
     useContext(GlobelDate);
   const handleLogout = () => {
     Auth.logout(userinfo)
@@ -97,6 +97,7 @@ function Header() {
               <li>
                 <Link className="dropdown-item" to="/chatRoom">
                   聊天室
+                    <span className={unreadNotifications?.length === 0 ? null : "chatRoomNotification"}>{unreadNotifications?.length === 0 ? null : unreadNotifications.length}</span>
                 </Link>
               </li>
               <li>

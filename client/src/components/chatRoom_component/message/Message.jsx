@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GlobelDate } from "../../../App";
 import "./message.css";
-// import {format} from "timeago.js"
+import {format} from "timeago.js"
 
 export default function Message({ message, own, chatUser }) {
   const { headphoto } = useContext(GlobelDate);
@@ -21,7 +21,7 @@ export default function Message({ message, own, chatUser }) {
         />
         <p className="messageText">{message.message}</p>
       </div>
-      {/* <div className="messageBottom">{format(message.messageTime, "zhTW")}</div> */}
+      <div className="messageBottom">{format(message.messageTime, "zhTW")}</div>
     </div>
   );
 }
