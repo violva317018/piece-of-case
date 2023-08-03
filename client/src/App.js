@@ -16,6 +16,7 @@ import CheckInfo from "./pages/CheckInfo";
 import socket from "./socket";
 import Auth from "./axios/Auth";
 import Ecpay from "./pages/Ecpay";
+import Backstage from "./pages/Backstage";
 
 localStorage.setItem("text", "hello");
 
@@ -214,6 +215,7 @@ function App() {
             path={"/ChatRoom/:chatid"}
             element={<ChatRoom />}
           />
+          <Route path={"/Backstage"} element={<Backstage/>} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>
