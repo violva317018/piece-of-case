@@ -9,14 +9,18 @@ import CaseView from "./pages/CaseView";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PersonalInfo from "./pages/PersonalInfo";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ChatRoom from "./pages/ChatRoom";
 import Scheme from "./pages/Scheme";
 import CheckInfo from "./pages/CheckInfo";
-import socket from "./socket";
 import Auth from "./axios/Auth";
 import Ecpay from "./pages/Ecpay";
+<<<<<<< HEAD
 import Backstage from "./pages/Backstage";
+=======
+import Chat from "./axios/Chat";
+import unreadNotificationFunc from "./components/chatRoom_component/notification/unreadNotificationFunc";
+>>>>>>> b733934a287a77245c91b7c5fddd2af2ea230b40
 
 localStorage.setItem("text", "hello");
 
@@ -26,43 +30,25 @@ export const GlobelDate = React.createContext({});
 function App() {
   const navigate = useNavigate();
   // chat --- start
-//   const [usersList, addUsers] = useState([]);
-//   // When the user is login fetched_userName from Login.js with submit
-//   const getUsername = (fetched_userName) => {
-//     setUserName(fetched_userName);
-//     socket.auth = { fetched_userName };
-//     socket.connect(); // 丟回 server line 30
-//   };
+  const [notifications, setNotifications] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const currentUserID = JSON.parse(localStorage.getItem("userID"));
+  const unreadNotifications = unreadNotificationFunc(notifications);
+  const modifiedNotifications = notifications.map((n) => {
+    const sender = allUsers.find((u) => u.userID === n.senderId);
+      return { ...n, senderName: sender?.userName };
+  });
 
-//   const initReactiveProperties = (user) => {
-//     user.connected = true;
-//     user.hasNewMessages = false;
-//   };
+    useEffect(() => {
+        Chat.getChatOtherUser(currentUserID)
+            .then((res) => {
+                setAllUsers(res['data']);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, [currentUserID]);
 
-//   socket.on("other user connect", (user) => {
-//     initReactiveProperties(user);
-//     addUsers([...usersList, user]);
-//   });
-
-//   // 更新 user.self 狀態
-//   socket.on("users", (users) => {
-//     users.forEach((user) => {
-//       // 透過該網頁的 socket.id 與 userID 判斷是否為本人
-//       user.self = user.userID === socket.id;
-//       initReactiveProperties(user);
-//     });
-//     addUsers(users);
-//   });
-
-//   socket.on("user disconnected", (user) => {
-//     for (let i = 0; i < usersList.length; i++) {
-//       const userInList = usersList[i];
-//       if (userInList.username === user.username) {
-//         usersList[i].connected = false;
-//         break;
-//       }
-//     }
-//   });
   // chat --- end
 
   // 給註冊登入使用
@@ -196,6 +182,9 @@ function App() {
           setCurrentCaseId,
           ecpayHtml,
           setEcpayHtml,
+          notifications,
+          setNotifications,
+          unreadNotifications,
         }}
       >
         <Header />

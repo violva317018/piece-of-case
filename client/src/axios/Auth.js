@@ -143,12 +143,13 @@ class Auth {
     });
   }
   // 接案紀錄
-  getBidderCase(userID, caseStatus) {
+  getBidderCase(userID, caseStatus, page) {
     console.log(userID, caseStatus);
     return axios.get(API_URL + "/getBidderCase", {
       params: {
         userID,
         caseStatus,
+        page,
       },
     });
   }
@@ -187,6 +188,24 @@ class Auth {
         userID,
         page,
       },
+    });
+  }
+
+  enterCaseStepBidder(userID, page) {
+    return axios.get(API_URL + "/enterCaseStepBidder", {
+      params: {
+        userID,
+        page,
+      },
+    });
+  }
+
+  //提案者or接案者按下完成
+  stepConfirm(userID, caseID, deadLine) {
+    return axios.post(API_URL + "/stepConfirm", {
+      userID,
+      caseID,
+      deadLine,
     });
   }
 
