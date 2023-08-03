@@ -1,9 +1,11 @@
 import "./chatRoom.css"
-import React, { useState, useRef, useEffect } from "react"
+import React, { useCallback, useContext, useState, useRef, useEffect } from "react"
 import User from "../components/chatRoom_component/user/User"
 import Message from "../components/chatRoom_component/message/Message"
 import Chat from "../axios/Chat"
+import { GlobelDate } from "../App"
 import { io } from "socket.io-client"
+import unreadNotificationFunc from "../components/chatRoom_component/notification/unreadNotificationFunc"
 
 function ChatRoom() {
     const [conversations, setConversations] = useState([]);
@@ -13,14 +15,12 @@ function ChatRoom() {
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [messageSend, setMessageSend] = useState([]);
-    const [notification, setNotification] = useState([]);
     const [socket, setSocket] = useState(null);
     const scrollRef = useRef();
     const MessageRef = useRef(null);
+    const { notifications, setNotifications } = useContext(GlobelDate);
     const currentUserID = JSON.parse(localStorage.getItem("userID"));
-
-    console.log("notification", notification);
-
+    const unreadNotification = unreadNotificationFunc(notifications);
     // #region Socket.io
     // * Socket.io 連線
     useEffect(() => {
@@ -53,15 +53,14 @@ function ChatRoom() {
         })
 
         socket.on("getNotification", data => {
-            const isChatOpen = currentChat.userID === data.senderId;
+            const isChatOpen = currentChat?.userID === data.senderId;
 
             if (isChatOpen) {
-                setNotification(prev => [{...data, isRead:true}, ...prev]);
+                setNotifications(prev => [{ ...data, isRead: true }, ...prev]);
             } else {
-                setNotification(prev => [data, ...prev]);
+                setNotifications(prev => [data, ...prev]);
             }
         })
-
 
         return () => {
             socket.off("getMessage");
@@ -72,7 +71,7 @@ function ChatRoom() {
 
     // 將從對方取得的訊息存到 messages 陣列中
     useEffect(() => {
-        if (arrivalMessage && currentChat.userID === arrivalMessage.fromID) {
+        if (arrivalMessage && currentChat?.userID === arrivalMessage.fromID) {
             setMessages((prev) => [...prev, arrivalMessage])
         }
     }, [arrivalMessage, currentChat]);
@@ -82,7 +81,6 @@ function ChatRoom() {
         Chat.getChatOtherUser(currentUserID)
             .then((res) => {
                 setConversations(res['data']);
-                console.log("getChatOtherUser", res['data']);
             })
             .catch((err) => {
                 console.error(err);
@@ -102,9 +100,14 @@ function ChatRoom() {
         }
     }, [currentChat]);
 
+    const handleKeyup = (e) => {
+        if (e.keyCode === 13) {
+            handleSubmit();
+        }
+    }
+
     // 按下 Send 傳送訊息
     const handleSubmit = (e) => {
-        e.preventDefault();
         MessageRef.current.value = '';
         // 傳送訊息給對方(透過 socket.io server 端 -> )
         if (socket === null) return;
@@ -125,6 +128,27 @@ function ChatRoom() {
             });
     }
 
+    const markUserNotificationAsRead = useCallback((thisUsernotification, notifications) => {
+        const mNotifications = notifications.map(el => {
+            let notification;
+
+            thisUsernotification.forEach(n => {
+                if (n.senderId === el.senderId) {
+                    notification = {
+                        ...n,
+                        isRead: true,
+                    }
+                } else {
+                    notification = el;
+                }
+            })
+
+            return notification;
+        })
+
+        setNotifications(mNotifications);
+    });
+
     // 訊息滾動至最新一筆
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -137,8 +161,14 @@ function ChatRoom() {
                 <div className="chatMenuWrapper">
                     {/* <input placeholder="Search for friends" className="chatMenuInput" /> */}
                     {conversations.map((c) => (
-                        <div className="chatMenuUser" onClick={() => setCurrentChat(c)}>
-                            <User user={c} online={onlineUsers.some((o) => c.userID === o.userId)} />
+                        <div className="chatMenuUser" onClick={() => {
+                            setCurrentChat(c);
+                        }}>
+                            <User
+                                user={c}
+                                online={onlineUsers.some((o) => c.userID === o.userId)}
+                                unreadNotification={unreadNotification}
+                            />
                         </div>
                     ))}
                 </div>
@@ -160,6 +190,7 @@ function ChatRoom() {
                                     className="chatMessageInput"
                                     placeholder="write something..."
                                     onChange={(e) => setNewMessage(e.target.value)}
+                                    onKeyUp={handleKeyup}
                                 ></input>
                                 <button className="chatSubmitButton" onClick={handleSubmit}>
                                     Send
