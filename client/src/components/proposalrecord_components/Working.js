@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./working.css";
 import { useEffect } from "react";
 import Auth from "../../axios/Auth";
+import { GlobelDate } from "../../App";
 
 function Working(props) {
+  const { proposal } = useContext(GlobelDate);
+
   const { currentProposalCases } = props;
 
   const workingCase = [
@@ -82,8 +85,8 @@ function Working(props) {
 
   const progBar = (caseProgress, caseID, i) => {
     return (
-      (caseProgress[caseID][i]["caseSchedule"] /
-        caseProgress[caseID][i]["總流程"]) *
+      ((caseProgress[caseID][i]["caseSchedule"] - 1) /
+        (caseProgress[caseID][i]["總流程"] - 1)) *
       100
     );
   };
@@ -107,7 +110,7 @@ function Working(props) {
     console.log(caseID);
     let circleResult = [];
 
-    for (let i = 0; i < caseProgress[caseID][0]["總流程"]; i++) {
+    for (let i = 0; i < caseProgress[caseID][0]["caseSchedule"]; i++) {
       circleResult.push(
         <div className="progressCircle" key={i}>
           <div
@@ -219,6 +222,7 @@ function Working(props) {
         console.error(err);
       });
   }, []);
+
   console.log(caseProgress);
   return (
     <div>

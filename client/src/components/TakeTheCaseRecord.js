@@ -24,7 +24,8 @@ function TakeTheCaseRecord(props) {
   useEffect(() => {
     Auth.getBidderCase(
       JSON.parse(localStorage.getItem("userID")),
-      currentRecordState
+      currentRecordState,
+      1
     )
       .then((result) => {
         console.log(result["data"]);
@@ -34,6 +35,13 @@ function TakeTheCaseRecord(props) {
         console.log(err);
       });
   }, [currentRecordState]);
+
+  useEffect(() => {
+    for (let i = 0; i < 10; i++) {
+      localStorage.setItem(`showProg${i}`, JSON.stringify(null));
+      localStorage.setItem(`arrow${i}`, JSON.stringify(null));
+    }
+  }, [takethecase]);
   return (
     <div className="recordDiv">
       <div className="d-flex recordDiv1">

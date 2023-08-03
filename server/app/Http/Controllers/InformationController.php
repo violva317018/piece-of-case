@@ -205,7 +205,8 @@ class InformationController extends Controller
     {
         $userID = (int)$request['userID'];
         $caseStatus = $request['caseStatus'];
-        $results = DB::select("CALL enterBidderCase(?, ?)", [$userID, $caseStatus]);
+        $page = $request['page'];
+        $results = DB::select("CALL enterBidderCase(?, ?, ?)", [$userID, $caseStatus, $page]);
         return $results;
     }
 
@@ -241,5 +242,24 @@ class InformationController extends Controller
         // return $caseID;
         $result = DB::select("CALL enterCaseStepClient(?, ?)", [$userID, $page]);
         return $result;
+    }
+
+    //接案進度條
+    public function enterCaseStepBidder(Request $request)
+    {
+        $userID = $request['userID'];
+        $page = $request['page'];
+        // return $caseID;
+        $result = DB::select("CALL enterCaseStepBidder(?, ?)", [$userID, $page]);
+        return $result;
+    }
+
+    //點擊進度條的完成
+    public function stepConfirm(Request $request) {
+        $userID = $request['userID'];
+        $caseID = $request['caseID'];
+        $deadLine= $request['deadLine'];
+        return '123';
+        $result = DB::select('Call stepConfirm(?, ?, ?)', [$userID, $caseID, $deadLine]);
     }
 }
