@@ -91,7 +91,7 @@ Route::post('scheme/newCaseStep', [SchemeController::class, 'newCaseStep']); // 
 
 
 // ECPay
-Route::post('payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
-Route::get('payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
+Route::post('/payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
+Route::post('/payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
 
 
