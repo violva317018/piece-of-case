@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./working.css";
 import Auth from "../../axios/Auth";
-import { GlobelDate } from "../../App";
 
 function Working(props) {
   const { currentRecordCases } = props;
@@ -63,8 +62,8 @@ function Working(props) {
   };
 
   // check complete
-  const completedBtn = (i, caseID, deadLine, bidder) => {
-    if (i === 0 && bidder != 1) {
+  const completedBtn = (i, caseID, deadLine) => {
+    if (i === 0) {
       return (
         <div
           className="btn1"
@@ -77,21 +76,19 @@ function Working(props) {
       );
     }
   };
-  const [recall, setRecall] = useState(false);
+
+  //test
+
   const handleStepConfirm = (caseID, deadLine) => {
-    window.confirm("是否確定達成？ (等待案主確認)");
-    if (window.confirm("是否確定達成？ (等待案主確認)") == true) {
-      Auth.stepConfirm(localStorage.getItem("userID"), caseID, deadLine)
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      setTimeout(() => setRecall(!recall), 500);
-    }
+    Auth.stepConfirm(localStorage.getItem("userID"), caseID, deadLine)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
-  console.log(recall);
+
   const circle = (caseProgress, caseID) => {
     let circleResult = [];
 
@@ -134,12 +131,9 @@ function Working(props) {
           {completedBtn(
             i,
             caseID,
-            caseProgress[caseID][caseProgress[caseID][0]["caseSchedule"] + i][
-              "stepDeadline"
-            ],
-            caseProgress[caseID][caseProgress[caseID][0]["caseSchedule"] + i][
-              "bidder"
-            ]
+            caseProgress[caseID][
+              caseProgress[caseID][0]["caseSchedule"] + 1 + i
+            ]["stepDeadline"]
           )}
           <div
             className="progCircle"
@@ -149,9 +143,9 @@ function Working(props) {
           <div className="deadLine">
             截止日期：
             {
-              caseProgress[caseID][i + caseProgress[caseID][0]["caseSchedule"]][
-                "stepDeadline"
-              ]
+              caseProgress[caseID][
+                i + caseProgress[caseID][0]["caseSchedule"] + 1
+              ]["stepDeadline"]
             }
           </div>
 
@@ -160,7 +154,7 @@ function Working(props) {
             style={{
               color:
                 caseProgress[caseID][
-                  i + caseProgress[caseID][0]["caseSchedule"]
+                  i + caseProgress[caseID][0]["caseSchedule"] + 1
                 ]["moneyStatus"] === "未結清"
                   ? "red"
                   : "green",
@@ -168,9 +162,9 @@ function Working(props) {
             }}
           >
             {
-              caseProgress[caseID][i + caseProgress[caseID][0]["caseSchedule"]][
-                "moneyStatus"
-              ]
+              caseProgress[caseID][
+                i + caseProgress[caseID][0]["caseSchedule"] + 1
+              ]["moneyStatus"]
             }
           </div>
         </div>
@@ -215,7 +209,7 @@ function Working(props) {
       .catch((err) => {
         console.error(err);
       });
-  }, [recall]);
+  }, []);
 
   console.log(caseProgress2);
   //
