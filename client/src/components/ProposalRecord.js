@@ -112,11 +112,11 @@ function ProposalRecord(props) {
           className="recordDiv2"
           onClick={() => {
             setProposal(5);
-            setCurrentProposalState("已完成");
+            setCurrentProposalState("已結案");
           }}
           style={{ backgroundColor: proposal === 5 && "#ffa500" }}
         >
-          <Link className="white1">已完成</Link>
+          <Link className="white1">已結案</Link>
         </div>
       </div>
       {proposal === 1 && (
