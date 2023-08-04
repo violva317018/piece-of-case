@@ -18,6 +18,7 @@ import Ecpay from "./pages/Ecpay";
 import Backstage from "./pages/Backstage";
 import Chat from "./axios/Chat";
 import unreadNotificationFunc from "./components/chatRoom_component/notification/unreadNotificationFunc";
+import GetEcpayResult from "./pages/GetEcpayResult";
 
 localStorage.setItem("text", "hello");
 
@@ -33,18 +34,18 @@ function App() {
   const unreadNotifications = unreadNotificationFunc(notifications);
   const modifiedNotifications = notifications.map((n) => {
     const sender = allUsers.find((u) => u.userID === n.senderId);
-      return { ...n, senderName: sender?.userName };
+    return { ...n, senderName: sender?.userName };
   });
 
-    useEffect(() => {
-        Chat.getChatOtherUser(currentUserID)
-            .then((res) => {
-                setAllUsers(res['data']);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }, [currentUserID]);
+  useEffect(() => {
+    Chat.getChatOtherUser(currentUserID)
+      .then((res) => {
+        setAllUsers(res["data"]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [currentUserID]);
 
   // chat --- end
 
@@ -195,13 +196,14 @@ function App() {
           <Route path={"/CaseView/:caseID"} element={<CaseView />} />
           <Route path={"/chatRoom"} element={<ChatRoom />} />
           <Route path={"/Scheme/:bidderID"} element={<Scheme />} />
-          <Route path={"/checkInfo"} element={<CheckInfo />} />
+          <Route path={"/checkInfo/:userID"} element={<CheckInfo />} />
           <Route path={"/Ecpay"} element={<Ecpay />} />
-          <Route
-            path={"/ChatRoom/:chatid"}
-            element={<ChatRoom />}
-          />
-          <Route path={"/Backstage"} element={<Backstage/>} />
+<<<<<<< HEAD
+=======
+          <Route path={"/GetEcpayResult"} element={<GetEcpayResult />} />
+>>>>>>> 7c129d8862760f63e1c6512b4511cebc8ef83e15
+          <Route path={"/ChatRoom/:chatid"} element={<ChatRoom />} />
+          <Route path={"/Backstage"} element={<Backstage />} />
         </Routes>
         <Footer />
       </GlobelDate.Provider>
