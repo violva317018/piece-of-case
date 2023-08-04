@@ -259,8 +259,8 @@ class InformationController extends Controller
         $userID = $request['userID'];
         $caseID = $request['caseID'];
         $deadLine= $request['deadLine'];
-        return '123';
         $result = DB::select('Call stepConfirm(?, ?, ?)', [$userID, $caseID, $deadLine]);
+        return $result;
     }
 
     // 案主查看資訊

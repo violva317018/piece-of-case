@@ -198,7 +198,10 @@ function App() {
           <Route path={"/Scheme/:bidderID"} element={<Scheme />} />
           <Route path={"/checkInfo/:userID"} element={<CheckInfo />} />
           <Route path={"/Ecpay"} element={<Ecpay />} />
+<<<<<<< HEAD
+=======
           <Route path={"/GetEcpayResult"} element={<GetEcpayResult />} />
+>>>>>>> 7c129d8862760f63e1c6512b4511cebc8ef83e15
           <Route path={"/ChatRoom/:chatid"} element={<ChatRoom />} />
           <Route path={"/Backstage"} element={<Backstage />} />
         </Routes>

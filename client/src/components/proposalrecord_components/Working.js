@@ -91,23 +91,37 @@ function Working(props) {
     );
   };
 
-  const completedBtn = (i, caseProgress) => {
-    if (i === 0) {
+  //案主完成按鈕
+  const [showBtn, setShowBtn] = useState(false);
+
+  const completedBtn = (i, caseID, deadLine, bidder) => {
+    if (i === 0 && bidder == 1) {
       return (
-        <div className="btn1" onClick={() => handleCompletedBtn}>
+        <div
+          className="btn1"
+          onClick={() => handleStepConfirm(caseID, deadLine)}
+        >
           完成
         </div>
       );
     }
   };
-
-  const handleCompletedBtn = () => {
-    Auth.clickCompletedBtn();
+  const [recall, setRecall] = useState(false);
+  const handleStepConfirm = (caseID, deadLine) => {
+    window.confirm("是否確定完成此進度？");
+    if (window.confirm("是否確定完成此進度？") == true) {
+      Auth.stepConfirm(localStorage.getItem("userID"), caseID, deadLine)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      setTimeout(() => setRecall(!recall), 500);
+    }
   };
 
   const circle = (caseProgress, caseID) => {
-    console.log(caseProgress);
-    console.log(caseID);
     let circleResult = [];
 
     for (let i = 0; i < caseProgress[caseID][0]["caseSchedule"]; i++) {
@@ -146,7 +160,16 @@ function Working(props) {
     ) {
       circleResult.push(
         <div className="progressCircle" key={i + 10}>
-          {completedBtn(i, caseProgress)}
+          {completedBtn(
+            i,
+            caseID,
+            caseProgress[caseID][caseProgress[caseID][0]["caseSchedule"] + i][
+              "stepDeadline"
+            ],
+            caseProgress[caseID][caseProgress[caseID][0]["caseSchedule"] + i][
+              "bidder"
+            ]
+          )}
           <div
             className="progCircle"
             style={{ backgroundColor: "#b8b8b8" }}
@@ -155,9 +178,9 @@ function Working(props) {
           <div className="deadLine">
             截止日期：
             {
-              caseProgress[caseID][
-                i + caseProgress[caseID][0]["caseSchedule"] + 1
-              ]["stepDeadline"]
+              caseProgress[caseID][i + caseProgress[caseID][0]["caseSchedule"]][
+                "stepDeadline"
+              ]
             }
           </div>
 
@@ -166,7 +189,7 @@ function Working(props) {
             style={{
               color:
                 caseProgress[caseID][
-                  i + caseProgress[caseID][0]["caseSchedule"] + 1
+                  i + caseProgress[caseID][0]["caseSchedule"]
                 ]["moneyStatus"] === "未結清"
                   ? "red"
                   : "green",
@@ -174,9 +197,9 @@ function Working(props) {
             }}
           >
             {
-              caseProgress[caseID][
-                i + caseProgress[caseID][0]["caseSchedule"] + 1
-              ]["moneyStatus"]
+              caseProgress[caseID][i + caseProgress[caseID][0]["caseSchedule"]][
+                "moneyStatus"
+              ]
             }
           </div>
         </div>
@@ -221,7 +244,7 @@ function Working(props) {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [recall]);
 
   console.log(caseProgress);
   return (
