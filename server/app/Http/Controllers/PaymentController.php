@@ -70,7 +70,7 @@ class PaymentController extends Controller
             // CheckMacValue
             'EncryptType' => 1, // CheckMacValue加密類型，固定填入1，使用SHA256加密
             // 請勿設定與Client端接收付款結果網址OrderResultURL相同位置，避免程式判斷錯誤。
-            'ReturnURL' => ' https://5398-2001-b011-9807-59a3-714d-fb29-35af-f071.ngrok-free.app/index.php/callback', // 付款完成通知回傳網址
+            'ReturnURL' => 'https://0035-118-163-218-100.ngrok-free.app/index.php/callback', // 付款完成通知回傳網址
             'ClientBackURL' => 'http://localhost:3000/caseview/'.$request['caseID'], // 消費者點選此按鈕後，會將頁面導回到此設定的網址
             // 'OrderResultURL' => 'http://localhost:3000/Ecapy/PayInfo/'. $request['MerchantTradeNo'].time(), // Client端回傳付款結果網址，綠界會將付款結果參數以POST方式回傳到到該網址
             // 付款結果 https://developers.ecpay.com.tw/?p=2878
@@ -83,45 +83,45 @@ class PaymentController extends Controller
         return $autoSubmitFormService->generate($input, $action);
     }
 
-    public function callback(Request $request)
-    {
-        // 請參考 example/Payment/GetCheckoutResponse.php 範例開發
-        $postData = $request->all();
-        $string = print_r($postData, true);
-        file_put_contents('/tmp/ECPay.txt', $string, FILE_APPEND);
+    // public function callback(Request $request)
+    // {
+    //     // 請參考 example/Payment/GetCheckoutResponse.php 範例開發
+    //     $postData = $request->all();
+    //     $string = print_r($postData, true);
+    //     file_put_contents('/tmp/ECPay.txt', $string, FILE_APPEND);
 
-        define('ECPay_MerchantID', '2000132');
-        define('ECPay_HashKey', '5294y06JbISpM5x9');
-        define('ECPay_HashIV', 'v77hoKGq4kWxNNIS');
+    //     define('ECPay_MerchantID', '2000132');
+    //     define('ECPay_HashKey', '5294y06JbISpM5x9');
+    //     define('ECPay_HashIV', 'v77hoKGq4kWxNNIS');
 
-        // 重新整理回傳參數。
-        $arParameters = $postData;
-        $arFeedback = [];
-        foreach ($arParameters as $key => $value) {
-            if ($key != 'CheckMacValue') {
-                if ($key == 'PaymentType') {
-                    $value = str_replace('_CVS', '', $value);
-                    $value = str_replace('_BARCODE', '', $value);
-                    $value = str_replace('_CreditCard', '', $value);
-                }
-                if ($key == 'PeriodType') {
-                    $value = str_replace('Y', 'Year', $value);
-                    $value = str_replace('M', 'Month', $value);
-                    $value = str_replace('D', 'Day', $value);
-                }
-                $arFeedback[$key] = $value;
-            }
-        }
+    //     // 重新整理回傳參數。
+    //     $arParameters = $postData;
+    //     $arFeedback = [];
+    //     foreach ($arParameters as $key => $value) {
+    //         if ($key != 'CheckMacValue') {
+    //             if ($key == 'PaymentType') {
+    //                 $value = str_replace('_CVS', '', $value);
+    //                 $value = str_replace('_BARCODE', '', $value);
+    //                 $value = str_replace('_CreditCard', '', $value);
+    //             }
+    //             if ($key == 'PeriodType') {
+    //                 $value = str_replace('Y', 'Year', $value);
+    //                 $value = str_replace('M', 'Month', $value);
+    //                 $value = str_replace('D', 'Day', $value);
+    //             }
+    //             $arFeedback[$key] = $value;
+    //         }
+    //     }
 
-        // 計算出 CheckMacValue
-        $CheckMacValue = ECPay_CheckMacValue::generate($arParameters, ECPay_HashKey, ECPay_HashIV);
+    //     // 計算出 CheckMacValue
+    //     $CheckMacValue = ECPay_CheckMacValue::generate($arParameters, ECPay_HashKey, ECPay_HashIV);
 
-        // 必須要支付成功並且驗證碼正確
-        if ($postData['RtnCode'] == '1' && $CheckMacValue == $postData['CheckMacValue']) {
-            // 要處理的程式放在這裡，例如將線上服務啟用、更新訂單資料庫付款資訊等
-        }
+    //     // 必須要支付成功並且驗證碼正確
+    //     if ($postData['RtnCode'] == '1' && $CheckMacValue == $postData['CheckMacValue']) {
+    //         // 要處理的程式放在這裡，例如將線上服務啟用、更新訂單資料庫付款資訊等
+    //     }
 
-        // 回應綠界
-        return response('1|OK');
-    }
+    //     // 回應綠界
+    //     return response('1|OK');
+    // }
 }

@@ -17,10 +17,22 @@ function ChatRoom() {
     const [messageSend, setMessageSend] = useState([]);
     const [socket, setSocket] = useState(null);
     const scrollRef = useRef();
-    const MessageRef = useRef(null);
-    const { notifications, setNotifications } = useContext(GlobelDate);
+    const messageRef = useRef(null);
+    const buttonRef = useRef(null);
+    const { notifications, setNotifications, chatChatUser } = useContext(GlobelDate);
     const currentUserID = JSON.parse(localStorage.getItem("userID"));
     const unreadNotification = unreadNotificationFunc(notifications);
+
+    useEffect(() => {
+        if (!chatChatUser) {
+            return;
+        } else {
+            buttonRef.current?.addEventListener('click', setCurrentChat(chatChatUser));
+            buttonRef.current?.click(); //! 還有問題
+        }
+    }, [chatChatUser]);
+
+
     // #region Socket.io
     // * Socket.io 連線
     useEffect(() => {
@@ -108,14 +120,7 @@ function ChatRoom() {
 
     // 按下 Send 傳送訊息
     const handleSubmit = (e) => {
-        MessageRef.current.value = '';
-        // 傳送訊息給對方(透過 socket.io server 端 -> )
-        if (socket === null) return;
-        socket.emit("sendMessage", {
-            senderId: currentUserID,
-            receiverId: currentChat.userID,
-            text: newMessage,
-        })
+        messageRef.current.value = '';
 
         Chat.sendMessage(currentUserID, currentChat.userID, newMessage, null)
             .then((res) => {
@@ -126,6 +131,14 @@ function ChatRoom() {
             .catch((err) => {
                 console.error(err);
             });
+
+        // 傳送訊息給對方(透過 socket.io)
+        if (socket === null) return;
+        socket.emit("sendMessage", {
+            senderId: currentUserID,
+            receiverId: currentChat.userID,
+            text: newMessage,
+        })
     }
 
     const markUserNotificationAsRead = useCallback(
@@ -162,7 +175,7 @@ function ChatRoom() {
                 <div className="chatMenuWrapper">
                     {/* <input placeholder="Search for friends" className="chatMenuInput" /> */}
                     {conversations.map((c) => (
-                        <div className="chatMenuUser" onClick={() => {
+                        <div ref={buttonRef} className="chatMenuUser" onClick={() => {
                             setCurrentChat(c);
                         }}>
                             <User
@@ -191,7 +204,7 @@ function ChatRoom() {
                             </div>
                             <div className="chatBoxBottom">
                                 <input
-                                    ref={MessageRef}
+                                    ref={messageRef}
                                     className="chatMessageInput"
                                     placeholder="write something..."
                                     onChange={(e) => setNewMessage(e.target.value)}

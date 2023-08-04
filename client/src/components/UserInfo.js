@@ -35,23 +35,23 @@ function UserInfo(props) {
         console.log(err);
       });
     // 將報價資訊寫入DB
-    // Case.newBidder(
-    //   currentCaseId,
-    //   JSON.parse(localStorage.getItem("userID")),
-    //   quotation,
-    //   win,
-    //   selfRecommended
-    // )
-    //   .then((result) => {
-    //     console.log(result);
-    //     alert(result["data"][0]["result"]);
-    //     setInfoData(4);
-    //     navigate("/personalinfo");
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     alert(error);
-    //   });
+    Case.newBidder(
+      currentCaseId,
+      JSON.parse(localStorage.getItem("userID")),
+      quotation,
+      win,
+      selfRecommended
+    )
+      .then((result) => {
+        console.log(result);
+        alert(result["data"][0]["result"]);
+        setInfoData(4);
+        navigate("/personalinfo");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(error);
+      });
   };
   return (
     <div className="user-info">

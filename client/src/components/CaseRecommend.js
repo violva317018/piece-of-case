@@ -4,10 +4,11 @@ import { GlobelDate } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 import Case from "../axios/Case";
 import Chat from "../axios/Chat";
+import { io } from "socket.io-client"
 
 function CaseRecommend(porps) {
   // 取得全域變數
-  const { currentCaseId, setCurrentCaseId } = useContext(GlobelDate);
+  const { currentCaseId, setCurrentCaseId, setChatChatUser } = useContext(GlobelDate);
 
   // 從 props 結構賦值
   const { userEqual } = porps;
@@ -18,6 +19,10 @@ function CaseRecommend(porps) {
   const [bridder, setBridder] = useState([]);
   // 儲存推薦人員
   const [recommendCases, setRecommendCases] = useState([]);
+
+  // * socket.io
+  const [socket, setSocket] = useState(null);
+  const currentUserID = JSON.parse(localStorage.getItem("userID"));
 
   // 取得推薦案件、推薦人員
   useEffect(() => {
@@ -42,25 +47,35 @@ function CaseRecommend(porps) {
       });
   }, [currentCaseId]);
 
+  // * Socket.io 連線
+  useEffect(() => {
+      const newSocket = io("http://localhost:4000");
+      setSocket(newSocket);
+
+      return () => {
+          newSocket.disconnect();
+      }
+  }, [currentUserID]);
+
   const handleChat = (item) => {
     console.log(item);
-    // 取得與該對象聊天訊息
-    Chat.getMessage(JSON.parse(localStorage.getItem("userID")), item.userID)
+
+    Chat.sendMessage(currentUserID, item.userID, "hi", null)
       .then((result) => {
         console.log(result);
       })
       .catch((err) => {
         console.error(err);
       });
-    // 取得所有聊過天的使用者資訊
-    Chat.getChatOtherUser(JSON.parse(localStorage.getItem("userID")))
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    navigate("/", {});
+    
+    if (socket === null) return;
+    socket.emit("sendMessage", {
+        senderId: currentUserID,
+        receiverId: item.userID,
+        text: "hi",
+    })
+
+    navigate("/ChatRoom", setChatChatUser(item));
   };
 
   const handleDrictCaseView = (caseID) => {

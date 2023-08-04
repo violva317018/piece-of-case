@@ -1,22 +1,23 @@
 .user {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  margin-top: 20px;
-  border-radius: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 20px;
 }
 
 .user:hover {
-  background-color: rgb(255, 215, 166);
+    background-color: rgb(255, 215, 166);
 }
 
 .userImg {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
 }
 
 .userStatus {
@@ -40,10 +41,12 @@
 }
 
 .userName {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .userNotification {
+    position: absolute;
+    right: 30px;
     width: 10px;
     height: 10px;
     background-color: red;
@@ -51,7 +54,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .userName {
-    display: none;
-  }
+    .userName {
+        display: none;
+    }
 }

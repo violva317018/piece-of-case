@@ -31,10 +31,7 @@ function App() {
   const [allUsers, setAllUsers] = useState([]);
   const currentUserID = JSON.parse(localStorage.getItem("userID"));
   const unreadNotifications = unreadNotificationFunc(notifications);
-  const modifiedNotifications = notifications.map((n) => {
-    const sender = allUsers.find((u) => u.userID === n.senderId);
-      return { ...n, senderName: sender?.userName };
-  });
+  const [chatChatUser, setChatChatUser] = useState([]);
 
     useEffect(() => {
         Chat.getChatOtherUser(currentUserID)
@@ -182,6 +179,8 @@ function App() {
           notifications,
           setNotifications,
           unreadNotifications,
+          chatChatUser, 
+          setChatChatUser
         }}
       >
         <Header />

@@ -20,20 +20,6 @@ export default function User({
     arrivalMessage,
     notifications
   );
-  //   console.log("lastestMessage", lastestMessage);
-  //   useEffect(() => {
-  //     const getMessage = async () => {
-  //       await Chat.getMessage(currentUserID, user.userID)
-  //         .then((res) => {
-  //           setLastestMessage(res["data"][res["data"]?.length - 1]);
-  //           console.log(res["data"][res["data"]?.length - 1]);
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //         });
-  //     };
-  //     getMessage();
-  //   }, [messageSend, notifications]);
 
   // 避免字數過多
   const truncateText = (text) => {
@@ -70,17 +56,19 @@ export default function User({
         alt=""
       />
       <div className={online ? "userStatus online" : "userStatus"}></div>
-      <span className="userName">{user.userName}</span>
+
+      <div>
+        <div className="userName">{user.userName}</div>
+        <span className="lastestMessage">
+          {lastestMessage?.message && truncateText(lastestMessage?.message)}
+        </span>
+      </div>
+
       <span
         className={
           thisUsernotification?.length === 0 ? null : "userNotification"
         }
       ></span>
-      <div>
-        <span className="lastestMessage">
-          {lastestMessage?.message && truncateText(lastestMessage?.message)}
-        </span>
-      </div>
     </div>
   );
 }
