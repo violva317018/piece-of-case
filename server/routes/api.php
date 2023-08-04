@@ -69,6 +69,7 @@ Route::get('/getBidderCase', [InformationController::class, 'getBidderCase']);  
 Route::get('/deleteCase', [InformationController::class, 'deleteCase']);  // 刪除案件
 Route::get('/cancelCase', [InformationController::class, 'cancelCase']);  // 下架案件
 Route::get('/caseRevise', [InformationController::class, 'caseRevise']);  // 修改案件
+Route::get('/checkProfile', [InformationController::class, 'checkProfile']);  // 案主查看資訊
 
 
 // 新增案件、取的案件、地區篩選、類別篩選
@@ -94,7 +95,7 @@ Route::post('scheme/newCaseStep', [SchemeController::class, 'newCaseStep']); // 
 
 
 // ECPay
-Route::post('payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
-Route::get('payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
+Route::post('/payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
+Route::post('/payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
 
 

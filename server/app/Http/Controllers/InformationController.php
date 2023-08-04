@@ -20,7 +20,7 @@ class InformationController extends Controller
         // return $filesArray;
         // return base64_encode(Storage::get($filesArray[0]));
         $filesObject = [];
-        
+
         for($i = 0; $i < count($filesArray); $i++) {
             array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
         }
@@ -158,7 +158,7 @@ class InformationController extends Controller
         // return $filesArray;
         // return base64_encode(Storage::get($filesArray[0]));
         $filesObject = [];
-        
+
         for($i = 0; $i < count($file); $i++) {
             array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
         }
@@ -260,6 +260,13 @@ class InformationController extends Controller
         $caseID = $request['caseID'];
         $deadLine= $request['deadLine'];
         $result = DB::select('Call stepConfirm(?, ?, ?)', [$userID, $caseID, $deadLine]);
+        return $result;
+    }
+
+    // 案主查看資訊
+    public function checkProfile(Request $request) {
+        $token = $request['token'];
+        $result = DB::select('Call enterProfile(?)', [$token]);
         return $result;
     }
 }

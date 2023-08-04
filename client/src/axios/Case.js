@@ -91,9 +91,9 @@ class Case {
   }
 
   // 取得當前被點擊的類似案件
-  getSimilarCase(currentCaseId) {
+  getSimilarCase(currentCaseId, currentUserId) {
     return axios.get(API_URL + `/getSimilarCase`, {
-      params: { currentCaseId },
+      params: { currentCaseId, currentUserId },
     });
   }
 
