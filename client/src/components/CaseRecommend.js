@@ -27,7 +27,10 @@ function CaseRecommend(porps) {
   // 取得推薦案件、推薦人員
   useEffect(() => {
     // 推薦案件
-    Case.getSimilarCase(currentCaseId)
+    Case.getSimilarCase(
+      currentCaseId,
+      JSON.parse(localStorage.getItem("userID"))
+    )
       .then((result) => {
         setRecommendCases(result["data"]);
         console.log(result["data"]);
@@ -80,7 +83,7 @@ function CaseRecommend(porps) {
 
   const handleDrictCaseView = (caseID) => {
     setCurrentCaseId(caseID);
-    navigate("/caseview");
+    navigate(`/caseview/${caseID}`);
   };
   return (
     <div className="recommend">
@@ -110,14 +113,7 @@ function CaseRecommend(porps) {
                       <div onClick={() => handleChat(item)}>聊聊</div>
                     </button>
                     <button className="recommend-content-box-btn">
-                      <Link
-                        to="/checkInfo"
-                        onClick={(e) => {
-                          console.log(e.target); // 要將使用者ID傳過去才可以得到資訊
-                        }}
-                      >
-                        查看資訊
-                      </Link>
+                      <Link to={`/checkInfo/${item.userID}`}>查看資訊</Link>
                     </button>
                     <button className="recommend-content-box-btn">
                       <Link to={`/scheme/${item.userID}`}>合作</Link>

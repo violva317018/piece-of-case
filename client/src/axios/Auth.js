@@ -209,15 +209,12 @@ class Auth {
     });
   }
 
-  // 綠界測試
-  order(item, itemNO, des, price) {
-    // 現在要取得資料所以要用 【get】
-    // 利用網址參數傳遞給後端
-    return axios.post(API_URL + `/store`, {
-      item,
-      itemNO,
-      des,
-      price,
+  // 案主查看資訊
+  checkProfile(userID) {
+    return axios.get(API_URL + "/checkProfile", {
+      params: {
+        userID,
+      },
     });
   }
 }

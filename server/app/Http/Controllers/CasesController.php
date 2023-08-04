@@ -167,8 +167,9 @@ class CasesController extends Controller
     public function getSimilarCase(Request $request)
     {
         $currentCaseId =  $request['currentCaseId'];
+        $currentUserId =  $request['currentUserId'];
         // return $classID;
-        $results = DB::select('CALL similarCase(?)',[$currentCaseId]);
+        $results = DB::select('CALL similarCase(?,?)',[$currentCaseId,$currentUserId]);
         return $results;
     }
 

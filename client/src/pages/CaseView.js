@@ -57,7 +57,7 @@ function CaseView() {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [caseID]);
 
   return (
     <main>

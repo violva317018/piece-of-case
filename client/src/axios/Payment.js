@@ -18,7 +18,7 @@ class Payment {
 
   // 取得回傳資料
   callback() {
-    return axios.get(API_URL + "/callback");
+    return axios.post(API_URL + "/callback");
   }
 }
 
