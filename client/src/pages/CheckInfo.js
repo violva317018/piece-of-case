@@ -16,8 +16,7 @@ function CheckInfo() {
   const [selfIntroduction, setSelfIntroduction] = useState("");
 
   useEffect(() => {
-    console.log(userID);
-    Auth.checkProfile(JSON.parse(localStorage.getItem("userInfo")))
+    Auth.checkProfile(userID)
       .then((result) => {
         const { data } = result;
         setUserName(data[0]["userName"]);

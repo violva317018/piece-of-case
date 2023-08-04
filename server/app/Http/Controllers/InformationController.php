@@ -265,8 +265,8 @@ class InformationController extends Controller
 
     // 案主查看資訊
     public function checkProfile(Request $request) {
-        $token = $request['token'];
-        $result = DB::select('Call enterProfile(?)', [$token]);
+        $userID = $request['userID'];
+        $result = DB::select('Call bidderProfile(?)', [$userID]);
         return $result;
     }
 }

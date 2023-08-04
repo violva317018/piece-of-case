@@ -1,6 +1,10 @@
 import React from 'react';
-
-function Backstage() {
+import back from '../axios/back';
+  function Backstage(){
+  back.alluser(1)
+  .then((result)=> {
+    console.log(result['data']);
+  });
 
   return (
     <div>
@@ -11,7 +15,6 @@ function Backstage() {
       <select>
         <option value="option1">Option 1</option>
         <option value="option2">Option 2</option>
-        {/* Add more options as needed */}
       </select>
 
       {/* 條列式所有案件（分頁） */}
@@ -30,6 +33,6 @@ function Backstage() {
       <button>ban使用者</button>
     </div>
   );
-}
+  }
 
 export default Backstage;
