@@ -4,7 +4,7 @@ import "./sidenav.css";
 import { GlobelDate } from "../App";
 
 function SideNav() {
-  const { setInfoData } = useContext(GlobelDate);
+  const { setInfoData, setProposal, setTakethecase } = useContext(GlobelDate);
 
   return (
     <div className="sidenav">
@@ -16,10 +16,22 @@ function SideNav() {
       <Link to="" onClick={() => setInfoData("2")}>
         我的收藏
       </Link>
-      <Link to="" onClick={() => setInfoData("3")}>
+      <Link
+        to=""
+        onClick={() => {
+          setInfoData("3");
+          setProposal("1");
+        }}
+      >
         提案紀錄
       </Link>
-      <Link to="" onClick={() => setInfoData("4")}>
+      <Link
+        to=""
+        onClick={() => {
+          setInfoData("4");
+          setTakethecase("1");
+        }}
+      >
         接案紀錄
       </Link>
     </div>

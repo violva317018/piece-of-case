@@ -38,7 +38,10 @@ Route::post('update-skills', [InformationController::class, 'updateSkills']);
 Route::post('update-SelfIntroduction', [InformationController::class, 'updateSelfIntroduction']);
 //提案進度條
 Route::get('enterCaseStepClient', [InformationController::class, 'enterCaseStepClient']);
-
+//接案進度條
+Route::get('enterCaseStepBidder', [InformationController::class, 'enterCaseStepBidder']);
+//點擊進度條的完成
+Route::post('stepConfirm', [InformationController::class, 'stepConfirm']);
 
 
 //修改密碼

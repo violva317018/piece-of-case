@@ -13,10 +13,10 @@ import Auth from "../axios/Auth";
 
 function ProposalRecord(props) {
   const { proposal, setProposal } = useContext(GlobelDate);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-
-  const { handleDelete,
+  const {
+    handleDelete,
     currentProposalState,
     currentProposalPages,
     currentProposalCases,
@@ -24,7 +24,6 @@ function ProposalRecord(props) {
     setCurrentProposalPages,
     setCurrentProposalCases,
   } = props;
-
 
   // 渲染資料
   useEffect(() => {
@@ -43,18 +42,28 @@ function ProposalRecord(props) {
       });
   }, [currentProposalState]);
 
+  useEffect(() => {
+    for (let i = 0; i < 10; i++) {
+      localStorage.setItem(`showProg${i}`, JSON.stringify(null));
+      localStorage.setItem(`arrow${i}`, JSON.stringify(null));
+    }
+  }, [proposal]);
 
   // 【草稿】與【已下架】需要
   const handleRevise = (caseID) => {
-    Auth.caseRevise(caseID).then((result) => {
-      navigate('/proposal', {
-        state: {
-          caseID,
-          caseInfo: result['data']
-        }
+    Auth.caseRevise(caseID)
+      .then((result) => {
+        navigate("/proposal", {
+          state: {
+            caseID,
+            caseInfo: result["data"],
+          },
+        });
       })
-    }).catch((error) => { console.log(error) })
-  }
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="recordDiv">
@@ -120,11 +129,16 @@ function ProposalRecord(props) {
       {proposal === 2 && (
         <Publishing currentProposalCases={currentProposalCases} />
       )}
-      {proposal === 3 && <Working currentProposalCases={currentProposalCases} />}
-      {proposal === 4 && <Removed
-        currentProposalCases={currentProposalCases}
-        handleDelete={handleDelete}
-        handleRevise={handleRevise} />}
+      {proposal === 3 && (
+        <Working currentProposalCases={currentProposalCases} />
+      )}
+      {proposal === 4 && (
+        <Removed
+          currentProposalCases={currentProposalCases}
+          handleDelete={handleDelete}
+          handleRevise={handleRevise}
+        />
+      )}
       {proposal === 5 && (
         <Completed currentProposalCases={currentProposalCases} />
       )}
