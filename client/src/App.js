@@ -202,6 +202,7 @@ function App() {
           <Route path={"/ChatRoom/:chatid"} element={<ChatRoom />} />
           <Route path={"/Backstage"} element={<Backstage />} />
         </Routes>
+
         <Footer />
       </GlobelDate.Provider>
     </>
