@@ -97,4 +97,5 @@ Route::post('scheme/newCaseStep', [SchemeController::class, 'newCaseStep']); // 
 Route::post('payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
 Route::get('payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
 
-
+//後台
+Route::get('backstage/alluser', [backstageController::class, 'rootCheckUser']); //去backstageController叫function rootCheckUserphp
