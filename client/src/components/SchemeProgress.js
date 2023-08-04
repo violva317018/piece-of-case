@@ -9,9 +9,6 @@ function SchemeProgress(props) {
   const { setInfoData, currentCaseId } = useContext(GlobelDate);
   const { progressStatus, bidderID, finalPrice } = props;
   // 每個階段的 時間與報酬 => 有沒有辦法動態生成
-  const [stage0Date, setStage0Date] = useState("");
-  const [stage0Price, setStage0Price] = useState(0);
-  const [schemeTextArea0, setSchemeTextArea0] = useState("");
   const [stage1Date, setStage1Date] = useState("");
   const [stage1Price, setStage1Price] = useState(0);
   const [schemeTextArea1, setSchemeTextArea1] = useState("");
@@ -32,15 +29,6 @@ function SchemeProgress(props) {
   const [schemeTextArea6, setSchemeTextArea6] = useState("");
 
   const stage = [
-    {
-      stage: "階段零",
-      date: stage0Date,
-      price: stage0Price,
-      textArea: schemeTextArea0,
-      dateFun: setStage0Date,
-      priceFun: setStage0Price,
-      testArea: setSchemeTextArea0,
-    },
     {
       stage: "階段一",
       date: stage1Date,
@@ -144,14 +132,14 @@ function SchemeProgress(props) {
         <div className="progress-status-div" key={index}>
           <p>{item.stage}</p>
 
-          {item.stage === "階段零" ? <p>合作日期</p> : <p>完成日期</p>}
+          {item.stage === "階段一" ? <p>合作日期</p> : <p>完成日期</p>}
           <input
             type="date"
             onBlur={(event) => {
               item.dateFun(event.target.value);
             }}
           />
-          {item.stage === "階段零" ? <p>訂金</p> : <p>報酬</p>}
+          {item.stage === "階段一" ? <p>訂金</p> : <p>報酬</p>}
           <input
             type="number"
             onBlur={(event) => {
