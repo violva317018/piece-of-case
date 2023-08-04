@@ -69,6 +69,7 @@ Route::get('/getBidderCase', [InformationController::class, 'getBidderCase']);  
 Route::get('/deleteCase', [InformationController::class, 'deleteCase']);  // 刪除案件
 Route::get('/cancelCase', [InformationController::class, 'cancelCase']);  // 下架案件
 Route::get('/caseRevise', [InformationController::class, 'caseRevise']);  // 修改案件
+Route::get('/checkProfile', [InformationController::class, 'checkProfile']);  // 案主查看資訊
 
 
 // 新增案件、取的案件、地區篩選、類別篩選

@@ -1,5 +1,5 @@
-import React, { useContext, useState, useNavigate } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { GlobelDate } from "../App";
 import Scheme from "../axios/Scheme";
 
@@ -132,7 +132,7 @@ function SchemeProgress(props) {
     Scheme.newScheme(schemeJson, bidderID)
       .then((result) => {
         alert(result["data"][0][result]);
-        // navigate("/personalinfo");
+        navigate("/personalinfo");
       })
       .catch((err) => {
         console.error(err);
