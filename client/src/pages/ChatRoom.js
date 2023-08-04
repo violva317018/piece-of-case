@@ -98,7 +98,7 @@ function ChatRoom() {
                     console.error(err);
                 });
         }
-    }, [currentChat]);
+    }, [currentChat, currentUserID]);
 
     const handleKeyup = (e) => {
         if (e.keyCode === 13) {
@@ -128,26 +128,27 @@ function ChatRoom() {
             });
     }
 
-    const markUserNotificationAsRead = useCallback((thisUsernotification, notifications) => {
-        const mNotifications = notifications.map(el => {
-            let notification;
+    const markUserNotificationAsRead = useCallback(
+        (thisUsernotification, notifications) => {
+            const mNotifications = notifications.map(el => {
+                let notification;
 
-            thisUsernotification.forEach(n => {
-                if (n.senderId === el.senderId) {
-                    notification = {
-                        ...n,
-                        isRead: true,
+                thisUsernotification.forEach(n => {
+                    if (n.senderId === el.senderId) {
+                        notification = {
+                            ...n,
+                            isRead: true,
+                        }
+                    } else {
+                        notification = el;
                     }
-                } else {
-                    notification = el;
-                }
+                })
+
+                return notification;
             })
 
-            return notification;
-        })
-
-        setNotifications(mNotifications);
-    });
+            setNotifications(mNotifications);
+        });
 
     // 訊息滾動至最新一筆
     useEffect(() => {
@@ -167,7 +168,11 @@ function ChatRoom() {
                             <User
                                 user={c}
                                 online={onlineUsers.some((o) => c.userID === o.userId)}
+                                notifications={notifications}
                                 unreadNotification={unreadNotification}
+                                messageSend={messageSend}
+                                arrivalMessage={arrivalMessage}
+                                markUserNotificationAsRead={markUserNotificationAsRead}
                             />
                         </div>
                     ))}
