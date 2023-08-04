@@ -88,7 +88,7 @@ function SchemeProgress(props) {
   // 轉程arr利用map渲染
   const runProgressStatusDiv = () => {
     const statusArr = [];
-    for (let i = 0; i <= progressStatus; i++) {
+    for (let i = 0; i < progressStatus; i++) {
       statusArr.push(stage[i]);
     }
     return statusArr;

@@ -210,10 +210,10 @@ class Auth {
   }
 
   // 案主查看資訊
-  checkProfile(token) {
+  checkProfile(userID) {
     return axios.get(API_URL + "/checkProfile", {
       params: {
-        token,
+        userID,
       },
     });
   }
