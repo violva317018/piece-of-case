@@ -198,7 +198,7 @@ function App() {
           <Route path={"/checkInfo/:userID"} element={<CheckInfo />} />
           <Route path={"/Ecpay"} element={<Ecpay />} />
           <Route path={"/GetEcpayResult"} element={<GetEcpayResult />} />
-          <Route path={"/ChatRoom/:chatid"} element={<ChatRoom />} />
+          <Route path={"/ChatRoom"} element={<ChatRoom />} />
           <Route path={"/Backstage"} element={<Backstage />} />
         </Routes>
 

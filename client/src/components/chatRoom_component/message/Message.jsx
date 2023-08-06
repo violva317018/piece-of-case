@@ -19,7 +19,7 @@ export default function Message({ message, own, chatUser }) {
           }
           alt=""
         />
-        <p className="messageText">{message.message}</p>
+        <p className="messageText">{ message.message }</p>
       </div>
       <div className="messageBottom">{format(message.messageTime, "zhTW")}</div>
     </div>

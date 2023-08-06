@@ -97,7 +97,7 @@ function Header() {
               <li>
                 <Link className="dropdown-item" to="/chatRoom">
                   聊天室
-                    <span className={unreadNotifications?.length === 0 ? null : "chatRoomNotification"}>{unreadNotifications?.length === 0 ? null : unreadNotifications.length}</span>
+                    <span className={unreadNotifications?.length === 0 ? null : "chatRoomNotification"}></span>
                 </Link>
               </li>
               <li>

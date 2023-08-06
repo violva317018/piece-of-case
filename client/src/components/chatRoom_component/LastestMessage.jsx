@@ -11,11 +11,10 @@ export const LastestMessage = (
   const [lastestMessage, setLastestMessage] = useState(null);
 
   useEffect(() => {
-    const getMessage = async () => {
-      await Chat.getMessage(currentUserID, user.userID)
+    const getMessage = () => {
+       Chat.getMessage(currentUserID, user.userID)
         .then((res) => {
           setLastestMessage(res["data"][res["data"]?.length - 1]);
-          console.log(res["data"][res["data"]?.length - 1]);
         })
         .catch((err) => {
           console.error(err);

@@ -83,7 +83,7 @@ function ChatRoom() {
 
     // 將從對方取得的訊息存到 messages 陣列中
     useEffect(() => {
-        if (arrivalMessage && currentChat?.userID === arrivalMessage.fromID) {
+        if (arrivalMessage && arrivalMessage.toID === currentChat?.userID) {
             setMessages((prev) => [...prev, arrivalMessage])
         }
     }, [arrivalMessage, currentChat]);
@@ -124,7 +124,6 @@ function ChatRoom() {
 
         Chat.sendMessage(currentUserID, currentChat.userID, newMessage, null)
             .then((res) => {
-                console.log("sendMessage", res['data']);
                 setMessages([...messages, res['data'][0]]);
                 setMessageSend([...messageSend, res['data']])
             })
@@ -206,18 +205,18 @@ function ChatRoom() {
                                 <input
                                     ref={messageRef}
                                     className="chatMessageInput"
-                                    placeholder="write something..."
+                                    placeholder=" 寫點訊息..."
                                     onChange={(e) => setNewMessage(e.target.value)}
                                     onKeyUp={handleKeyup}
                                 ></input>
                                 <button className="chatSubmitButton" onClick={handleSubmit}>
-                                    Send
+                                    傳送
                                 </button>
                             </div>
                         </>
                     ) : (
                         <span className="noConversationText">
-                            Open a conversation to start a chat.
+                            選擇用戶開始聊天吧!
                         </span>
                     )}
                 </div>

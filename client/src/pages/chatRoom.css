@@ -5,7 +5,7 @@
 
 .chatMenu {
     flex: 1.5;
-    border-right: 1px solid #ffc107;
+    border-right: 2px solid #ffc107;
 }
 
 .chatMenuUser {
@@ -24,6 +24,7 @@
 }
 
 .chatBoxWrapper {
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -40,10 +41,11 @@
     margin-top: 5px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .chatBoxBottom input {
+    width: 90%;
+    margin: 10px 20px;
     border: 2px solid #ffc107;
     border-radius: 20px;
 }
@@ -55,6 +57,7 @@
 }
 
 .chatSubmitButton {
+    margin-right: 30px;
     width: 70px;
     height: 40px;
     border: none;
@@ -72,8 +75,10 @@
 }
 
 .noConversationText {
+    padding: 10px;
     position: absolute;
-    top: 10%;
+    top: 5%;
+    left: 10%;
     font-size: 50px;
     color: rgb(224, 220, 220);
     cursor: default;
