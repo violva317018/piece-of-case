@@ -160,8 +160,15 @@ class UserController extends Controller
         for($i = 0; $i < 6; $i++){
             $stringNumber .= rand(0, 9);
         }
-        // return $stringNumber;
-        $changeEmail = $request['changeEmail'];
-        Mail::to($changeEmail)->send(new SendEmail($stringNumber));
+        $changeEmail = $request['changeEmail'];        
+        $emailCheck = DB::select('call emailCheck(?)', [$changeEmail])[0]->result;
+        // return $emailCheck;
+        if ($emailCheck === 1){
+            Mail::to($changeEmail)->send(new SendEmail($stringNumber));
+            return '已寄送驗證碼';
+        }else{
+            return '查無此Email';
+        }
+        
     }
 }

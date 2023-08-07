@@ -12,7 +12,7 @@ function Forgetpwd() {
     // console.log(changeEmail)
     Auth.forgetPwd(changeEmail)
     .then((result)=>{
-      console.log(result)
+      console.log(result['data'])
     })
     .catch((err)=>{console.error(err)})
   }
