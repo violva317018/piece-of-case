@@ -35,6 +35,10 @@
     padding: 0.5rem
 }
 
+.recommend-content-box-btn:hover {
+    color: rgb(34, 34, 212);
+}
+
 .selfRecommended {
     width: 300px;
     border: 1px solid #000;
