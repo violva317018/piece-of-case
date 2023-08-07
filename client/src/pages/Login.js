@@ -125,7 +125,7 @@ function Login() {
               記住帳號
             </label>
             <div>
-              <Link className="linkCssSm">忘記密碼</Link>
+              <Link to="/Forgetpwd" className="linkCssSm">忘記密碼</Link>
             </div>
           </div>
           <div className="form-floating">

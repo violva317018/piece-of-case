@@ -19,6 +19,7 @@ import Backstage from "./pages/Backstage";
 import Chat from "./axios/Chat";
 import unreadNotificationFunc from "./components/chatRoom_component/notification/unreadNotificationFunc";
 import GetEcpayResult from "./pages/GetEcpayResult";
+import Forgetpwd from "./pages/Forgetpwd";
 
 localStorage.setItem("text", "hello");
 
@@ -200,6 +201,7 @@ function App() {
           <Route path={"/GetEcpayResult"} element={<GetEcpayResult />} />
           <Route path={"/ChatRoom"} element={<ChatRoom />} />
           <Route path={"/Backstage"} element={<Backstage />} />
+          <Route path={"/Forgetpwd"} element={<Forgetpwd />} />
         </Routes>
 
         <Footer />
