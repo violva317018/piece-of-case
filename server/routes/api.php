@@ -100,3 +100,4 @@ Route::post('/payment/callback', [PaymentController::class, 'callback']); // 取
 
 //後台
 Route::get('backstage/alluser', [backstageController::class, 'rootCheckUser']); //去backstageController叫function rootCheckUserphp
+Route::get('backstage/allcase', [backstageController::class, 'rootCheckCase']); 
