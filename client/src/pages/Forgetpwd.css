@@ -1,0 +1,68 @@
+.forgetBody {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    background: #fff;
+    padding: 30px;
+  }
+  
+  .forgetpwdDiv {
+    width: 400px;
+    height: 500px;
+    padding: 60px;
+    margin: auto auto;
+    background-color: #ebebeb;
+    border-radius: 10px;
+  }
+  
+  .textAlignC {
+    text-align: center;
+  }
+  
+  .formSize {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .inputRadiusTop {
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .inputRadiusBottom {
+    border-radius: 0 0 5px 5px;
+  }
+  
+  .inputRadiusNull {
+    border-radius: 0;
+  }
+  
+  .form-floating:focus-within {
+    z-index: 2;
+  }
+  
+  .submitButton {
+    display: block;
+    margin: 0 auto;
+    background-color: #4798b3;
+    color: white;
+    margin-top: 1rem;
+  }
+  
+  .linkCss {
+    font-size: 18px;
+  }
+  
+  .linkCss:hover {
+    font-size: 18px;
+  }
+  
+  .linkCssSm {
+    font-size: 14px;
+  }
+  
+  .linkCssSm:hover {
+    font-size: 14px;
+  }
+  
+  .textAlignR {
+    text-align: right;
+  }

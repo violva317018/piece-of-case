@@ -148,7 +148,8 @@ function AllCase() {
         ) : (
           <>
             {/* 左側篩選欄 */}
-            <div className="condition mx-3">
+            <div className="condition mx-3"
+                 id = "accordion city">
               {/* 類別 */}
               {bigClassNames.map((items, index) => (
                 <div className="mb-3" key={index}>
@@ -169,6 +170,7 @@ function AllCase() {
                   <div
                     className="collapse multi-collapse"
                     id={`${items.bigClassName}`}
+                    data-bs-parent="#accordion"
                   >
                     <div className="card card-body">
                       <ul className="list-group">
