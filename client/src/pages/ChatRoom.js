@@ -23,16 +23,6 @@ function ChatRoom() {
     const currentUserID = JSON.parse(localStorage.getItem("userID"));
     const unreadNotification = unreadNotificationFunc(notifications);
 
-    useEffect(() => {
-        if (!chatChatUser) {
-            return;
-        } else {
-            buttonRef.current?.addEventListener('click', setCurrentChat(chatChatUser));
-            buttonRef.current?.click(); //! 還有問題
-        }
-    }, [chatChatUser]);
-
-
     // #region Socket.io
     // * Socket.io 連線
     useEffect(() => {
@@ -52,7 +42,6 @@ function ChatRoom() {
             setOnlineUsers(users);
         })
     }, [socket]);
-
 
     // * 取得對方傳來的訊息(透過socket.io)
     useEffect(() => {
@@ -99,6 +88,15 @@ function ChatRoom() {
             });
     }, [currentUserID, messageSend]);
 
+    useEffect(() => {
+        if (!chatChatUser) {
+            return;
+        } else {
+            buttonRef.current?.addEventListener('onClick', setCurrentChat(chatChatUser));
+            if (currentChat) buttonRef.current?.click();
+        }
+    }, [conversations]);
+
     // 得到兩人之間的歷史訊息
     useEffect(() => {
         if (currentChat !== null) {
@@ -140,6 +138,7 @@ function ChatRoom() {
         })
     }
 
+    // 消除通知紅點
     const markUserNotificationAsRead = useCallback(
         (thisUsernotification, notifications) => {
             const mNotifications = notifications.map(el => {
@@ -174,9 +173,11 @@ function ChatRoom() {
                 <div className="chatMenuWrapper">
                     {/* <input placeholder="Search for friends" className="chatMenuInput" /> */}
                     {conversations.map((c) => (
-                        <div ref={buttonRef} className="chatMenuUser" onClick={() => {
-                            setCurrentChat(c);
-                        }}>
+                        <div ref={c.userID === chatChatUser.userID ? buttonRef : null}
+                            className="chatMenuUser"
+                            onClick={() => {
+                                setCurrentChat(c);
+                            }}>
                             <User
                                 user={c}
                                 online={onlineUsers.some((o) => c.userID === o.userId)}
