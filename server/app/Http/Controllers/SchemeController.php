@@ -13,9 +13,14 @@ class SchemeController extends Controller
     public function newCaseStep(Request $request)
     {
         $schemeJson = $request['schemeJson'];
-        return $schemeJson;
+        // $caseID = $request['schemeJson']['caseID'];
+        // $detail = $request['schemeJson']['detail'];
+        // $money = $request['schemeJson']['money'];
+        // $stepDeadline = $request['schemeJson']['stepDeadline'];
+        // $schemeJsonData = json_decode($schemeJson, true);
+        // return [$caseID, $detail, $money, $stepDeadline];
         $bidderID =  (int)$request['bidderID'];
-        $results = DB::select('CALL newCaseStep(?, ?)',[$schemeJson,$bidderID])[0]->result;
+        $results = DB::select('CALL newCaseStep(?, ?)', [$schemeJson, $bidderID])[0]->result;
         return $results;
     }
 }
