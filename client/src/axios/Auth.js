@@ -225,6 +225,23 @@ class Auth {
       },
     });
   }
+
+  verCodeCheck(verCode) {
+    return axios.get(API_URL + "/verCodeCheck", {
+      params: {
+        verCode,
+      },
+    });
+  }
+
+  newPassword(password, verCode) {
+    return axios.get(API_URL + "/newPassword", {
+      params: {
+        password,
+        verCode,
+      },
+    }); 
+  }
 }
 
 // new 一個 Auth 的實例 ，export default 默認導出 供其他程式直接引用
