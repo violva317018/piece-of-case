@@ -256,9 +256,11 @@ class InformationController extends Controller
 
     //點擊進度條的完成
     public function stepConfirm(Request $request) {
+        // return '123';
         $userID = $request['userID'];
         $caseID = $request['caseID'];
         $deadLine= $request['deadLine'];
+        // return $deadLine;
         $result = DB::select('Call stepConfirm(?, ?, ?)', [$userID, $caseID, $deadLine]);
         return $result;
     }

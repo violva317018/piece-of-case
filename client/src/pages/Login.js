@@ -60,10 +60,10 @@ function Login() {
           window.alert("登入成功");
           // 導向至首頁, 如果是管理員帳號的話導向到後台
           if (result["data"][0]["membershipLevel"] === "root") {
-          navigate("/Backstage");
-         } else {
-          navigate("/");
-                }
+            navigate("/Backstage");
+          } else {
+            navigate("/");
+          }
         }
       })
       .catch((err) => {
@@ -94,7 +94,6 @@ function Login() {
               }}
               defaultValue={JSON.parse(localStorage.getItem("accountNumber"))}
               className="form-control inputRadiusTop"
-              required
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
           </div>
@@ -106,7 +105,6 @@ function Login() {
               }}
               placeholder="請輸入密碼"
               className="form-control inputRadiusBottom"
-              required
             />
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
@@ -125,7 +123,9 @@ function Login() {
               記住帳號
             </label>
             <div>
-              <Link to="/Forgetpwd" className="linkCssSm">忘記密碼</Link>
+              <Link to="/Forgetpwd" className="linkCssSm">
+                忘記密碼
+              </Link>
             </div>
           </div>
           <div className="form-floating">

@@ -12,15 +12,10 @@ class SchemeController extends Controller
     // 傳入排程狀態 => 【SchemeProgress】
     public function newCaseStep(Request $request)
     {
+        // return '123';
         $schemeJson = $request['schemeJson'];
-        // $caseID = $request['schemeJson']['caseID'];
-        // $detail = $request['schemeJson']['detail'];
-        // $money = $request['schemeJson']['money'];
-        // $stepDeadline = $request['schemeJson']['stepDeadline'];
-        // $schemeJsonData = json_decode($schemeJson, true);
-        // return [$caseID, $detail, $money, $stepDeadline];
-        $bidderID =  (int)$request['bidderID'];
-        $results = DB::select('CALL newCaseStep(?, ?)', [$schemeJson, $bidderID])[0]->result;
+        // return $schemeJson;
+        $results = DB::select('CALL newCaseStep(?)', [$schemeJson]);
         return $results;
     }
 }
