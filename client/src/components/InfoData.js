@@ -78,7 +78,9 @@ function InfoData() {
         setTools(result["data"]["message"][0]["softwore"]);
         setAutobiography(result["data"]["message"][0]["selfIntroduction"]);
         setHeadPhoto(
-          `data:image/jpeg;base64, ${result["data"]["message"][0]["profilePhoto"]}`
+          `data:${fileType(
+            result["data"]["message"][0]["profilePhoto"]
+          )};base64, ${result["data"]["message"][0]["profilePhoto"]}`
         );
       })
       .catch((err) => {
@@ -191,6 +193,8 @@ function InfoData() {
       return "application/pdf";
     } else if (file.charAt(0) === "U") {
       return "application/pdf";
+    } else if (file.charAt(0) === "R") {
+      return "image/gif";
     }
   };
 
@@ -270,7 +274,7 @@ function InfoData() {
                   type="file"
                   id="avatar"
                   name="avatar"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/png, image/jpeg, image/jpg, image/gif"
                   className="inputFile"
                   onChange={(e) => {
                     setChangeHeadPhoto(e.target.files[0]);
@@ -642,7 +646,7 @@ function InfoData() {
                         id="avatar1"
                         name="avatar"
                         className="inputText"
-                        accept="image/jpeg, image/png, application/pdf"
+                        accept="image/jpeg, image/png, image/gif, application/pdf"
                         required
                         onChange={(e) => {
                           if (e.target.files.length > 5) {

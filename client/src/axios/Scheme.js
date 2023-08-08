@@ -6,11 +6,10 @@ const API_URL =
 
 class Scheme {
   // 傳入排程狀態 => 【SchemeProgress】
-  newScheme(schemeJson, bidderID) {
-    console.log(schemeJson, bidderID);
+  newScheme(schemeJson) {
+    console.log(schemeJson);
     return axios.post(API_URL + "/newCaseStep", {
       schemeJson,
-      bidderID,
     });
   }
 }

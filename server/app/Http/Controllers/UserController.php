@@ -161,14 +161,29 @@ class UserController extends Controller
             $stringNumber .= rand(0, 9);
         }
         $changeEmail = $request['changeEmail'];        
-        $emailCheck = DB::select('call emailCheck(?)', [$changeEmail])[0]->result;
+        $emailCheck = DB::select('call emailCheck(?,?)', [$changeEmail, $stringNumber])[0]->result;
         // return $emailCheck;
         if ($emailCheck === 1){
             Mail::to($changeEmail)->send(new SendEmail($stringNumber));
-            return '已寄送驗證碼';
+            return 1;
         }else{
-            return '查無此Email';
-        }
-        
+            return 0;
+        } 
+    }
+
+    public function verCodeCheck(Request $request)
+    {
+        $verCode = $request['verCode'];
+        $verCodeCheck = DB::select('call verCodeCheck(?)', [$verCode])[0]->result;
+        return $verCodeCheck;
+    }
+
+    public function newPassword(Request $request)
+    {
+        $password = $request['password'];
+        $verCode = $request['verCode'];
+        $hashPassword = Hash::make($password);
+        $newPassword = DB::select('call newPassword(?,?)',[$hashPassword, $verCode])[0]->result;
+        return $newPassword;
     }
 }

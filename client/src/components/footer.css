@@ -5,7 +5,7 @@
     font-family: 'Ubuntu', sans-serif;
     display: flex;
     width: 100%;
-    height: 150px;
+    height: 120px;
     background: #ef6c34;
 }
 
@@ -36,7 +36,7 @@
     text-align: center;
     font-size: 22px;
     font-weight: 800;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 5px;
 }
 
@@ -44,11 +44,10 @@
     color: white;
     font-size: 12px;
     text-align: center;
-    margin: 20px 0 0 20px;
 }
 
 .socials {
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 0;
     list-style: none;
     display: flex;

@@ -91,6 +91,7 @@ function UserInfo(props) {
               style={{ margin: 0 }}
               className="form-control"
               placeholder="請輸入您的自我推薦"
+              required
               onChange={(e) => {
                 setSelfRecommended(e.target.value);
               }}
