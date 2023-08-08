@@ -36,7 +36,7 @@ function Scheme() {
     <main className="container">
       <div className="scheme-box">
         {/* 金額 */}
-        <div className="box">
+        {/* <div className="box">
           <h4>最終金額 :</h4>
           <input
             min={500}
@@ -45,7 +45,7 @@ function Scheme() {
             placeholder="請輸入最終的金額"
             onBlur={handleFinalPrice} // 假如失去焦點時會提醒是否低於最低價位
           />
-        </div>
+        </div> */}
 
         {/* 進度排程 */}
         <div className="box">

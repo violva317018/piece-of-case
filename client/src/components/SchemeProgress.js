@@ -99,7 +99,7 @@ function SchemeProgress(props) {
   let stageDate = [];
   let stagePrice = [];
   let schemeTextArea = [];
-  let schemeJson = [];
+  let schemeJson = {};
   const handleBtn = () => {
     setInfoData("3");
     runProgressStatusDiv().map((item) => {
@@ -109,18 +109,20 @@ function SchemeProgress(props) {
     });
 
     // 轉成這個樣子給資料庫
-    schemeJson.push({
+    schemeJson = {
       caseID: currentCaseId,
       detail: schemeTextArea,
       stepDeadline: stageDate,
       money: stagePrice,
-    });
+    };
+
     schemeJson = JSON.stringify(schemeJson);
-    // schemeJson = `${schemeJson}`;
+    // console.log(schemeJson);
     Scheme.newScheme(schemeJson, bidderID)
       .then((result) => {
-        alert(result["data"][0][result]);
-        navigate("/personalinfo");
+        console.log(result);
+        // alert(result["data"][0][result]);
+        // navigate("/personalinfo");
       })
       .catch((err) => {
         console.error(err);

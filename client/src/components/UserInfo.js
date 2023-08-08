@@ -24,34 +24,38 @@ function UserInfo(props) {
   // 將報價者資料傳至資料庫
 
   const handleBidder = () => {
-    // 將訂單資訊傳入ECPay
-    Payment.pay(MerchantTradeNo, ItemName, TotalAmount, TradeDesc, caseID)
-      .then((result) => {
-        console.log(result["data"]);
-        setEcpayHtml(result["data"]);
-        navigate("/Ecpay"); // ! 會由綠界跳轉所以不用設定
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // 將報價資訊寫入DB
-    Case.newBidder(
-      currentCaseId,
-      JSON.parse(localStorage.getItem("userID")),
-      quotation,
-      win,
-      selfRecommended
-    )
-      .then((result) => {
-        console.log(result);
-        alert(result["data"][0]["result"]);
-        setInfoData(4);
-        navigate("/personalinfo");
-      })
-      .catch((error) => {
-        console.error(error);
-        alert(error);
-      });
+    if (quotation < 500) {
+      alert("報價金額不得低於500元");
+    } else {
+      // 將訂單資訊傳入ECPay
+      Payment.pay(MerchantTradeNo, ItemName, TotalAmount, TradeDesc, caseID)
+        .then((result) => {
+          console.log(result["data"]);
+          setEcpayHtml(result["data"]);
+          navigate("/Ecpay"); // ! 會由綠界跳轉所以不用設定
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // 將報價資訊寫入DB
+      Case.newBidder(
+        currentCaseId,
+        JSON.parse(localStorage.getItem("userID")),
+        quotation,
+        win,
+        selfRecommended
+      )
+        .then((result) => {
+          console.log(result);
+          alert(result["data"][0]["result"]);
+          setInfoData(4);
+          navigate("/personalinfo");
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("請填寫欄位");
+        });
+    }
   };
   return (
     <div className="user-info">
@@ -88,6 +92,7 @@ function UserInfo(props) {
               style={{ margin: 0 }}
               className="form-control"
               placeholder="請輸入您的自我推薦"
+              required
               onChange={(e) => {
                 setSelfRecommended(e.target.value);
               }}
