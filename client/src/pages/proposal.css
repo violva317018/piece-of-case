@@ -24,3 +24,16 @@ input[type="checkbox"] {
 label {
   margin-right: 1rem;
 }
+
+#fileButton {
+  padding: 0.5rem;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  color: #4798b3;
+}
+#fileButton:hover {
+  background: black;
+  color: white;
+}

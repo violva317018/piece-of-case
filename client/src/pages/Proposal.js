@@ -313,8 +313,9 @@ function Proposal() {
           <h4 htmlFor="caseMoney">預算金額 :</h4>
           <input
             type="number"
+            min={200}
             id="caseMoney"
-            placeholder="請輸入預期的金額"
+            placeholder="請輸入預期的金額，最低200元"
             onChange={(event) => {
               setBudget(event.target.value);
             }}
@@ -417,6 +418,8 @@ function Proposal() {
           </p>
           <input
             type="file"
+            id="fileInput"
+            hidden
             multiple
             accept="image/jpeg, image/png, application/pdf"
             required
@@ -431,6 +434,16 @@ function Proposal() {
               }
             }}
           />
+          <button
+            as="label" //*  變成 label tag
+            htmlFor="imageInput" //* 來自 Input id
+            colorschema="blue"
+            variant="outline"
+            cursor="pointer"
+            id="fileButton"
+          >
+            Choose your files
+          </button>
         </div>
         {/* 聯絡方式 */}
         <div className="box">
@@ -443,7 +456,7 @@ function Proposal() {
             pattern="[^0-9]+" // 限制不可有數字，可以下底線
             required
           />
-          <h4>允許接案人透過電話聯絡您嗎?</h4>
+          <h4 className="my-3">允許接案人透過電話聯絡您嗎?</h4>
           <select
             className="form-select"
             aria-label="Default select example"
@@ -462,7 +475,7 @@ function Proposal() {
           </select>
           {isContactPhone !== null && isContactPhone === "1" && (
             <>
-              <h4>連絡人電話號碼</h4>
+              <h4 className="my-3">連絡人電話號碼</h4>
               <input
                 type="text"
                 placeholder="請輸入連絡人電話號碼"
@@ -470,7 +483,7 @@ function Proposal() {
                 value={contactPhone}
                 pattern="\d+"
               />
-              <h4>請勾選希望接案人聯絡時段?</h4>
+              <h4 className="my-3">請勾選希望接案人聯絡時段?</h4>
               <input
                 type="checkbox"
                 id="time0"

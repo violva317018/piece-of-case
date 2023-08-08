@@ -261,24 +261,17 @@ function AllCase() {
               {/* 顯示案子 */}
               <section className="d-flex flex-wrap">
                 {cases.map((item) => (
-                  <div
-                    className="case border border-2 border-warning p-2"
-                    key={item.caseID}
-                  >
+                  <div className="case p-2" key={item.caseID}>
                     {item.image !== null ? (
                       <img
                         src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
                         alt="img"
-                        width={150}
-                        height={150}
                         className="mb-3"
                       />
                     ) : (
                       <img
                         src={logo} // 加上標頭
                         alt="img"
-                        width={150}
-                        height={150}
                         className="mb-3"
                       />
                     )}
