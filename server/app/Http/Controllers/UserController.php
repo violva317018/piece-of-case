@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
+// use Mail;
 
 class UserController extends Controller
 {
@@ -148,5 +151,24 @@ class UserController extends Controller
             DB::update('UPDATE users SET token = NULL WHERE userID = ?',[$userID]);
             return '請重新登入';
         }
+    }
+
+    //比對Email
+    public function FoegetPwd(Request $request)
+    {
+        $stringNumber = '';
+        for($i = 0; $i < 6; $i++){
+            $stringNumber .= rand(0, 9);
+        }
+        $changeEmail = $request['changeEmail'];        
+        $emailCheck = DB::select('call emailCheck(?)', [$changeEmail])[0]->result;
+        // return $emailCheck;
+        if ($emailCheck === 1){
+            Mail::to($changeEmail)->send(new SendEmail($stringNumber));
+            return '已寄送驗證碼';
+        }else{
+            return '查無此Email';
+        }
+        
     }
 }

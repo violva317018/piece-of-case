@@ -217,6 +217,14 @@ class Auth {
       },
     });
   }
+  
+  forgetPwd(changeEmail) {
+    return axios.get(API_URL + "/Forgetpwd", {
+      params: {
+        changeEmail,
+      },
+    });
+  }
 }
 
 // new 一個 Auth 的實例 ，export default 默認導出 供其他程式直接引用

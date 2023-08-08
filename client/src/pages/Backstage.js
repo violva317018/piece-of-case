@@ -1,38 +1,70 @@
-import React from 'react';
-import back from '../axios/back';
-  function Backstage(){
-  back.alluser(1)
-  .then((result)=> {
-    console.log(result['data']);
-  });
+import React, { Component, useEffect, useState } from "react";
+import back from "../axios/back";
+import "./Backstage.css";
+// function Backstage(){
+// back.alluser(1)
+// .then((result)=> {
+//   console.log(result['data']);
+// });
+function Backstage() {
+  const [page, setPage] = useState(1); //預設頁碼為第一頁
+  const [state, setState] = useState(0); //預設state為0
+  const [AllUsers, setAllUsers] = useState([]); //AllUsers內資料有變的話會調整
+  const [AllCase, setAllCase] = useState([]);
+  useEffect(() => {
+    back.alluser(page).then((result) => {
+      console.log(result["data"]);
+      setAllUsers(result["data"]);
+    });
+    back.allcase(page).then((result) => {
+      console.log(result["data"]);
+      setAllCase(result["data"]);
+    });
+  }, [setAllUsers, setAllCase, page]);
 
   return (
-    <div>
-      {/* 搜尋欄 */}
-      <input type="text" placeholder="搜尋案件或使用者" />
+    <div className="container">
+      <button onClick={() => setState(1)}>所有會員</button>
+      <button onClick={() => setState(2)}>所有案件</button>
 
-      {/* 篩選框 */}
-      <select>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-      </select>
+      {state === 1 && (
+        <div>
+          <input type="text" placeholder="搜尋案件或使用者" />
 
-      {/* 條列式所有案件（分頁） */}
-      <div>
-        {/* Add your list of cases here */}
-        {/* You can use map() or any other method to display the cases */}
-      </div>
-      <button>刪除案件</button>
-      <button>改為草稿</button>
-
-      {/* 條例式使用者（分頁） */}
-      <div>
-        {/* Add your list of users here */}
-        {/* You can use map() or any other method to display the users */}
-      </div>
-      <button>ban使用者</button>
+          <div>
+            <h2>所有使用者</h2>
+            <ul>
+              {AllUsers.map((user, index) => (
+                <li key={index}>
+                  <li>{user.userName}</li>
+                  <li>{user.email}</li>
+                  <li>{user.phone}</li>
+                  <li>{user.publish}</li>
+                  <li>{user.finish}</li>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+      {state === 2 && (
+        <div>
+          <h2>所有案件</h2>
+          <ul>
+            {AllCase.map((Allcase, index) => (
+              <li key={index}>
+                <li>{Allcase.caseName}</li>
+                <li>{Allcase.Class}</li>
+                <li>{Allcase.location}</li>
+                <li>{Allcase.caseStatus}</li>
+                <li>{Allcase.userName}</li>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
-  }
+}
 
 export default Backstage;
