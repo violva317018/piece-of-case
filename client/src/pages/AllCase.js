@@ -170,7 +170,6 @@ function AllCase() {
                   <div
                     className="collapse multi-collapse"
                     id={`${items.bigClassName}`}
-                    data-bs-parent="#accordion"
                   >
                     <div className="card card-body">
                       <ul className="list-group">

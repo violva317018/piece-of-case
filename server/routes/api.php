@@ -106,3 +106,8 @@ Route::get('backstage/allcase', [backstageController::class, 'rootCheckCase']);
 //忘記密碼
 Route::get('Forgetpwd', [UserController::class, 'FoegetPwd']);
 
+//忘記密碼驗證碼
+Route::get('verCodeCheck', [UserController::class, 'verCodeCheck']);
+
+//重新輸入密碼
+Route::get('newPassword', [UserController::class, 'newPassword']);
