@@ -5,26 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { GlobelDate } from "../../App";
 
 function Publishing(props) {
-  const navigate = useNavigate()
-  const { setCurrentCaseId } = useContext(GlobelDate)
+  const navigate = useNavigate();
+  const { setCurrentCaseId } = useContext(GlobelDate);
   const { currentProposalCases } = props;
-  const [cancelA, setCancelA] = useState('')
-  const [cancel, setCancel] = useState(0)
+  const [cancelA, setCancelA] = useState("");
+  const [cancel, setCancel] = useState(0);
   const handleCancel = async (caseID) => {
     await Auth.cancelCase(caseID)
       .then((result) => {
-        console.log(result['data'][0]['result']);
-        setCancelA(result['data'][0]['result'])
-        alert(result['data'][0]['result'])
-        setCancel(cancel + 1)
+        console.log(result["data"][0]["result"]);
+        setCancelA(result["data"][0]["result"]);
+        alert(result["data"][0]["result"]);
+        setCancel(cancel + 1);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  useEffect(() => {
-
-  }, [cancelA])
+  useEffect(() => {}, [cancelA]);
   return (
     <div>
       {/* 利用陣列渲染 */}
@@ -32,11 +30,11 @@ function Publishing(props) {
         currentProposalCases.map((item) => (
           <div
             className="recordDiv3"
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
             key={item.caseID}
             onClick={() => {
               setCurrentCaseId(item.caseID);
-              navigate('/caseview');
+              navigate(`/caseview/${item.caseID}`);
             }}
           >
             <div className="d-flex align-items-center" key={item.caseID}>

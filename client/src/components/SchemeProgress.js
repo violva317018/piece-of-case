@@ -115,12 +115,14 @@ function SchemeProgress(props) {
       stepDeadline: stageDate,
       money: stagePrice,
     });
-    schemeJson = JSON.stringify(schemeJson);
+    schemeJson = JSON.stringify(schemeJson) + "123";
     // schemeJson = `${schemeJson}`;
+    // console.log(schemeJson);
     Scheme.newScheme(schemeJson, bidderID)
       .then((result) => {
-        alert(result["data"][0][result]);
-        navigate("/personalinfo");
+        console.log(result);
+        // alert(result["data"][0][result]);
+        // navigate("/personalinfo");
       })
       .catch((err) => {
         console.error(err);
