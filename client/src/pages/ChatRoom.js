@@ -51,6 +51,8 @@ function ChatRoom() {
                 fromID: data.senderId,
                 message: data.text,
             })
+            console.log("getMessage", data);
+
         })
 
         socket.on("getNotification", data => {
@@ -72,7 +74,7 @@ function ChatRoom() {
 
     // 將從對方取得的訊息存到 messages 陣列中
     useEffect(() => {
-        if (arrivalMessage && arrivalMessage.toID === currentChat?.userID) {
+        if (arrivalMessage && arrivalMessage.fromID === currentChat?.userID) {
             setMessages((prev) => [...prev, arrivalMessage])
         }
     }, [arrivalMessage, currentChat]);
@@ -123,7 +125,8 @@ function ChatRoom() {
         Chat.sendMessage(currentUserID, currentChat.userID, newMessage, null)
             .then((res) => {
                 setMessages([...messages, res['data'][0]]);
-                setMessageSend([...messageSend, res['data']])
+                console.log("sendMessage", res['data'][0]);
+                setMessageSend([...messageSend, res['data']]);
             })
             .catch((err) => {
                 console.error(err);
