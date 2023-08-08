@@ -148,8 +148,7 @@ function AllCase() {
         ) : (
           <>
             {/* 左側篩選欄 */}
-            <div className="condition mx-3"
-                 id = "accordion city">
+            <div className="condition mx-3">
               {/* 類別 */}
               {bigClassNames.map((items, index) => (
                 <div className="mb-3" key={index}>
