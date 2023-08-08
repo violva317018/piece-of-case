@@ -2,7 +2,7 @@ import axios from "axios"; // 引入 axios 工具
 
 // 後端給的網址
 const API_URL =
-  "http://localhost/Full-Stack-Project/server/public/index.php/api";
+  "http://localhost:82/Full-Stack-Project/server/public/index.php/api";
 
 class back {
   alluser(page) {

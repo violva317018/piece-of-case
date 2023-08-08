@@ -2,7 +2,7 @@ import axios from "axios";
 
 // 後端給的網址
 const API_URL =
-    "http://localhost/Full-Stack-Project/server/public/index.php/api/chat";
+    "http://localhost:82/Full-Stack-Project/server/public/index.php/api/chat";
 
 class Chat {
     // 取得與該對象聊天訊息

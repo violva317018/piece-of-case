@@ -2,7 +2,7 @@ import axios from "axios";
 
 // 後端給的網址
 const API_URL =
-  "http://localhost/Full-Stack-Project/server/public/index.php/api/scheme";
+  "http://localhost:82/Full-Stack-Project/server/public/index.php/api/scheme";
 
 class Scheme {
   // 傳入排程狀態 => 【SchemeProgress】
