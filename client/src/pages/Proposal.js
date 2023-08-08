@@ -3,7 +3,7 @@ import "./proposal.css";
 import { GlobelDate } from "../App";
 import Case from "../axios/Case";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { DatePicker, Space } from "antd"; //* 引入 antd UI
+import { DatePicker, Space } from "antd"; //* 引入 antd UI
 
 function Proposal() {
   const navigate = useNavigate();
@@ -345,9 +345,9 @@ function Proposal() {
             onClick={(e) => showTime(true)}
           />
           <label htmlFor="yesTime">指定日期 </label>
-          {/* <Space id="setTime" direction="vertical"> */}
-            {/* <DatePicker onChange={onChange} id="setTime" /> */}
-          {/* </Space> */}
+          <Space id="setTime" direction="vertical">
+            <DatePicker onChange={onChange} id="setTime" />
+          </Space>
         </div>
         {/* 地點 */}
         <div className="box">
