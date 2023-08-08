@@ -3,6 +3,7 @@ import "./AllCase.css";
 import { Link } from "react-router-dom";
 import Case from "../axios/Case";
 import { GlobelDate } from "../App";
+import logo from "../logo.jpg";
 
 function AllCase() {
   // 取得全域變數
@@ -148,8 +149,7 @@ function AllCase() {
         ) : (
           <>
             {/* 左側篩選欄 */}
-            <div className="condition mx-3"
-                 id = "accordion city">
+            <div className="condition mx-3" id="accordion city">
               {/* 類別 */}
               {bigClassNames.map((items, index) => (
                 <div className="mb-3" key={index}>
@@ -266,13 +266,24 @@ function AllCase() {
                     className="case border border-2 border-warning p-2"
                     key={item.caseID}
                   >
-                    <img
-                      src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
-                      alt="img"
-                      width={150}
-                      height={150}
-                      className="mb-3"
-                    />
+                    {item.image !== null ? (
+                      <img
+                        src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
+                        alt="img"
+                        width={150}
+                        height={150}
+                        className="mb-3"
+                      />
+                    ) : (
+                      <img
+                        src={logo} // 加上標頭
+                        alt="img"
+                        width={150}
+                        height={150}
+                        className="mb-3"
+                      />
+                    )}
+
                     <p>案件標題 : {item.caseName}</p>
                     <p>
                       地點: {item.city}

@@ -88,13 +88,14 @@ class CasesController extends Controller
         $cityID = $request->input('cityID');
         $districtID = $request->input('districtID');
         $page = $request->input('page');
-
         $results = DB::select('CALL caseFilter(?,?,?,?,?)', [$bigClassID,$classID,$cityID,$districtID,$page]);
+        // return $results;
         $filesName = [];
         // 取出每個物件的 files 欄位資料
         for($i = 0; $i < count($results); $i++) {
             array_push($filesName, $results[$i]->image);
         };
+        // return $filesName;
         // 將其字串變為陣列
         for($i = 0; $i < count($filesName); $i++) {
             $filesName[$i] = explode(',', $filesName[$i]);
@@ -128,6 +129,16 @@ class CasesController extends Controller
             }
         };
         // $filesObject = [];
+        // for($i = 0; $i < count($newFileArray); $i++) {
+        //     if($newFileArray[$i] === null ){
+        //         $results[$i]->image = null;
+        //     }else{
+        //         // $results[$i]->image = base64_encode(Storage::get($newFileArray[$i]));// 一串長得很奇怪的亂碼
+        //         $results[$i]->image = base64_encode(Storage::get($newFileArray[$i]));// 一串長得很奇怪的亂碼
+        //         // array_push($filesObject,  $file); // 原本是想另外修改再丟到前端
+        //     }
+        //     return $results;
+        // }
         for($i = 0; $i < count($newFileArray); $i++) {
             if($newFileArray[$i] === null ){
                 // array_push($filesObject,  null);
@@ -143,6 +154,7 @@ class CasesController extends Controller
             }
         }
         return $results;
+
     }
 
     // 取得當前被點擊案件資訊
@@ -203,3 +215,14 @@ class CasesController extends Controller
     }
 
 }
+
+
+
+
+//3  image: "proposalFiles/Logo.png"
+//3  "proposalFiles/Logo.png"
+
+//11  image: "proposalFiles/Jason履歷.pdf,proposalFiles/S__19955786.jpg"
+
+
+// 10 "\"proposalFiles/S__19955786.jpg\""
