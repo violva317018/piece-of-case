@@ -78,8 +78,12 @@ function Working(props) {
     }
   };
   const [recall, setRecall] = useState(false);
+  const [alert1, setAlert1] = useState(0);
   const handleStepConfirm = (caseID, deadLine) => {
-    window.confirm("是否確定達成？ (等待案主確認)");
+    if (alert1 === 0) {
+      window.confirm("是否確定達成？ (等待案主確認)");
+      setAlert1(!alert1);
+    }
     if (window.confirm("是否確定達成？ (等待案主確認)") == true) {
       Auth.stepConfirm(localStorage.getItem("userID"), caseID, deadLine)
         .then((result) => {
@@ -195,9 +199,10 @@ function Working(props) {
   let caseItem = {};
 
   useEffect(() => {
+    setAlert1(!alert1);
     Auth.enterCaseStepBidder(JSON.parse(localStorage.getItem("userID")), "1")
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         result["data"].map((myCase) => {
           const caseID = myCase["caseID"];
           if (!caseItem[caseID]) {

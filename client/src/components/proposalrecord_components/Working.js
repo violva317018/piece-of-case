@@ -94,12 +94,21 @@ function Working(props) {
   //案主完成按鈕
   const [showBtn, setShowBtn] = useState(false);
 
-  const completedBtn = (i, caseID, deadLine, bidder) => {
+  const completedBtn = (
+    i,
+    caseID,
+    deadLine,
+    bidder,
+    allSchedule,
+    caseSchedule
+  ) => {
     if (i === 0 && bidder == 1) {
       return (
         <div
           className="btn1"
-          onClick={() => handleStepConfirm(caseID, deadLine)}
+          onClick={() =>
+            handleStepConfirm(caseID, deadLine, allSchedule, caseSchedule)
+          }
         >
           完成
         </div>
@@ -107,13 +116,19 @@ function Working(props) {
     }
   };
   const [recall, setRecall] = useState(false);
-  const handleStepConfirm = (caseID, deadLine) => {
-    window.confirm("是否確定完成此進度？");
+  const [alert1, setAlert1] = useState(0);
+  const handleStepConfirm = (caseID, deadLine, allSchedule, caseSchedule) => {
+    if (alert1 === 0) {
+      window.confirm("是否確定完成此進度？");
+      setAlert1(!alert1);
+    }
     if (window.confirm("是否確定完成此進度？") == true) {
       Auth.stepConfirm(localStorage.getItem("userID"), caseID, deadLine)
         .then((result) => {
-          console.log(result);
-          if (result["data"] === []) {
+          if (
+            result["data"][0]["result"] === "案主確認完成" &&
+            allSchedule === caseSchedule + 1
+          ) {
             setProposal();
           }
         })
@@ -171,7 +186,9 @@ function Working(props) {
             ],
             caseProgress[caseID][caseProgress[caseID][0]["caseSchedule"] + i][
               "bidder"
-            ]
+            ],
+            caseProgress[caseID][0]["總流程"],
+            caseProgress[caseID][0]["caseSchedule"]
           )}
           <div
             className="progCircle"
@@ -227,9 +244,10 @@ function Working(props) {
   let caseItem = {};
 
   useEffect(() => {
+    setAlert1(!alert1);
     Auth.enterCaseStepClient(JSON.parse(localStorage.getItem("userID")), "1")
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         result["data"].map((myCase) => {
           const caseID = myCase["caseID"];
           if (!caseItem[caseID]) {
@@ -248,8 +266,6 @@ function Working(props) {
         console.error(err);
       });
   }, [recall]);
-
-  console.log(caseProgress);
   return (
     <div>
       {currentProposalCases.length !== 0 ? (
