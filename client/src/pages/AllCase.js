@@ -3,6 +3,9 @@ import "./AllCase.css";
 import { Link } from "react-router-dom";
 import Case from "../axios/Case";
 import { GlobelDate } from "../App";
+import logoIamge from "../imgs/logo.jpg";
+import bookIamge from "../imgs/proposalFiles/book.jpg";
+import skyIamge from "../imgs/proposalFiles/1.jpg";
 
 function AllCase() {
   // 取得全域變數
@@ -148,7 +151,7 @@ function AllCase() {
         ) : (
           <>
             {/* 左側篩選欄 */}
-            <div className="condition mx-3">
+            <div className="condition mx-3" id="accordion city">
               {/* 類別 */}
               {bigClassNames.map((items, index) => (
                 <div className="mb-3" key={index}>
@@ -260,17 +263,21 @@ function AllCase() {
               {/* 顯示案子 */}
               <section className="d-flex flex-wrap">
                 {cases.map((item) => (
-                  <div
-                    className="case border border-2 border-warning p-2"
-                    key={item.caseID}
-                  >
-                    <img
-                      src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
-                      alt="img"
-                      width={150}
-                      height={150}
-                      className="mb-3"
-                    />
+                  <div className="case p-2" key={item.caseID}>
+                    {/* 依母類別的預設圖 */}
+                    {item.image !== null ? (
+                      <img
+                        src={`data:image/jpeg;base64, ${item.image}`} // 加上標頭
+                        alt="img"
+                        className="mb-3"
+                      />
+                    ) : item.bigClassID === "A" ? (
+                      <img src={logoIamge} alt="img" className="mb-3" />
+                    ) : item.bigClassID === "B" ? (
+                      <img src={skyIamge} alt="img" className="mb-3" />
+                    ) : (
+                      <img src={bookIamge} alt="img" className="mb-3" />
+                    )}
                     <p>案件標題 : {item.caseName}</p>
                     <p>
                       地點: {item.city}

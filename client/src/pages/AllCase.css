@@ -14,17 +14,30 @@
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
   border-radius: 10px;
-  min-height: 200px;
+  height: 400px;
+  border: 5px solid rgba(255, 193, 7, 0.5);
+  background: white;
+  transition: 1s border;
+  transition: 1s background;
+  position: relative;
 }
-.case>img:hover{
-  width:200px;
-  height:150px
+.case > img {
+  width: 150px;
+  height: 150px;
+  position: inherit;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
-.moreView{
+.case:hover {
+  background: rgba(125, 125, 125, 0.5);
+  border: 5px solid rgba(255, 193, 7, 1);
+}
+.moreView {
   cursor: pointer;
-
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
-
-.auto {
-  margin: 0 auto;
+.moreView:hover {
+  font-size: 1.8rem;
 }

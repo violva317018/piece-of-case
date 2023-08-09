@@ -3,6 +3,7 @@ import "./proposal.css";
 import { GlobelDate } from "../App";
 import Case from "../axios/Case";
 import { useLocation, useNavigate } from "react-router-dom";
+import { DatePicker, Space } from "antd"; //* 引入 antd UI
 
 function Proposal() {
   const navigate = useNavigate();
@@ -112,6 +113,22 @@ function Proposal() {
     }
   };
 
+  // 典擊指定日期才會出現日期選擇
+  const showTime = (boolean) => {
+    if (boolean === true) {
+      document
+        .getElementById("setTime")
+        .style.setProperty("visibility", "visible");
+    }
+  };
+
+  const onChange = (date, dateString) => {
+    // console.log("date");
+    // console.log(date);
+    // console.log("dateString");
+    // console.log(dateString);
+    setDeadline(dateString);
+  };
   // 判別【聯絡時間】的boolean
 
   //  取得當前母類別資料
@@ -144,9 +161,6 @@ function Proposal() {
     } else if (!category) {
       alert("Please choose case category.");
       return;
-    } else if (!category) {
-      alert("Please choose case category.");
-      return;
     } else if (!subCategory) {
       alert("Please choose case subCategory.");
       return;
@@ -158,9 +172,6 @@ function Proposal() {
       return;
     } else if (!budget) {
       alert("Please write case budget.");
-      return;
-    } else if (!deadline) {
-      alert("Please write case deadline.");
       return;
     } else if (!contactName) {
       alert("Please write your contactName.");
@@ -229,6 +240,12 @@ function Proposal() {
       });
   };
 
+  useEffect(() => {
+    // 初始狀態是隱藏
+    document
+      .getElementById("setTime")
+      .style.setProperty("visibility", "hidden");
+  }, []);
   return (
     <main className="container">
       {/* 未登入導向至登入介面 */}
@@ -296,8 +313,9 @@ function Proposal() {
           <h4 htmlFor="caseMoney">預算金額 :</h4>
           <input
             type="number"
+            min={200}
             id="caseMoney"
-            placeholder="請輸入預期的金額"
+            placeholder="請輸入預期的金額，最低200元"
             onChange={(event) => {
               setBudget(event.target.value);
             }}
@@ -309,17 +327,27 @@ function Proposal() {
         {/* 期限 */}
         <div className="box">
           <h4 htmlFor="caseMoney">期限 :</h4>
-          <input type="radio" id="noTime" name="deadline" />
+          <input
+            type="radio"
+            id="noTime"
+            name="deadline"
+            onClick={() => {
+              setDeadline(null);
+              showTime(false);
+            }}
+          />
           <label htmlFor="noTime">不指定日期</label>
           <br />
-          <input type="radio" name="deadline" id="yesTime" />
-          <label htmlFor="yesTime">指定日期 </label>
           <input
-            type="date"
+            type="radio"
+            name="deadline"
             id="yesTime"
-            onChange={(event) => setDeadline(event.target.value)}
-            value={deadline}
+            onClick={(e) => showTime(true)}
           />
+          <label htmlFor="yesTime">指定日期 </label>
+          <Space id="setTime" direction="vertical">
+            <DatePicker onChange={onChange} id="setTime" />
+          </Space>
         </div>
         {/* 地點 */}
         <div className="box">
@@ -390,6 +418,8 @@ function Proposal() {
           </p>
           <input
             type="file"
+            id="fileInput"
+            hidden
             multiple
             accept="image/jpeg, image/png, application/pdf"
             required
@@ -404,6 +434,16 @@ function Proposal() {
               }
             }}
           />
+          <button
+            as="label" //*  變成 label tag
+            htmlFor="imageInput" //* 來自 Input id
+            colorschema="blue"
+            variant="outline"
+            cursor="pointer"
+            id="fileButton"
+          >
+            Choose your files
+          </button>
         </div>
         {/* 聯絡方式 */}
         <div className="box">
@@ -416,7 +456,7 @@ function Proposal() {
             pattern="[^0-9]+" // 限制不可有數字，可以下底線
             required
           />
-          <h4>允許接案人透過電話聯絡您嗎?</h4>
+          <h4 className="my-3">允許接案人透過電話聯絡您嗎?</h4>
           <select
             className="form-select"
             aria-label="Default select example"
@@ -433,47 +473,50 @@ function Proposal() {
             <option value="1">允許</option>
             <option value="0">不允許</option>
           </select>
-          <h4>連絡人電話號碼</h4>
-          <input
-            type="text"
-            placeholder="請輸入連絡人電話號碼"
-            onChange={(event) => setContactPhone(event.target.value)}
-            value={contactPhone}
-            pattern="\d+"
-          />
-          <h4>請勾選希望接案人聯絡時段?</h4>
-          <input
-            type="checkbox"
-            id="time0"
-            name="time"
-            onClick={handlecontactTime}
-          />
-          <label htmlFor="time0">上午00:00~上午08:00</label>
-          <br />
-          <input
-            type="checkbox"
-            id="time1"
-            name="time"
-            onClick={handlecontactTime}
-          />
-          <label htmlFor="time1">上午08:00~中午12:00</label>
-          <br />
-          <input
-            type="checkbox"
-            id="time2"
-            name="time"
-            onClick={handlecontactTime}
-          />
-          <label htmlFor="time2">下午13:00~下午17:00</label>
-          <br />
-          <input
-            type="checkbox"
-            id="time3"
-            name="time"
-            onClick={handlecontactTime}
-          />
-          <label htmlFor="time3">晚上17:00~晚上24:00</label>
-          <br />
+          {isContactPhone !== null && isContactPhone === "1" && (
+            <>
+              <h4 className="my-3">連絡人電話號碼</h4>
+              <input
+                type="text"
+                placeholder="請輸入連絡人電話號碼"
+                onChange={(event) => setContactPhone(event.target.value)}
+                value={contactPhone}
+                pattern="\d+"
+              />
+              <h4 className="my-3">請勾選希望接案人聯絡時段?</h4>
+              <input
+                type="checkbox"
+                id="time0"
+                name="time"
+                onClick={handlecontactTime}
+              />
+              <label htmlFor="time0">上午00:00~上午08:00</label>
+              <br />
+              <input
+                type="checkbox"
+                id="time1"
+                name="time"
+                onClick={handlecontactTime}
+              />
+              <label htmlFor="time1">上午08:00~中午12:00</label>
+              <br />
+              <input
+                type="checkbox"
+                id="time2"
+                name="time"
+                onClick={handlecontactTime}
+              />
+              <label htmlFor="time2">下午13:00~下午17:00</label>
+              <br />
+              <input
+                type="checkbox"
+                id="time3"
+                name="time"
+                onClick={handlecontactTime}
+              />
+              <label htmlFor="time3">晚上17:00~晚上24:00</label>
+            </>
+          )}
         </div>
         {/* btn */}
         <div className="box d-flex justify-content-evenly">

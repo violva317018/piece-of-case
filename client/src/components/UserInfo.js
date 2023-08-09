@@ -17,23 +17,16 @@ function UserInfo(props) {
   const [quotation, setQuotation] = useState(0); // 報價金額
   const [win, setWin] = useState(false); // 預設
   const [selfRecommended, setSelfRecommended] = useState(""); // 自我推薦
-  let MerchantTradeNo = "Test1000"; // !不可以空格
-  let ItemName = "Test ECPay 100NT *1";
-  let TotalAmount = 1000;
-  let TradeDesc = "Test ECPay";
+
+  // 綠界資訊
+  const [merchantTradeNo, setMerchantTradeNo] = useState("Test000"); // !不可以空格
+  const [itemName, setItemName] = useState("Test1");
+  const [totalAmount, setTotalAmount] = useState(budget * 0.01);
+  const [tradeDesc, setTradeDesc] = useState("Test1");
+
   // 將報價者資料傳至資料庫
 
   const handleBidder = () => {
-    // 將訂單資訊傳入ECPay
-    Payment.pay(MerchantTradeNo, ItemName, TotalAmount, TradeDesc, caseID)
-      .then((result) => {
-        console.log(result["data"]);
-        setEcpayHtml(result["data"]);
-        navigate("/Ecpay"); // ! 會由綠界跳轉所以不用設定
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     // 將報價資訊寫入DB
     Case.newBidder(
       currentCaseId,
@@ -51,6 +44,16 @@ function UserInfo(props) {
       .catch((error) => {
         console.error(error);
         alert(error);
+      });
+    // 將訂單資訊傳入ECPay
+    Payment.pay(merchantTradeNo, itemName, totalAmount, tradeDesc, caseID)
+      .then((result) => {
+        console.log(result["data"]);
+        setEcpayHtml(result["data"]);
+        navigate("/Ecpay"); // ! 會由綠界跳轉所以不用設定
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   return (
@@ -88,6 +91,7 @@ function UserInfo(props) {
               style={{ margin: 0 }}
               className="form-control"
               placeholder="請輸入您的自我推薦"
+              required
               onChange={(e) => {
                 setSelfRecommended(e.target.value);
               }}
