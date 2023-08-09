@@ -153,7 +153,7 @@ class UserController extends Controller
         }
     }
 
-    //比對Email
+    //忘記密碼比對Email
     public function FoegetPwd(Request $request)
     {
         $stringNumber = '';
@@ -171,6 +171,7 @@ class UserController extends Controller
         } 
     }
 
+    //忘記密碼比對驗證碼
     public function verCodeCheck(Request $request)
     {
         $verCode = $request['verCode'];
@@ -178,6 +179,7 @@ class UserController extends Controller
         return $verCodeCheck;
     }
 
+    //忘記密碼 重設密碼
     public function newPassword(Request $request)
     {
         $password = $request['password'];

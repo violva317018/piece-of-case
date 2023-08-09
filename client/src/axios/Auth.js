@@ -218,6 +218,7 @@ class Auth {
     });
   }
   
+  //忘記密碼傳送Email
   forgetPwd(changeEmail) {
     return axios.get(API_URL + "/Forgetpwd", {
       params: {
@@ -226,6 +227,7 @@ class Auth {
     });
   }
 
+  //忘記密碼傳送驗證碼
   verCodeCheck(verCode) {
     return axios.get(API_URL + "/verCodeCheck", {
       params: {
@@ -234,6 +236,7 @@ class Auth {
     });
   }
 
+  //忘記密碼 密碼重設
   newPassword(password, verCode) {
     return axios.get(API_URL + "/newPassword", {
       params: {
