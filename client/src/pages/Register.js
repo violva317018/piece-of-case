@@ -78,7 +78,10 @@ function Register() {
     if (/[0-9]/.test(password)) {
       i++;
     }
-    if (/[A-Za-z0-8]/.test(password)) {
+    if (/[a-z]/.test(password)) {
+      i++;
+    }
+    if (/[A-Za-z0-8]/.test(password) && password.length >= 10) {
       i++;
     }
     return i;
@@ -90,11 +93,11 @@ function Register() {
     setStrength(Strength(newPassword));
   };
   let strengthClass = '';
-  if (strength <= 2 && strength > 0) {
+  if (strength <= 3 && strength > 0) {
     strengthClass = 'weak';
-  } else if (strength >= 2 && strength <= 4) {
+  } else if (strength > 3 && strength <= 5) {
     strengthClass = 'moderate';
-  } else if (strength > 4){
+  } else if (strength > 5){
     strengthClass = 'strong';
   }
 
@@ -128,10 +131,10 @@ function Register() {
           </div>
           <div className="form-floating">
             <input
-              onChange={handleUserPassword}
               type="password"
               placeholder="請輸入密碼"
               className="form-control inputRadiusNull"
+              onChange={handleUserPassword}
               id="YourPassword"
             />
             <label htmlFor="floatingInput">請輸入密碼</label>

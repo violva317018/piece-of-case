@@ -38,6 +38,18 @@ function Forgetpwd() {
     })
     .catch((err)=>{console.error(err)})
   }
+
+  const [strength, setStrength] = useState(0);
+  const handlepassword = (e) => {
+    setpassword(e.target.value);
+    const newPassword = e.target.value;
+    setStrength(Strength(newPassword));
+  };
+
+  const handlepassword2 = (e)=>{
+    (setpassword2(e.target.value))
+     }  
+
   const handleNewPassword =()=>{
     Auth.newPassword(password, verCode)
     .then((result)=>{
@@ -46,6 +58,39 @@ function Forgetpwd() {
       navigate("/login")
     })
     .catch((err)=>{console.error(err)})
+  }
+
+  const Strength = (password) => {
+    let i = 0;
+    if (password.length > 6) {
+      i++;
+    }
+    if (password.length >= 10) {
+      i++;
+    }
+    if (/[A-Z]/.test(password)) {
+      i++;
+    }
+    if (/[0-9]/.test(password)) {
+      i++;
+    }
+    if (/[a-z]/.test(password)) {
+      i++;
+    }
+    if (/[A-Za-z0-8]/.test(password) && password.length >= 10) {
+      i++;
+    }
+    return i;
+  };
+
+
+  let strengthClass = '';
+  if (strength <= 3 && strength > 0) {
+    strengthClass = 'weak';
+  } else if (strength > 3 && strength <= 5) {
+    strengthClass = 'moderate';
+  } else if (strength > 5){
+    strengthClass = 'strong';
   }
 
   return (
@@ -76,7 +121,8 @@ function Forgetpwd() {
         </div>
         )}
 
-        {forgetPWD===2 && (<div action="" className="formSize">
+        {forgetPWD===2 && (
+        <div className="formSize">
           <h2 className="mb-3 textAlignC">忘記密碼</h2>
           <p>已發送驗證信至您的信箱</p>
           <p></p>
@@ -102,7 +148,8 @@ function Forgetpwd() {
         </div>
         )}
 
-        {forgetPWD===3 && (<div action="" className="formSize">
+        {forgetPWD===3 && (
+        <div className={`contaner ${strengthClass} formSize`}>
           <h2 className="mb-3 textAlignC">忘記密碼</h2>
           <p>請輸入新密碼</p>
           <p></p>
@@ -110,23 +157,24 @@ function Forgetpwd() {
             <input
               type="password"
               placeholder="請輸入密碼"
-              className="form-control"
-              onChange={(e)=>(setpassword(e.target.value))}
+              className="form-control inputRadiusTop"
+              onChange={handlepassword}
+              id="YourPassword"
             />
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
-          <p></p>
           <div className="form-floating">
             <input
               type="password"
               placeholder="重新輸入密碼"
-              className="form-control"
-              onChange={(e)=>(setpassword2(e.target.value))}
+              className="form-control inputRadiusBottom"
+              onChange={handlepassword2}
             />
             <label htmlFor="floatingInput">重新輸入密碼</label>
           </div>
+          <div className="strengthMeter"></div>
           {password !== password2 && (
-            <span style={{ color: "red" }}>密碼輸入不一致！</span>
+            <div className="passwordCheck">密碼輸入不一致！</div>
           )}
           <p></p>
           <div className="form-floating">

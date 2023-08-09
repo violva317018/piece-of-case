@@ -97,8 +97,8 @@ input[type="text"] {
 }
 
 .contaner.moderate .strengthMeter::before {
-  width: 60%;
-  background: #eedc3d;
+  width: 55%;
+  background: #cebf3b;
 }
 
 .contaner.strong .strengthMeter::before {
@@ -115,17 +115,17 @@ input[type="text"] {
   font-size: 10px;
 }
 
-.contaner.contaner.weak .strengthMeter::after {
+.contaner.weak .strengthMeter::after {
   content: "強度:弱";
   color: #f00;
 }
 
-.contaner.contaner.contaner.moderate .strengthMeter::after {
+.contaner.moderate .strengthMeter::after {
   content: "強度:中";
   color: #cebf3b;
 }
 
-.contaner.contaner.contaner.contaner.strong .strengthMeter::after {
+.contaner.strong .strengthMeter::after {
   content: "強度:強";
   color: #18e605;
 }
