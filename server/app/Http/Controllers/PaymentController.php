@@ -70,7 +70,7 @@ class PaymentController extends Controller
             // CheckMacValue
             'EncryptType' => 1, // CheckMacValue加密類型，固定填入1，使用SHA256加密
             // 請勿設定與Client端接收付款結果網址OrderResultURL相同位置，避免程式判斷錯誤。
-            'ReturnURL' => 'https://08b2-118-163-218-100.ngrok-free.app/index.php/callback', // 付款完成通知回傳網址
+            'ReturnURL' => 'https://37f4-118-163-218-100.ngrok-free.app/index.php/callback', // 付款完成通知回傳網址
             'ClientBackURL' => 'http://localhost:3000/caseview/'.$request['caseID'], // 消費者點選此按鈕後，會將頁面導回到此設定的網址
             //'OrderResultURL' => 'https://08b2-118-163-218-100.ngrok-free.app/GetEcpayResult', // Client端回傳付款結果網址，綠界會將付款結果參數以POST方式回傳到到該網址
             // 'OrderResultURL' => 'https://ebb3-118-163-218-100.ngrok-free.app/index.php/api/payment/callback', // Client端回傳付款結果網址，綠界會將付款結果參數以POST方式回傳到到該網址
