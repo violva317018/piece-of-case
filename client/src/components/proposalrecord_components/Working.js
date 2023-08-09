@@ -5,7 +5,7 @@ import Auth from "../../axios/Auth";
 import { GlobelDate } from "../../App";
 
 function Working(props) {
-  const { proposal } = useContext(GlobelDate);
+  const { proposal, setProposal } = useContext(GlobelDate);
 
   const { currentProposalCases } = props;
 
@@ -113,6 +113,9 @@ function Working(props) {
       Auth.stepConfirm(localStorage.getItem("userID"), caseID, deadLine)
         .then((result) => {
           console.log(result);
+          if (result["data"] === []) {
+            setProposal();
+          }
         })
         .catch((err) => {
           console.error(err);
