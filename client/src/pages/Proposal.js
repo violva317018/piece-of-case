@@ -419,7 +419,6 @@ function Proposal() {
           <input
             type="file"
             id="fileInput"
-            hidden
             multiple
             accept="image/jpeg, image/png, application/pdf"
             required
@@ -434,16 +433,16 @@ function Proposal() {
               }
             }}
           />
-          <button
+          {/* <button
             as="label" //*  變成 label tag
-            htmlFor="imageInput" //* 來自 Input id
+            htmlFor="fileInput" //* 來自 Input id
             colorschema="blue"
             variant="outline"
             cursor="pointer"
             id="fileButton"
           >
             Choose your files
-          </button>
+          </button> */}
         </div>
         {/* 聯絡方式 */}
         <div className="box">

@@ -4,10 +4,17 @@ import "./header.css";
 import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
+import Logo from "../imgs/proposalFiles/logo.png";
 
 function Header() {
-    const { headphoto, setHeadPhoto, userinfo, setUserInfo, setInfoData, unreadNotifications } =
-    useContext(GlobelDate);
+  const {
+    headphoto,
+    setHeadPhoto,
+    userinfo,
+    setUserInfo,
+    setInfoData,
+    unreadNotifications,
+  } = useContext(GlobelDate);
   const handleLogout = () => {
     Auth.logout(userinfo)
       .then((result) => {
@@ -64,13 +71,23 @@ function Header() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <img
-                src={headphoto}
-                alt="mdo"
-                width="40"
-                height="40"
-                className="rounded-circle"
-              />
+              {headphoto ? (
+                <img
+                  src={headphoto}
+                  alt="mdo"
+                  width="40"
+                  height="40"
+                  className="rounded-circle"
+                />
+              ) : (
+                <img
+                  src={Logo}
+                  alt="mdo"
+                  width="40"
+                  height="40"
+                  className="rounded-circle"
+                />
+              )}
             </Link>
             <ul
               className="dropdown-menu text-small shadow"
@@ -97,7 +114,13 @@ function Header() {
               <li>
                 <Link className="dropdown-item" to="/chatRoom">
                   聊天室
-                    <span className={unreadNotifications?.length === 0 ? null : "chatRoomNotification"}></span>
+                  <span
+                    className={
+                      unreadNotifications?.length === 0
+                        ? null
+                        : "chatRoomNotification"
+                    }
+                  ></span>
                 </Link>
               </li>
               <li>
