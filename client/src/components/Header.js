@@ -4,6 +4,7 @@ import "./header.css";
 import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
+import headerLogo from '../header_logo.png';
 
 function Header() {
     const { headphoto, setHeadPhoto, userinfo, setUserInfo, setInfoData, unreadNotifications } =
@@ -47,9 +48,9 @@ function Header() {
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
         <Link to="/" className="mx-5">
-          Piece Of Case
+        <img src={headerLogo} width="200" height="100%"/>
         </Link>
-        <Link to="/proposal" className="mx-5 proposal-div">
+        <Link to="/proposal" className="mx-5 proposal-div" style={{lineHeight: "70px"}}>
           提案
         </Link>
         <Link to="/allCase" className="mx-5 allCase-div">

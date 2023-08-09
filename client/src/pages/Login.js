@@ -94,7 +94,6 @@ function Login() {
               }}
               defaultValue={JSON.parse(localStorage.getItem("accountNumber"))}
               className="form-control inputRadiusTop"
-              required
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
           </div>
@@ -106,7 +105,6 @@ function Login() {
               }}
               placeholder="請輸入密碼"
               className="form-control inputRadiusBottom"
-              required
             />
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
