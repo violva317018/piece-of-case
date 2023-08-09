@@ -4,7 +4,7 @@ import "./header.css";
 import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
-import headerLogo from '../header_logo.png';
+import headerLogo from '../imgs/header_logo.png';
 
 function Header() {
     const { headphoto, setHeadPhoto, userinfo, setUserInfo, setInfoData, unreadNotifications } =

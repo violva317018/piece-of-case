@@ -8,8 +8,8 @@ function Footer() {
       <div className="footer-left">
         <div className="footer-img"></div>
       </div>
-      <div className="footer-right">
-        <p className="footer-right-content">追蹤我們</p>
+      <div className="footer-right ">
+        {/* <p className="footer-right-content">追蹤我們</p> */}
         <ul className="socials">
           <li>
             <a className="facebook" href="#">
@@ -29,11 +29,6 @@ function Footer() {
           <li>
             <a className="instagram" href="#">
               <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-          <li>
-            <a className="linkedin" href="#">
-              <ion-icon name="logo-linkedin"></ion-icon>
             </a>
           </li>
         </ul>
