@@ -108,7 +108,7 @@ function Header() {
                   >
                     <li>
                       <Link
-                        className="dropdown-item"
+                        className="dropdown-item rwdWord"
                         to="/personalinfo"
                         onClick={() => setInfoData("1")}
                       >
@@ -117,7 +117,7 @@ function Header() {
                     </li>
                     <li>
                       <Link
-                        className="dropdown-item"
+                        className="dropdown-item rwdWord"
                         to="/personalinfo"
                         onClick={() => setInfoData("3")}
                       >
@@ -125,7 +125,7 @@ function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/chatRoom">
+                      <Link className="dropdown-item rwdWord" to="/chatRoom">
                         聊天室
                         <span
                           className={
@@ -141,7 +141,7 @@ function Header() {
                     </li>
                     <li>
                       <Link
-                        className="dropdown-item"
+                        className="dropdown-item rwdWord"
                         to=""
                         onClick={handleLogout}
                       >

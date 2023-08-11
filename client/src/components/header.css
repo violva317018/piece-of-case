@@ -183,4 +183,7 @@ a {
   .rwdhead {
     width: 100%;
   }
+  .rwdWord {
+    text-align: center;
+  }
 }
