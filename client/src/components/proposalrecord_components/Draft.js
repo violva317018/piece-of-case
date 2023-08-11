@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function Draft(props) {
   const { currentProposalCases, handleDelete, handleRevise } = props;
+  const updateTime = "";
   return (
     <div>
       {currentProposalCases.length !== 0 ? (
@@ -20,11 +21,19 @@ function Draft(props) {
               <span className="span2 flex-grow-1">{item["budget"]}</span>
               <span className="span2 flex-grow-1">{item["updateTime"]}</span>
               <span className="span2 del1">
-                <div className="del2" onClick={() => handleDelete(item["caseID"])}>
+                <div
+                  className="del2"
+                  onClick={() => handleDelete(item["caseID"])}
+                >
                   刪除
                 </div>
                 {/* <Link className="del2" onClick={() => handleRevise(item["caseID"])} to='/proposal'>修改</Link> */}
-                <div className="del2" onClick={() => handleRevise(item["caseID"])} >修改</div>
+                <div
+                  className="del2"
+                  onClick={() => handleRevise(item["caseID"])}
+                >
+                  修改
+                </div>
               </span>
             </div>
           </div>
