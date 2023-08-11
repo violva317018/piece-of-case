@@ -6,6 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 //* ant UI elements => npm install antd @ant-design/icons
 import { DatePicker, Space, Input, Button, Form, InputNumber } from "antd"; //* 引入 antd UI
 import { CheckOutlined, FileAddOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const { TextArea } = Input;
 
 function Proposal() {
@@ -159,25 +162,95 @@ function Proposal() {
   const handlePublishCase = () => {
     // check user write form
     if (!name) {
-      alert("Please write your name.");
+        toast.warning('請填寫姓名', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please write your name.");
       return;
     } else if (!category) {
-      alert("Please choose case category.");
+        toast.warning('請選擇案件類別', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please choose case category.");
       return;
     } else if (!subCategory) {
-      alert("Please choose case subCategory.");
+        toast.warning('請選擇案件類別', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please choose case subCategory.");
       return;
     } else if (!city) {
-      alert("Please choose case city.");
+        toast.warning('請選擇工作地點', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please choose case city.");
       return;
     } else if (!subCity) {
-      alert("Please choose case subCity.");
+        toast.warning('請選擇工作地點', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please choose case subCity.");
       return;
     } else if (!budget) {
-      alert("Please write case budget.");
+        toast.warning('請填寫預算金額', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please write case budget.");
       return;
     } else if (!contactName) {
-      alert("Please write your contactName.");
+        toast.warning('請填寫聯絡資料', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    //   alert("Please write your contactName.");
       return;
     }
     let status = "刊登中";
@@ -204,7 +277,17 @@ function Proposal() {
     )
       .then((result) => {
         console.log(result);
-        alert("刊登成功");
+        // alert("刊登成功");
+        toast.success('刊登成功', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         navigate("/personalinfo");
       })
       .catch((err) => {
@@ -235,7 +318,17 @@ function Proposal() {
       allFiles
     )
       .then((result) => {
-        alert("已新增草稿");
+        toast.success('新增至草稿', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        // alert("已新增草稿");
         navigate("/personalinfo");
       })
       .catch((err) => {
@@ -449,7 +542,17 @@ function Proposal() {
                 } else {
                   setOverFile(false);
                   setAllFiles(e.target.files);
-                  return alert(`最多只能選擇5個檔案，請重新選取`);
+                  
+                  return toast.warning('最多只能選擇5個檔案，請重新選取', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
                 }
               }}
             />
@@ -560,6 +663,7 @@ function Proposal() {
           </div>
         </div>
       )}
+      <ToastContainer limit={1}/>
     </main>
   );
 }

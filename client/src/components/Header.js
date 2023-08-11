@@ -5,6 +5,8 @@ import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
 import headerLogo from "../imgs/header_logo.png";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Header() {
   const {
@@ -25,6 +27,16 @@ function Header() {
         );
         //把空字串傳入setUserInfo
         setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+        toast.info('用戶登出', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -170,6 +182,7 @@ function Header() {
           </ul>
         </div>
       </div>
+      <ToastContainer limit={1}/>
     </div>
   );
 }

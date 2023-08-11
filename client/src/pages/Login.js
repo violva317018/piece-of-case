@@ -3,8 +3,11 @@ import "./login.css";
 import { Link, json, useNavigate } from "react-router-dom";
 import { GlobelDate } from "../App";
 import Auth from "../axios/Auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
+
   // 轉址所需
   const navigate = useNavigate();
   // 取得全域變數
@@ -29,7 +32,18 @@ function Login() {
       .then((result) => {
         console.log(result);
         if (result["data"] == "帳號或密碼錯誤") {
-          alert(result["data"]);
+            // Alert
+            toast.error('帳號或密碼錯誤', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            
         }
 
         //登入後localStorage存userInfo
@@ -55,9 +69,27 @@ function Login() {
 
         console.log(result["data"][0]["token"]);
         if (JSON.parse(localStorage.getItem("userInfo")) === null) {
-          window.alert("登入失敗");
+            toast.error('登入失敗', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         } else if (result["data"][0]["result"] === "登入成功") {
-          window.alert("登入成功");
+            toast.success('登入成功', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
           // 導向至首頁, 如果是管理員帳號的話導向到後台
           if (result["data"][0]["membershipLevel"] === "root") {
             navigate("/Backstage");
@@ -145,6 +177,7 @@ function Login() {
             >
               &nbsp;&nbsp;登入&nbsp;&nbsp;
             </button>
+            <ToastContainer limit={1} />
           </div>
           <hr />
           <span className="d-block textAlignC">
