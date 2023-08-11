@@ -42,3 +42,27 @@
 .moreView:hover {
   font-size: 1.8rem;
 }
+.pagination {
+  /* margin: 0 auto; */
+  display: flex;
+  justify-content: center;
+}
+.pagination > li {
+  cursor: pointer;
+}
+.page-link:hover {
+  background-color: yellow;
+  color: black;
+}
+
+@media (max-width: 968px) {
+  .case-div {
+    width: 45%;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 500px) {
+  .case-div {
+    width: 80%;
+  }
+}

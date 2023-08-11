@@ -1,0 +1,16 @@
+.ant-menu-submenu-title {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.ant-menu-item {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ant-menu-submenu-title,
+.ant-menu-submenu-title > i,
+.ant-menu-title-content,
+.ant-menu-item-icon,
+.ant-menu-submenu-arrow {
+  color: #fff;
+}
