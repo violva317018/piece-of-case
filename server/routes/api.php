@@ -96,11 +96,12 @@ Route::post('scheme/newCaseStep', [SchemeController::class, 'newCaseStep']); // 
 
 // ECPay
 Route::post('/payment/pay', [PaymentController::class, 'checkout']); // 將資料送給 ECPay
+Route::post('/payment/collaboration', [PaymentController::class, 'collaboration']); //* 合作
 Route::post('/payment/callback', [PaymentController::class, 'callback']); // 取得 ECPay 的回傳資料
 
 //後台
 Route::get('backstage/alluser', [backstageController::class, 'rootCheckUser']); //去backstageController叫function rootCheckUserphp
-Route::get('backstage/allcase', [backstageController::class, 'rootCheckCase']); 
+Route::get('backstage/allcase', [backstageController::class, 'rootCheckCase']);
 
 
 //忘記密碼
@@ -109,5 +110,5 @@ Route::get('Forgetpwd', [UserController::class, 'FoegetPwd']);
 //忘記密碼驗證碼
 Route::get('verCodeCheck', [UserController::class, 'verCodeCheck']);
 
-//重新輸入密碼
+//重設密碼
 Route::get('newPassword', [UserController::class, 'newPassword']);

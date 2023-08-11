@@ -20,6 +20,10 @@ function Register() {
   } = useContext(GlobelDate);
   const [password2, setPassword2] = useState("");
 
+  // const handleUserPassword = (e) => {
+  //   setUserPassword(e.target.value);
+  // };
+
   const handlePassword2 = (e) => {
     setPassword2(e.target.value);
   };
@@ -60,11 +64,48 @@ function Register() {
       });
   };
 
+  const Strength = (password) => {
+    let i = 0;
+    if (password.length > 6) {
+      i++;
+    }
+    if (password.length >= 10) {
+      i++;
+    }
+    if (/[A-Z]/.test(password)) {
+      i++;
+    }
+    if (/[0-9]/.test(password)) {
+      i++;
+    }
+    if (/[a-z]/.test(password)) {
+      i++;
+    }
+    if (/[A-Za-z0-8]/.test(password) && password.length >= 10) {
+      i++;
+    }
+    return i;
+  };
+  const [strength, setStrength] = useState(0);
+  const handleUserPassword = (e) => {
+    setUserPassword(e.target.value);
+    const newPassword = e.target.value;
+    setStrength(Strength(newPassword));
+  };
+  let strengthClass = '';
+  if (strength <= 3 && strength > 0) {
+    strengthClass = 'weak';
+  } else if (strength > 3 && strength <= 5) {
+    strengthClass = 'moderate';
+  } else if (strength > 5){
+    strengthClass = 'strong';
+  }
+
   return (
     <div className=" myBody d-flex">
       <div className="imgDiv1"></div>
       <div className="registerDiv d-flex">
-        <div className="formSize">
+        <div className={`contaner ${strengthClass} formSize`}>
           <h2 className="mb-3 textAlignC">會員註冊</h2>
           <div className="form-floating">
             <input
@@ -74,7 +115,6 @@ function Register() {
               type="text"
               placeholder="請輸入使用者名稱"
               className="form-control"
-              required
             />
             <label htmlFor="floatingInput">請輸入使用者名稱</label>
           </div>
@@ -86,19 +126,16 @@ function Register() {
               type="email"
               placeholder="帳號為電子郵件"
               className="form-control inputRadiusNull"
-              required
             />
             <label htmlFor="floatingInput">帳號為電子郵件</label>
           </div>
           <div className="form-floating">
             <input
-              onChange={(e) => {
-                setUserPassword(e.target.value);
-              }}
               type="password"
               placeholder="請輸入密碼"
               className="form-control inputRadiusNull"
-              required
+              onChange={handleUserPassword}
+              id="YourPassword"
             />
             <label htmlFor="floatingInput">請輸入密碼</label>
           </div>
@@ -108,13 +145,13 @@ function Register() {
               placeholder="重新輸入密碼"
               className="form-control inputRadiusBottom"
               onChange={handlePassword2}
-              required
             />
             <label htmlFor="floatingInput">重新輸入密碼</label>
           </div>
+          <div className="strengthMeter"></div>
           {userPassword !== password2 && (
-            <span style={{ color: "red" }}>密碼輸入不一致！</span>
-          )}
+            <div className="passwordCheck">密碼輸入不一致！</div>
+            )}
           <div className="form-floating">
             <button
               className="btn submitButton"

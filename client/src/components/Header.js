@@ -4,7 +4,7 @@ import "./header.css";
 import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
-import Logo from "../imgs/proposalFiles/logo.png";
+import headerLogo from "../imgs/header_logo.png";
 
 function Header() {
   const {
@@ -54,9 +54,13 @@ function Header() {
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center">
         <Link to="/" className="mx-5">
-          Piece Of Case
+          <img src={headerLogo} width="200" height="100%" alt="img" />
         </Link>
-        <Link to="/proposal" className="mx-5 proposal-div">
+        <Link
+          to="/proposal"
+          className="mx-5 proposal-div"
+          style={{ lineHeight: "70px" }}
+        >
           提案
         </Link>
         <Link to="/allCase" className="mx-5 allCase-div">
@@ -71,23 +75,13 @@ function Header() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {headphoto ? (
-                <img
-                  src={headphoto}
-                  alt="mdo"
-                  width="40"
-                  height="40"
-                  className="rounded-circle"
-                />
-              ) : (
-                <img
-                  src={Logo}
-                  alt="mdo"
-                  width="40"
-                  height="40"
-                  className="rounded-circle"
-                />
-              )}
+              <img
+                src={headphoto}
+                alt="mdo"
+                width="40"
+                height="40"
+                className="rounded-circle"
+              />
             </Link>
             <ul
               className="dropdown-menu text-small shadow"

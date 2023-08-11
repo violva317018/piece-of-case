@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./AllCase.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Case from "../axios/Case";
 import { GlobelDate } from "../App";
 import logoIamge from "../imgs/logo.jpg";
 import bookIamge from "../imgs/proposalFiles/book.jpg";
 import skyIamge from "../imgs/proposalFiles/1.jpg";
+import { Button, Space } from "antd";
 
 function AllCase() {
   // 取得全域變數
   const { setCurrentCaseId } = useContext(GlobelDate);
+  const navigate = useNavigate();
 
   // 處理頁數
   const [page, setPage] = useState(1);
@@ -210,60 +212,72 @@ function AllCase() {
               >
                 地區
               </button>
-              {bigCityNames.map((items, index) => (
-                <div className="mb-3 mt-2" key={index}>
+              <div className="border border-warning border-3" id={`location`}>
+                {bigCityNames.map((items, index) => (
                   <div
-                    id={`location`}
-                    className="collapse btn btn-primary multi-collapse w-75"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={`#${items.cityID}`}
-                    data-bs-id={`${items.cityID}`} // 賦予代號
-                    aria-expanded="false"
-                    aria-controls={`${items.cityID}`}
-                    onClick={(e) => {
-                      handlebigCity(e.target.dataset["bsId"]); // 取得代號
-                    }}
+                    className="mb-3 mt-2 d-flex justify-content-center flex-column align-items-center"
+                    key={index}
                   >
-                    {items.city}
-                  </div>
-                  <div
-                    className="collapse multi-collapse"
-                    id={`${items.cityID}`}
-                  >
-                    <div className="card card-body">
-                      <ul className="list-group">
-                        {subCityNames.map((item, index) => (
-                          <>
-                            {item["cityID"] === items.cityID && (
-                              <li className="list-group-item p-0" key={index}>
-                                <input
-                                  type="checkbox"
-                                  id={`${item.districtID}`}
-                                  name={`${item.cityID}`}
-                                  onClick={(e) => {
-                                    handleSubCity(e);
-                                  }}
-                                />
-                                <label htmlFor={`${item.districtID}`}>
-                                  {item.district}
-                                </label>
-                              </li>
-                            )}
-                          </>
-                        ))}
-                      </ul>
+                    <div
+                      className="collapse btn btn-primary multi-collapse w-75"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#${items.cityID}`}
+                      data-bs-id={`${items.cityID}`} // 賦予代號
+                      aria-expanded="false"
+                      aria-controls={`${items.cityID}`}
+                      onClick={(e) => {
+                        handlebigCity(e.target.dataset["bsId"]); // 取得代號
+                      }}
+                    >
+                      {items.city}
+                    </div>
+                    <div
+                      className="collapse multi-collapse"
+                      id={`${items.cityID}`}
+                    >
+                      <div className="card card-body">
+                        <ul className="list-group border border-info border-2 p-2">
+                          {subCityNames.map((item, index) => (
+                            <>
+                              {item["cityID"] === items.cityID && (
+                                <li className="list-group-item p-0" key={index}>
+                                  <input
+                                    type="checkbox"
+                                    id={`${item.districtID}`}
+                                    name={`${item.cityID}`}
+                                    onClick={(e) => {
+                                      handleSubCity(e);
+                                    }}
+                                  />
+                                  <label htmlFor={`${item.districtID}`}>
+                                    {item.district}
+                                  </label>
+                                </li>
+                              )}
+                            </>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             {/* 右側接案區 */}
             <div className="allCaseBox">
               {/* 顯示案子 */}
               <section className="d-flex flex-wrap">
                 {cases.map((item) => (
-                  <div className="case p-2" key={item.caseID}>
+                  <div
+                    className="case p-2"
+                    key={item.caseID}
+                    onClick={() => {
+                      // 取得當前點擊的case ID，並導向至caseview
+                      setCurrentCaseId(item.caseID);
+                      navigate(`/caseview/${item.caseID}`);
+                    }}
+                  >
                     {/* 依母類別的預設圖 */}
                     {item.image !== null ? (
                       <img
@@ -285,7 +299,7 @@ function AllCase() {
                     </p>
                     <p>預算: {item.budget}</p>
                     <p>預計完成日期: {item.deadline}</p>
-                    <Link
+                    {/* <Link
                       className="moreView"
                       to={`/caseview/${item.caseID}`}
                       data-caseid={item.caseID}
@@ -296,7 +310,12 @@ function AllCase() {
                       }}
                     >
                       more view
-                    </Link>
+                    </Link> */}
+                    <div className="d-flex justify-content-center">
+                      <Space wrap>
+                        <Button>Default Button</Button>
+                      </Space>
+                    </div>
                   </div>
                 ))}
               </section>

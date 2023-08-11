@@ -21,12 +21,22 @@ function UserInfo(props) {
   // 綠界資訊
   const [MerchantTradeNo, setMerchantTradeNo] = useState("Test000"); // !不可以空格
   // const [ItemName, setItemName] = useState("Test123");
-  const [ItemName, setItemName] = useState("高中生家教");
-  const [TotalAmount, setTotalAmount] = useState(60);
+  const [ItemName, setItemName] = useState("折蓮花");
+  const [TotalAmount, setTotalAmount] = useState(20);
   // const [TradeDesc, setTradeDesc] = useState("Test123");
-  const [TradeDesc, setTradeDesc] = useState("高中生家教 60元 * 1");
+  const [TradeDesc, setTradeDesc] = useState("折蓮花 20元 * 1");
 
-  // 將報價者資料傳至資料庫
+  const fileType = (file) => {
+    if (file.charAt(0) === "/") {
+      return "image/jpeg";
+    } else if (file.charAt(0) === "i") {
+      return "image/png";
+    } else if (file.charAt(0) === "J") {
+      return "application/pdf";
+    } else if (file.charAt(0) === "U") {
+      return "application/pdf";
+    }
+  };
 
   const handleBidder = () => {
     // 將訂單資訊傳入ECPay
@@ -49,7 +59,7 @@ function UserInfo(props) {
     )
       .then((result) => {
         console.log(result);
-        alert(result["data"][0]["result"]);
+        // alert(result["data"][0]["result"]);
         setInfoData(4);
         navigate("/personalinfo");
       })
@@ -64,7 +74,7 @@ function UserInfo(props) {
       <h1 className="text-center ">案主資訊</h1>
       <div className="d-flex justify-content-evenly">
         <img
-          src={`data:image/jpeg;base64, ${profilePhoto}`}
+          src={`data:image/${fileType(profilePhoto)};base64, ${profilePhoto}`}
           width={"100"}
           alt="img"
         />

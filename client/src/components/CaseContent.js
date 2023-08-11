@@ -82,11 +82,20 @@ function CaseContent(props) {
       <h4>{description}</h4>
       {files.map((item, index) => (
         <div key={index}>
-          <img
-            src={`data:image/${fileType(item)}, ${item}`}
-            width={"100"}
-            alt="img"
-          />
+          {item.charAt(0) === "J" || item.charAt(0) === "U" ? (
+            //* PDF 無法顯示
+            <img
+              src={`data:${fileType(item)};base64, ${item}`}
+              width={"200"}
+              alt="pdf"
+            />
+          ) : (
+            <img
+              src={`data:${fileType(item)};base64, ${item}`}
+              width={"200"}
+              alt="img"
+            />
+          )}
         </div>
       ))}
     </div>

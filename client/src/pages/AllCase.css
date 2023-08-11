@@ -20,6 +20,7 @@
   transition: 1s border;
   transition: 1s background;
   position: relative;
+  cursor: pointer;
 }
 .case > img {
   width: 150px;
