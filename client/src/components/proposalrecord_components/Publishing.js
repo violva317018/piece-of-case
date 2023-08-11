@@ -3,6 +3,8 @@ import "./publishing.css";
 import Auth from "../../axios/Auth";
 import { useNavigate } from "react-router-dom";
 import { GlobelDate } from "../../App";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Publishing(props) {
   const navigate = useNavigate();
@@ -15,7 +17,17 @@ function Publishing(props) {
       .then((result) => {
         console.log(result["data"][0]["result"]);
         setCancelA(result["data"][0]["result"]);
-        alert(result["data"][0]["result"]);
+        toast.info(result["data"][0]["result"], {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        // alert(result["data"][0]["result"]);
         setCancel(cancel + 1);
       })
       .catch((err) => {
@@ -25,6 +37,7 @@ function Publishing(props) {
   useEffect(() => {}, [cancelA]);
   return (
     <div>
+        <ToastContainer limit={1}/>
       {/* 利用陣列渲染 */}
       {currentProposalCases.length !== 0 ? (
         currentProposalCases.map((item) => (

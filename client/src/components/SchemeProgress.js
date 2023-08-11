@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { GlobelDate } from "../App";
 import Scheme from "../axios/Scheme";
 import Payment from "../axios/Payment";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Scheme 的 component
 function SchemeProgress(props) {
@@ -130,7 +132,17 @@ function SchemeProgress(props) {
     Scheme.newScheme(schemeJson)
       .then((result) => {
         console.log(result);
-        alert(result["data"][0]["result"]);
+        toast.info(result["data"][0]["result"], {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        // alert(result["data"][0]["result"]);
         // navigate("/personalinfo");
       })
       .catch((err) => {
@@ -196,6 +208,7 @@ function SchemeProgress(props) {
           </button>
         </Link>
       </div>
+      <ToastContainer limit={1}/>
     </>
   );
 }

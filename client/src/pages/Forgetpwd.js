@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Forgetpwd.css";
 import { Link, Navigate, json, useNavigate } from "react-router-dom";
-import { GlobelDate } from "../App";
 import Auth from "../axios/Auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Forgetpwd() {
   const navigate = useNavigate();
@@ -22,7 +23,17 @@ function Forgetpwd() {
         if (emailCheck === 1) {
           setForgetPWD(2);
         } else {
-          alert("查無此帳號");
+            toast.warning("查無此帳號", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+        //   alert("查無此帳號");
         }
       })
       .catch((err) => {
@@ -36,7 +47,17 @@ function Forgetpwd() {
         if (verCodeCheck === 1) {
           setForgetPWD(3);
         } else {
-          alert("驗證碼錯誤");
+            toast.warning("驗證碼錯誤", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+        //   alert("驗證碼錯誤");
         }
       })
       .catch((err) => {
@@ -59,7 +80,17 @@ function Forgetpwd() {
     Auth.newPassword(password, verCode)
       .then((result) => {
         newPassword = result["data"];
-        alert(newPassword);
+        toast.info(newPassword, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        // alert(newPassword);
         navigate("/login");
       })
       .catch((err) => {
@@ -101,6 +132,7 @@ function Forgetpwd() {
 
   return (
     <div className=" forgetBody">
+        <ToastContainer limit={1}/>
       <div className="forgetpwdDiv">
         {forgetPWD === 1 && (
           <div action="" className="formSize">
