@@ -11,7 +11,8 @@ function UserInfo(props) {
   // 取得全域變數
   const { setInfoData, currentCaseId, setEcpayHtml } = useContext(GlobelDate);
   // 從 CaseView 取得資料
-  const { budget, contactName, caseState, userEqual, profilePhoto } = props;
+  const { budget, contactName, caseState, caseName, userEqual, profilePhoto } =
+    props;
 
   // caseID , userID , quotation , win , selfRecommended
   const [quotation, setQuotation] = useState(0); // 報價金額
@@ -21,10 +22,10 @@ function UserInfo(props) {
   // 綠界資訊
   const [MerchantTradeNo, setMerchantTradeNo] = useState("Test000"); // !不可以空格
   // const [ItemName, setItemName] = useState("Test123");
-  const [ItemName, setItemName] = useState("折蓮花");
+  const [ItemName, setItemName] = useState(caseName);
   const [TotalAmount, setTotalAmount] = useState(20);
   // const [TradeDesc, setTradeDesc] = useState("Test123");
-  const [TradeDesc, setTradeDesc] = useState("折蓮花 20元 * 1");
+  const [TradeDesc, setTradeDesc] = useState(`${caseName} 50元 * 1`);
 
   const fileType = (file) => {
     if (file.charAt(0) === "/") {
@@ -83,7 +84,7 @@ function UserInfo(props) {
           <p>{contactName}</p>
         </div>
       </div>
-      <p>案主自介............................</p>
+      {/* <p>案主自介............................</p> */}
 
       {/* 假如未報價介面 */}
       {caseState === "未報價" && (
@@ -110,7 +111,7 @@ function UserInfo(props) {
             ></textarea>
           </div>
           {/* 顯示報價需花多少錢 */}
-          <div>此任務報價需花費 {budget * 0.01}元</div>
+          <div>此任務報價需花費 50 元</div>
           {/* 報價金額 */}
           <div className="input-group input-group-lg">
             <span
