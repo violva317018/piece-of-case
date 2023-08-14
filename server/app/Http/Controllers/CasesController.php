@@ -38,7 +38,9 @@ class CasesController extends Controller
                 $fileContents = file_get_contents($file);
                 
                 Storage::disk('s3')->put($newFileName, $fileContents, 'public');
+                
                 $fileUrl = Storage::disk('s3')->url($newFileName);
+                
                 $allFileUrls[] = $fileUrl;
             }
         }
