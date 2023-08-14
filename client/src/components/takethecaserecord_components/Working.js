@@ -232,13 +232,17 @@ function Working(props) {
     <div>
       {currentRecordCases.length !== 0 ? (
         currentRecordCases.map((item, index) => (
-          <div className="recordDiv31" key={item["caseID"]}>
+          <div
+            className="recordDiv31"
+            style={{ marginLeft: "3rem", marginRight: "3rem", width: "auto" }}
+            key={item["caseID"]}
+          >
             {/* 上方案件資訊 Title */}
             <div className="d-flex align-items-center">
               <span className="span1 flex-grow-1">案件名稱</span>
               <span className="span1 flex-grow-1">成交金額</span>
               <span className="span1 flex-grow-1">成交日期</span>
-              <span className="span1 del1">成交對象</span>
+              <span className="span1 flex-grow-1 del1">成交對象</span>
             </div>
 
             {/* 上方案件資訊 data */}
@@ -246,7 +250,7 @@ function Working(props) {
               <span className="span2 flex-grow-1">{item["caseName"]}</span>
               <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
               <span className="span2 flex-grow-1">{item["dealTime"]}</span>
-              <span className="span2 del1">{item["userName"]}</span>
+              <span className="span2 flex-grow-1 del1">{item["userName"]}</span>
             </div>
 
             {/* 下拉式Icon */}

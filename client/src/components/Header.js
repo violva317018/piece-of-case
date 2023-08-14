@@ -7,6 +7,7 @@ import Auth from "../axios/Auth";
 import headerLogo from "../imgs/header_logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import presetHeadPhoto from "../imgs/head.png";
 
 function Header() {
   const {
@@ -61,7 +62,7 @@ function Header() {
         });
     }
   }, []);
-  // console.log(JSON.stringify(localStorage.getItem("userInfo")));
+  console.log(headphoto.charAt(24));
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center navbar-expand-lg navbar-light fW">
@@ -107,7 +108,14 @@ function Header() {
                     aria-expanded="false"
                   >
                     <img
-                      src={headphoto}
+                      src={
+                        headphoto.charAt(24) === "R" ||
+                        headphoto.charAt(24) === "i" ||
+                        headphoto.charAt(24) === "/"
+                          ? headphoto
+                          : presetHeadPhoto
+                      }
+                      style={{ objectFit: "cover" }}
                       alt="mdo"
                       width="40"
                       height="40"

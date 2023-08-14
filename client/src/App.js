@@ -20,8 +20,8 @@ import Chat from "./axios/Chat";
 import unreadNotificationFunc from "./components/chatRoom_component/notification/unreadNotificationFunc";
 import GetEcpayResult from "./pages/GetEcpayResult";
 import Forgetpwd from "./pages/Forgetpwd";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 localStorage.setItem("text", "hello");
 
@@ -183,12 +183,12 @@ function App() {
           notifications,
           setNotifications,
           unreadNotifications,
-          chatChatUser, 
-          setChatChatUser
+          chatChatUser,
+          setChatChatUser,
         }}
       >
         <Header />
-        <ToastContainer limit={1}/>
+        <ToastContainer limit={1} />
         <Routes>
           <Route path={"/"} element={<Home />} />
           <Route path={"/login"} element={<Login />} />
