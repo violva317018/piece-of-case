@@ -5,8 +5,34 @@ import { GlobelDate } from "../App";
 import Auth from "../axios/Auth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { auth, provide } from "../config/firebase";
+import { signInWithPopup } from "firebase/auth";
+import { Button } from "antd";
 
 function Login() {
+
+  const googleLogin = async () =>{
+    const googleResult = await signInWithPopup(auth, provide);
+    const user = googleResult["user"];
+    // console.log(user);
+    Auth.googleLogin(user["displayName"], user["email"], user["photoURL"])
+    .then((result) => {
+      console.log(result["data"][0]["token"]);
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify(result["data"][0]["token"])
+      );
+      //登入後userinfo這個state要有東西才能判斷header是否登入
+      setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+      //登入後存userid
+      setUserID(result["data"][0]["userID"]);
+      localStorage.setItem(
+        "userID",
+        JSON.stringify(result["data"][0]["userID"])
+      );
+      navigate("/");
+    });
+  }
 
   // 轉址所需
   const navigate = useNavigate();
@@ -112,6 +138,7 @@ function Login() {
     }
   }, []);
 
+
   return (
     <div className=" myBody d-flex">
       <div className="loginDiv d-flex">
@@ -164,15 +191,6 @@ function Login() {
             <button
               className="btn submitButton"
               type="submit"
-              // onClick={() => {
-              // localStorage.setItem("myLogin", JSON.stringify(true));
-              // JSON.parse(localStorage.getItem("rememberID"))
-              //   ? localStorage.setItem(
-              //     "accountNumber",
-              //     JSON.stringify(accountNumber)
-              //   )
-              //   : localStorage.setItem("accountNumber", JSON.stringify(""));
-              // }}
               onClick={handleLogin}
             >
               &nbsp;&nbsp;登入&nbsp;&nbsp;
@@ -186,6 +204,15 @@ function Login() {
               立即註冊
             </Link>
           </span>
+          <div>
+          <button
+              className="btn googleButton"
+              type="submit"
+              onClick={googleLogin}
+            >
+              &nbsp;&nbsp;使用google帳號登入&nbsp;&nbsp;
+            </button>
+          </div>
         </div>
       </div>
       <div className="imgDiv"></div>

@@ -77,3 +77,15 @@
 .textAlignR {
   text-align: right;
 }
+
+.googleLogin {
+  height: 20px;
+}
+
+.googleButton {
+  display: block;
+  margin: 0 auto;
+  background-color: #f50808;
+  color: white;
+  margin-top: 1rem;
+}

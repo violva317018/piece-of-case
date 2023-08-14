@@ -188,4 +188,15 @@ class UserController extends Controller
         $newPassword = DB::select('call newPassword(?,?)',[$hashPassword, $verCode])[0]->result;
         return $newPassword;
     }
+
+    //google登入
+    public function googleLogin(Request $request)
+    {
+        // return $request;
+        $userName = $request['userName'];
+        $email = $request['email'];
+        $photoURL = $request['photoURL'];
+        $googleLogin = DB::select('call googleLogin(?,?,?)',[$userName, $email, $photoURL]);
+        return $googleLogin;
+    }
 }

@@ -112,3 +112,6 @@ Route::get('verCodeCheck', [UserController::class, 'verCodeCheck']);
 
 //重設密碼
 Route::get('newPassword', [UserController::class, 'newPassword']);
+
+//google登入
+Route::post('googleLogin',[UserController::class, 'googleLogin']);
