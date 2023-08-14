@@ -134,36 +134,70 @@ class InformationController extends Controller
     }
 
     //修改作品集
+    // public function updatePortfolio(Request $request)
+    // {
+    //     // return count($request->file('myPortfolio'));
+    //     if (!$request->file('myPortfolio')){
+    //         return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);;
+    //     }
+    //     $file = $request->file('myPortfolio');
+    //     // return $file;
+    //     $userID = $request->myUserID;
+    //     $allFileName = '"files/';
+    //     $filesNameArray = [];
+    //     for($i = 0; $i < count($file); $i++){
+    //         $fileName = $file[$i]->getClientOriginalName();
+    //         $file[$i]->storeAs('files', $fileName);
+    //         $allFileName .= (string)$fileName . ",files/";
+    //         array_push($filesNameArray, $fileName);
+    //     }
+    //     $allFileName = substr($allFileName, 0, -7) . '"';
+    //     $result = DB::select("CALL newPortfolio($userID, $allFileName)")[0]->result;
+    //     $filesName = DB::select("select portfolio from myresume where userID = $userID")[0]->portfolio;
+    //     $filesArray = explode(',', $filesName);
+    //     // return $filesArray;
+    //     // return base64_encode(Storage::get($filesArray[0]));
+    //     $filesObject = [];
+
+    //     for($i = 0; $i < count($file); $i++) {
+    //         array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
+    //     }
+    //     return response()->json(['result' => $result, 'files' => $filesObject, 'fileName' => $filesNameArray]);
+    // }
+
+    
     public function updatePortfolio(Request $request)
     {
-        // return count($request->file('myPortfolio'));
-        if (!$request->file('myPortfolio')){
-            return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);;
+        if (!$request->file('myPortfolio')) {
+            return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);
         }
+    
         $file = $request->file('myPortfolio');
-        // return $file;
         $userID = $request->myUserID;
-        $allFileName = '"files/';
-        $filesNameArray = [];
-        for($i = 0; $i < count($file); $i++){
-            $fileName = $file[$i]->getClientOriginalName();
-            $file[$i]->storeAs('files', $fileName);
-            $allFileName .= (string)$fileName . ",files/";
-            array_push($filesNameArray, $fileName);
+        $filesArray = [];
+    
+        foreach ($file as $uploadedFile) {
+            $fileName = $uploadedFile->getClientOriginalName();
+            $newFileName = time() . '_' . $fileName;
+    
+            Storage::disk('s3')->put($newFileName, file_get_contents($uploadedFile), 'public');
+    
+            $fileUrl = Storage::disk('s3')->url($newFileName);
+    
+            $filesArray[] = $fileUrl;
         }
-        $allFileName = substr($allFileName, 0, -7) . '"';
-        $result = DB::select("CALL newPortfolio($userID, $allFileName)")[0]->result;
-        $filesName = DB::select("select portfolio from myresume where userID = $userID")[0]->portfolio;
-        $filesArray = explode(',', $filesName);
-        // return $filesArray;
-        // return base64_encode(Storage::get($filesArray[0]));
-        $filesObject = [];
-
-        for($i = 0; $i < count($file); $i++) {
-            array_push($filesObject, base64_encode(Storage::get($filesArray[$i])));
-        }
-        return response()->json(['result' => $result, 'files' => $filesObject, 'fileName' => $filesNameArray]);
+    
+        $filesNameArray = array_map(function ($fileUrl) {
+            return pathinfo($fileUrl)['basename'];
+        }, $filesArray);
+    
+        $allFileUrls = implode(',', $filesArray);
+        $result = DB::select("CALL newPortfolio($userID, '$allFileUrls')")[0]->result;
+    
+        return response()->json(['result' => $result, 'files' => $filesArray, 'fileName' => $filesNameArray]);
     }
+    
+
 
     // 更新擅長工具
     public function updateSkills(Request $request)
