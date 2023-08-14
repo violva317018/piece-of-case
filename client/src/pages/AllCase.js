@@ -156,7 +156,12 @@ function AllCase() {
               {/* 顯示page */}
               <ul className="pagination">
                 <li className="page-item">
-                  <p className="page-link" href="#" aria-label="Previous">
+                  <p
+                    className="page-link"
+                    href="#"
+                    aria-label="Previous"
+                    onClick={() => setPage(page - 1)}
+                  >
                     <span aria-hidden="true">&laquo;</span>
                   </p>
                 </li>
@@ -176,7 +181,12 @@ function AllCase() {
                   </p>
                 </li>
                 <li className="page-item">
-                  <p className="page-link" href="#" aria-label="Next">
+                  <p
+                    className="page-link"
+                    href="#"
+                    aria-label="Next"
+                    onClick={() => setPage(page + 1)}
+                  >
                     <span aria-hidden="true">&raquo;</span>
                   </p>
                 </li>
