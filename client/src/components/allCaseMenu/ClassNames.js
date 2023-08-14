@@ -63,7 +63,7 @@ function ClassNames(props) {
   return (
     <>
       {bigClassNames.map((items, index) => (
-        <div className="mb-3" key={index}>
+        <div className="mb-3 category" key={index}>
           <button
             className="btn btn-secondary w-100"
             type="button"

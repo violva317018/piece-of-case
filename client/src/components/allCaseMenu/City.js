@@ -5,7 +5,6 @@ import {
 } from "@ant-design/icons";
 import { Menu, Switch } from "antd";
 import React, { useState } from "react";
-// import { AppstoreOutlined, MailOutlined, SettingOutlined } from "icons";
 function City(props) {
   const {
     bigCityNames,
@@ -57,7 +56,31 @@ function City(props) {
 
   // 處理子地區的字串
   const handleSubCity = (e) => {
-    console.log("click ", e);
+    if (
+      e.domEvent.nativeEvent.target.offsetParent.style.getPropertyValue(
+        "background-color"
+      ) === "goldenrod"
+    ) {
+      e.domEvent.nativeEvent.target.offsetParent.style.setProperty(
+        "background-color",
+        "gray"
+      );
+      e.domEvent.nativeEvent.target.offsetParent.style.setProperty(
+        "color",
+        "black"
+      );
+    } else {
+      e.domEvent.nativeEvent.target.offsetParent.style.setProperty(
+        "background-color",
+        "goldenrod"
+      );
+      e.domEvent.nativeEvent.target.offsetParent.style.setProperty(
+        "color",
+        "black"
+      );
+    }
+    // console.log(e.domEvent.nativeEvent.target.offsetParent); //* 父節點
+    // console.log("click ", e);
     setCurrent(e.key); // 取得代號
     setSubCityID(e.key);
     if (subCityStr.indexOf(e.key) === -1) {
@@ -101,7 +124,7 @@ function City(props) {
   ];
 
   return (
-    <>
+    <div className="mb-3 category">
       <Menu
         onClick={handleSubCity}
         style={{
@@ -111,12 +134,12 @@ function City(props) {
           border: "1px solid #6c757d",
           borderRadius: "10px",
         }}
-        defaultOpenKeys={["location"]}
+        // defaultOpenKeys={["location"]}
         selectedKeys={[current]}
         mode="inline"
         items={items}
       />
-    </>
+    </div>
   );
 }
 

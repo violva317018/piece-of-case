@@ -5,8 +5,9 @@ import { GlobelDate } from "../App";
 import UserInfo from "./UserInfo";
 import Auth from "../axios/Auth";
 import headerLogo from "../imgs/header_logo.png";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import presetHeadPhoto from "../imgs/head.png";
 
 function Header() {
   const {
@@ -27,15 +28,15 @@ function Header() {
         );
         //把空字串傳入setUserInfo
         setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
-        toast.info('用戶登出', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+        toast.info("用戶登出", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
       })
       .catch((err) => {
@@ -61,7 +62,7 @@ function Header() {
         });
     }
   }, []);
-  // console.log(JSON.stringify(localStorage.getItem("userInfo")));
+  console.log(headphoto);
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center navbar-expand-lg navbar-light fW">
@@ -107,7 +108,17 @@ function Header() {
                     aria-expanded="false"
                   >
                     <img
-                      src={headphoto}
+                      src={
+                        headphoto.charAt(23) === "R" ||
+                        headphoto.charAt(23) === "i" ||
+                        headphoto.charAt(23) === "/" ||
+                        headphoto.charAt(24) === "R" ||
+                        headphoto.charAt(24) === "i" ||
+                        headphoto.charAt(24) === "/"
+                          ? headphoto
+                          : presetHeadPhoto
+                      }
+                      style={{ objectFit: "cover" }}
                       alt="mdo"
                       width="40"
                       height="40"
@@ -182,7 +193,7 @@ function Header() {
           </ul>
         </div>
       </div>
-      <ToastContainer limit={1}/>
+      {/* <ToastContainer limit={1}/> */}
     </div>
   );
 }
