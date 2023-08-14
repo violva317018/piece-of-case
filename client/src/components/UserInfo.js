@@ -12,7 +12,7 @@ function UserInfo(props) {
   // 取得全域變數
   const { setInfoData, currentCaseId, setEcpayHtml } = useContext(GlobelDate);
   // 從 CaseView 取得資料
-  const { budget, contactName, contactPhone, caseState, bulidCaseUserID, profilePhoto } = props;
+  const { caseName, contactName, contactPhone, caseState, bulidCaseUserID, profilePhoto } = props;
 
   // caseID , userID , quotation , win , selfRecommended
   const [quotation, setQuotation] = useState(0); // 報價金額
@@ -23,9 +23,9 @@ function UserInfo(props) {
   const [MerchantTradeNo, setMerchantTradeNo] = useState("Test000"); // !不可以空格
   // const [ItemName, setItemName] = useState("Test123");
   const [ItemName, setItemName] = useState(caseName);
-  const [TotalAmount, setTotalAmount] = useState(20);
+  const [TotalAmount, setTotalAmount] = useState(50);
   // const [TradeDesc, setTradeDesc] = useState("Test123");
-  const [TradeDesc, setTradeDesc] = useState("折蓮花 20元 * 1");
+  const [TradeDesc, setTradeDesc] = useState(`${caseName} 50元 * 1`);
 
   // 案主資訊 ------------
   const [caseOwnerEdu, setCaseOwnerEdu] = useState(null);
@@ -41,8 +41,6 @@ function UserInfo(props) {
         }
       })
   }, [bulidCaseUserID]);
-  
-  const [TradeDesc, setTradeDesc] = useState(`${caseName} 50元 * 1`);
 
   const fileType = (file) => {
     if (file.charAt(0) === "/") {
