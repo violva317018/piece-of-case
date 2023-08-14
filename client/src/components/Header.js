@@ -62,7 +62,7 @@ function Header() {
         });
     }
   }, []);
-  console.log(headphoto.charAt(24));
+  console.log(headphoto);
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center navbar-expand-lg navbar-light fW">
@@ -109,6 +109,9 @@ function Header() {
                   >
                     <img
                       src={
+                        headphoto.charAt(23) === "R" ||
+                        headphoto.charAt(23) === "i" ||
+                        headphoto.charAt(23) === "/" ||
                         headphoto.charAt(24) === "R" ||
                         headphoto.charAt(24) === "i" ||
                         headphoto.charAt(24) === "/"

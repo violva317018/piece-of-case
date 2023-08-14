@@ -302,6 +302,9 @@ function InfoData() {
           id="infoImg"
           style={{ objectFit: "cover" }}
           src={
+            headphoto.charAt(23) === "R" ||
+            headphoto.charAt(23) === "i" ||
+            headphoto.charAt(23) === "/" ||
             headphoto.charAt(24) === "R" ||
             headphoto.charAt(24) === "i" ||
             headphoto.charAt(24) === "/"
