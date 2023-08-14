@@ -318,6 +318,7 @@ function Proposal() {
       allFiles
     )
       .then((result) => {
+        console.log(result);
         toast.success("新增至草稿", {
           position: "top-center",
           autoClose: 3000,
@@ -450,7 +451,7 @@ function Proposal() {
               <Input
                 placeholder="請輸入預期的金額，最低200元"
                 min={200}
-                max={10000}
+                // max={10000}
                 type="number"
                 pattern="\d+"
                 onChange={(event) => {
@@ -718,7 +719,7 @@ function Proposal() {
           </div>
         </div>
       )}
-      <ToastContainer limit={1} />
+      {/* <ToastContainer limit={1} /> */}
     </main>
   );
 }
