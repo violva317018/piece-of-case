@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./userinfo.css";
 import Case from "../axios/Case";
 import { GlobelDate } from "../App";
 import Payment from "../axios/Payment";
+import Auth from "../axios/Auth";
 
 function UserInfo(props) {
   const { caseID } = useParams();
@@ -11,7 +12,7 @@ function UserInfo(props) {
   // 取得全域變數
   const { setInfoData, currentCaseId, setEcpayHtml } = useContext(GlobelDate);
   // 從 CaseView 取得資料
-  const { budget, contactName, caseState, userEqual, profilePhoto } = props;
+  const { budget, contactName, contactPhone, caseState, bulidCaseUserID, profilePhoto } = props;
 
   // caseID , userID , quotation , win , selfRecommended
   const [quotation, setQuotation] = useState(0); // 報價金額
@@ -25,6 +26,22 @@ function UserInfo(props) {
   const [TotalAmount, setTotalAmount] = useState(20);
   // const [TradeDesc, setTradeDesc] = useState("Test123");
   const [TradeDesc, setTradeDesc] = useState("折蓮花 20元 * 1");
+
+  // 案主資訊 ------------
+  const [caseOwnerEdu, setCaseOwnerEdu] = useState(null);
+  const [caseOwnerIntro, setCaseOwnerIntro] = useState(null);
+
+  useEffect(() => {
+    Auth.checkProfile(bulidCaseUserID)
+      .then((result) => {
+        console.log("checkProfile", result);
+        if (result["data"].length !== 0) {
+            setCaseOwnerEdu(result["data"][0]["education"]);
+            setCaseOwnerIntro(result["data"][0]["selfIntroduction"]);
+        }
+      })
+  }, [bulidCaseUserID]);
+  
 
   const fileType = (file) => {
     if (file.charAt(0) === "/") {
@@ -67,13 +84,14 @@ function UserInfo(props) {
         console.error(error);
         alert(error);
       });
-  };
+   };
   return (
     <div className="user-info">
       {/* 案主資訊 */}
-      <h1 className="text-center ">案主資訊</h1>
+      <h1 className="text-center">案主資訊</h1>
       <div className="d-flex justify-content-evenly">
         <img
+          className="caseOwnerImg"
           src={`data:image/${fileType(profilePhoto)};base64, ${profilePhoto}`}
           width={"100"}
           alt="img"
@@ -83,7 +101,13 @@ function UserInfo(props) {
           <p>{contactName}</p>
         </div>
       </div>
-      <p>案主自介............................</p>
+      <div className="caseOwnerDesc">
+        <p style={{marginBottom: 0}}>案主學歷: <span style={{fontSize: "16px"}}>{caseOwnerEdu? caseOwnerEdu : "無資訊"}</span></p>
+        <p style={{marginBottom: 0}}>案主簡介: </p>
+        <p className="caseOwnerDescText">{caseOwnerIntro? caseOwnerIntro : "無資訊"}</p>
+        {caseState === "已報價" && (<p>聯絡電話: <span>{contactPhone? contactPhone : "無資訊"}</span></p>)}
+      </div>
+
 
       {/* 假如未報價介面 */}
       {caseState === "未報價" && (
@@ -147,7 +171,7 @@ function UserInfo(props) {
       {/* 需再調整 */}
       {caseState === "已報價" && (
         <>
-          <button type="button" className="btn btn-secondary">
+          <button type="button" className="btn btn-secondary alreadyQuotationBtn">
             已報價
           </button>
         </>

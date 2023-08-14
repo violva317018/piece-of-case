@@ -98,13 +98,33 @@ function App() {
           localStorage.setItem("userInfo", JSON.stringify(""));
           //把空字串傳入setUserInfo
           setUserInfo(JSON.parse(localStorage.getItem("")));
-          alert("請重新登入");
+          toast.info('請重新登入', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          // alert("請重新登入");
           navigate("/");
         } else if (result["data"] === "未登入") {
           localStorage.setItem("userInfo", JSON.stringify(""));
           //把空字串傳入setUserInfo
           setUserInfo(JSON.parse(localStorage.getItem("")));
-          alert("請重新登入");
+          toast.info('請重新登入', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          // alert("請重新登入");
           navigate("/");
         }
       })
