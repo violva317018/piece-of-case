@@ -32,6 +32,8 @@ Route::post('update-portfolio/{myuserID}/{myportfolio}', [InformationController:
 Route::post('update-education', [InformationController::class, 'updateExperience']);
 //修改作品集
 Route::post('update-portfolio', [InformationController::class, 'updatePortfolio']);
+//顯示作品集
+
 //修改擅長工具
 Route::post('update-skills', [InformationController::class, 'updateSkills']);
 //修改自傳

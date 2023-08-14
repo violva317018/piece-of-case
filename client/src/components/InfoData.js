@@ -22,6 +22,9 @@ function InfoData() {
   const [portfolioMessange, setPortfolioMessange] = useState("");
   const [fileName, setFileName] = useState("");
   const [overFile, setOverFile] = useState();
+  // 顯示圖片檔或PDF
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
   //修改擅長工具
   const [changeskills, setChangeSkills] = useState("");
   //修改自傳
@@ -243,6 +246,18 @@ function InfoData() {
       return "application/pdf";
     } else if (file.charAt(0) === "R") {
       return "image/gif";
+    }
+  };
+
+  // 顯示作品集
+  const handleFileClick = (fileUrl) => {
+    console.log("handleFileClick called with fileUrl:", fileUrl);
+
+    if (fileType(fileUrl) === "application/pdf") {
+      window.open(fileUrl, "_blank");
+    } else {
+      setModalContent(<img src={fileUrl} alt="作品集" />);
+      setShowModal(true);
     }
   };
 
@@ -678,7 +693,7 @@ function InfoData() {
             <label htmlFor="" className="p2 flexGrow1">
               作品集
             </label>
-            <span className="portfolio flexGrow2">
+            {/* <span className="portfolio flexGrow2">
               {portfolio.map((file, index) => (
                 <a
                   href={`data:${fileType(file)};base64, ${file}`}
@@ -687,6 +702,26 @@ function InfoData() {
                 >
                   {fileName[index]}
                 </a>
+              ))}
+            </span> */}
+            <span className="portfolio flexGrow2">
+              {portfolio.map((fileUrl, index) => (
+                <div key={index}>
+                  <a
+                    key={index}
+                    href={fileUrl} // 使用 S3 对象 URL 作为链接
+                    target={
+                      fileType(fileUrl) === "application/pdf" ? "_blank" : ""
+                    }
+                    // download={fileName[index]}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleFileClick(fileUrl);
+                    }}
+                  >
+                    {fileName[index]}
+                  </a>
+                </div>
               ))}
             </span>
             <button
@@ -752,6 +787,34 @@ function InfoData() {
                           }
                         }}
                       />
+                      {/*  */}
+                      {/*  */}
+                      {showModal && (
+                        <div
+                          className="modal fade show"
+                          tabIndex="-1"
+                          style={{ display: "block" }}
+                        >
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  onClick={() => {
+                                    setShowModal(false);
+                                    setModalContent(null);
+                                  }}
+                                ></button>
+                              </div>
+                              <div className="modal-body">{modalContent}</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      {/*  */}
+                      {/*  */}
                     </div>
                     <button
                       type="submit"

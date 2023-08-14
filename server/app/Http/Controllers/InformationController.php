@@ -165,38 +165,92 @@ class InformationController extends Controller
     //     return response()->json(['result' => $result, 'files' => $filesObject, 'fileName' => $filesNameArray]);
     // }
 
+    //修改作品集
+    // public function updatePortfolio(Request $request)
+    // {
+    //     if (!$request->file('myPortfolio')) {
+    //         return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);
+    //     }
     
+    //     $file = $request->file('myPortfolio');
+    //     $userID = $request->myUserID;
+    //     $filesArray = [];
+    
+    //     foreach ($file as $uploadedFile) {
+    //         $fileName = $uploadedFile->getClientOriginalName();
+    //         $newFileName = time() . '_' . $fileName;
+    
+    //         Storage::disk('s3')->put($newFileName, file_get_contents($uploadedFile), 'public');
+    
+    //         $fileUrl = Storage::disk('s3')->url($newFileName);
+    
+    //         $filesArray[] = $fileUrl;
+
+    //         $filesNameArray[] = $fileName; // 將檔案名稱加入到 $filesNameArray 中
+
+    //     }
+    
+    //     $filesNameArray = array_map(function ($fileUrl) {
+    //         return pathinfo($fileUrl)['basename'];
+    //     }, $filesArray);
+    
+    //     $allFileUrls = implode(',', $filesArray);
+    //     $result = DB::select("CALL newPortfolio($userID, '$allFileUrls')")[0]->result;
+    
+    //     return response()->json(['result' => $result, 'files' => $filesArray, 'fileName' => $filesNameArray, 'fileUrls' => $fileUrls]);
+    // }
     public function updatePortfolio(Request $request)
-    {
-        if (!$request->file('myPortfolio')) {
-            return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);
-        }
-    
-        $file = $request->file('myPortfolio');
-        $userID = $request->myUserID;
-        $filesArray = [];
-    
-        foreach ($file as $uploadedFile) {
-            $fileName = $uploadedFile->getClientOriginalName();
-            $newFileName = time() . '_' . $fileName;
-    
-            Storage::disk('s3')->put($newFileName, file_get_contents($uploadedFile), 'public');
-    
-            $fileUrl = Storage::disk('s3')->url($newFileName);
-    
-            $filesArray[] = $fileUrl;
-        }
-    
-        $filesNameArray = array_map(function ($fileUrl) {
-            return pathinfo($fileUrl)['basename'];
-        }, $filesArray);
-    
-        $allFileUrls = implode(',', $filesArray);
-        $result = DB::select("CALL newPortfolio($userID, '$allFileUrls')")[0]->result;
-    
-        return response()->json(['result' => $result, 'files' => $filesArray, 'fileName' => $filesNameArray]);
+{
+    if (!$request->file('myPortfolio')) {
+        return response()->json(['result' => '未選擇檔案', 'files' => [], 'fileName' => []]);
     }
+
+    $file = $request->file('myPortfolio');
+    $userID = $request->myUserID;
+    // $filesArray = [];
+    $fileUrls = []; // 創建一個空的陣列來存放檔案 URL
+
+    foreach ($file as $uploadedFile) {
+        $fileName = $uploadedFile->getClientOriginalName();
+        $newFileName = time() . '_' . $fileName;
+
+        Storage::disk('s3')->put($newFileName, file_get_contents($uploadedFile), 'public');
+
+        $fileUrl = Storage::disk('s3')->url($newFileName);
+
+        $filesArray[] = $fileUrl;
+        $filesNameArray[] = $fileName; // 將檔案名稱加入到 $filesNameArray 中
+        $fileUrls[] = $fileUrl; // 將檔案 URL 加入到 $fileUrls 陣列中
+    }
+
+    $filesNameArray = array_map(function ($fileUrl) {
+        return pathinfo($fileUrl)['basename'];
+    }, $filesArray);
+
+    $allFileUrls = implode(',', $filesArray);
+    $result = DB::select("CALL newPortfolio($userID, '$allFileUrls')")[0]->result;
+
+    return response()->json([
+        'result' => $result,
+        'files' => $filesArray,
+        'fileName' => $filesNameArray,
+        'fileUrls' => $fileUrls // 將檔案 URL 陣列加入回傳的 JSON 響應中
+    ]);
+
+
+
+   
+
+
     
+
+    // 顯示作品集
+//     public function getFileFromS3($filename)
+// {
+//     $fileUrl = Storage::disk('s3')->url($filename);
+//     return redirect($fileUrl);
+// }
+
 
 
     // 更新擅長工具
