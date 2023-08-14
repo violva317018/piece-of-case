@@ -214,6 +214,31 @@ class CasesController extends Controller
         return $results;
     }
 
+    // 進到我的收藏
+    public function collectionList(Request $request)
+    {
+        // return '123';
+        $page = $request['page'];
+        // $pagehead = ($page - 1) * 30;
+        $myuserID = $request['userID'];
+        // 呼叫存儲過程執行 SQL 查詢
+        $results = DB::select('CALL enterCollection(?, ?)', [$myuserID, $page]);
+
+        return response()->json($results);
+    }
+
+
+
+    // 收藏案件icon
+    public function createCollection(Request $request) {
+        $myuserID = $request['userID'];
+        $mycaseID = $request['caseID'];
+        
+        $results = DB::select('CALL createCollection(?, ?)', [$myuserID, $mycaseID]);
+
+        return response()->json($results);
+    }
+
 }
 
 

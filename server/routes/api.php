@@ -115,3 +115,10 @@ Route::get('newPassword', [UserController::class, 'newPassword']);
 
 //google登入
 Route::post('googleLogin',[UserController::class, 'googleLogin']);
+
+
+
+// 進入我的收藏
+Route::post('/enterFavorite', [CasesController::class, 'collectionList']);
+// icon收藏狀態
+Route::post('/collectionState', [CasesController::class, 'createCollection']);
