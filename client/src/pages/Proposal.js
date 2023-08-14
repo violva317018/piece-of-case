@@ -6,8 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 //* ant UI elements => npm install antd @ant-design/icons
 import { DatePicker, Space, Input, Button, Form, InputNumber } from "antd"; //* 引入 antd UI
 import { CheckOutlined, FileAddOutlined } from "@ant-design/icons";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const { TextArea } = Input;
 
@@ -162,95 +162,95 @@ function Proposal() {
   const handlePublishCase = () => {
     // check user write form
     if (!name) {
-        toast.warning('請填寫姓名', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please write your name.");
+      toast.warning("請填寫姓名", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please write your name.");
       return;
     } else if (!category) {
-        toast.warning('請選擇案件類別', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please choose case category.");
+      toast.warning("請選擇案件類別", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please choose case category.");
       return;
     } else if (!subCategory) {
-        toast.warning('請選擇案件類別', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please choose case subCategory.");
+      toast.warning("請選擇案件類別", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please choose case subCategory.");
       return;
     } else if (!city) {
-        toast.warning('請選擇工作地點', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please choose case city.");
+      toast.warning("請選擇工作地點", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please choose case city.");
       return;
     } else if (!subCity) {
-        toast.warning('請選擇工作地點', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please choose case subCity.");
+      toast.warning("請選擇工作地點", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please choose case subCity.");
       return;
     } else if (!budget) {
-        toast.warning('請填寫預算金額', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please write case budget.");
+      toast.warning("請填寫預算金額", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please write case budget.");
       return;
     } else if (!contactName) {
-        toast.warning('請填寫聯絡資料', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    //   alert("Please write your contactName.");
+      toast.warning("請填寫聯絡資料", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      //   alert("Please write your contactName.");
       return;
     }
     let status = "刊登中";
@@ -278,16 +278,16 @@ function Proposal() {
       .then((result) => {
         console.log(result);
         // alert("刊登成功");
-        toast.success('刊登成功', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        toast.success("刊登成功", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         navigate("/personalinfo");
       })
       .catch((err) => {
@@ -318,16 +318,16 @@ function Proposal() {
       allFiles
     )
       .then((result) => {
-        toast.success('新增至草稿', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        toast.success("新增至草稿", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         // alert("已新增草稿");
         navigate("/personalinfo");
       })
@@ -353,17 +353,17 @@ function Proposal() {
         <div className="caseBox">
           {/* 案件名稱 */}
           <div className="box">
-            <h4 className="">案件名稱 :</h4>
+            {/* <h4 className="">案件名稱 :</h4>
             <input
               type="text"
               placeholder="請填寫案件名稱"
               onChange={(event) => setName(event.target.value)}
               value={name}
-            />
+            /> */}
           </div>
           <div className="box">
             <Form.Item
-              label="Username"
+              label="案件名稱"
               name="username"
               rules={[
                 {
@@ -372,141 +372,187 @@ function Proposal() {
                 },
               ]}
             >
-              <Input />
+              <Input
+                onChange={(event) => {
+                  setName(event.target.value);
+                  console.log(event.target.value);
+                }}
+              />
             </Form.Item>
           </div>
-
           {/* 類別需求 */}
           <div className="box">
-            <label htmlFor="category">需求類別：</label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              style={{ width: "200px" }}
-              // value={category}
-              onChange={handleCategoryChange}
-              required
+            <Form.Item
+              label="需求類別："
+              name="category"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
             >
-              <option selected disabled>
-                請選擇....
-              </option>
-              {bigClassNames.map((item) => (
-                <option key={item["bigClassID"]} value={item["bigClassID"]}>
-                  {item["bigClassName"]}
-                </option>
-              ))}
-            </select>
-            <br />
-            {/* 依不同的母類別找尋相對應的子類別 */}
-            {category && (
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                style={{ width: "200p;x" }}
-                onChange={handleSubCategoryChange}
-                required
-              >
-                <option selected disabled>
-                  請選擇...
-                </option>
-                {subBigClassNames.map((item) => (
-                  <>
-                    {item["bigClassID"] === category && (
-                      <option key={item["classID"]} value={item["classID"]}>
-                        {item["className"]}
-                      </option>
-                    )}
-                  </>
-                ))}
-              </select>
-            )}
+              <>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  style={{ width: "200px" }}
+                  // value={category}
+                  onChange={handleCategoryChange}
+                  required
+                >
+                  <option selected disabled>
+                    請選擇....
+                  </option>
+                  {bigClassNames.map((item) => (
+                    <option key={item["bigClassID"]} value={item["bigClassID"]}>
+                      {item["bigClassName"]}
+                    </option>
+                  ))}
+                </select>
+                <br />
+                {/* 依不同的母類別找尋相對應的子類別 */}
+                {category && (
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    style={{ width: "200p;x" }}
+                    onChange={handleSubCategoryChange}
+                    required
+                  >
+                    <option selected disabled>
+                      請選擇...
+                    </option>
+                    {subBigClassNames.map((item) => (
+                      <>
+                        {item["bigClassID"] === category && (
+                          <option key={item["classID"]} value={item["classID"]}>
+                            {item["className"]}
+                          </option>
+                        )}
+                      </>
+                    ))}
+                  </select>
+                )}
+              </>
+            </Form.Item>
           </div>
           {/* 金額 */}
           <div className="box">
-            <h4>預算金額 :</h4>
-            <div />
-            <Input
-              placeholder="請輸入預期的金額，最低200元"
-              min={200}
-              max={10000}
-              type="number"
-              pattern="\d+"
-              onChange={(event) => {
-                setBudget(event.target.value);
-              }}
-            />
+            <Form.Item
+              label="預算金額"
+              name="money"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input
+                placeholder="請輸入預期的金額，最低200元"
+                min={200}
+                max={10000}
+                type="number"
+                pattern="\d+"
+                onChange={(event) => {
+                  setBudget(event.target.value);
+                }}
+              />
+            </Form.Item>
           </div>
           {/* 期限 */}
           <div className="box">
-            <h4 htmlFor="caseMoney">期限 :</h4>
-            <input
-              type="radio"
-              id="noTime"
+            {/* <h4 htmlFor="caseMoney">期限 :</h4> */}
+            <Form.Item
+              label="期限"
               name="deadline"
-              onClick={() => {
-                setDeadline(null);
-                showTime(false);
-              }}
-            />
-            <label htmlFor="noTime">不指定日期</label>
-            <br />
-            <input
-              type="radio"
-              name="deadline"
-              id="yesTime"
-              onClick={(e) => showTime(true)}
-            />
-            <label htmlFor="yesTime">指定日期 </label>
-            <Space id="setTime" direction="vertical">
-              <DatePicker onChange={onChange} id="setTime" />
-            </Space>
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <>
+                <input
+                  type="radio"
+                  id="noTime"
+                  name="deadline"
+                  onClick={() => {
+                    setDeadline(null);
+                    showTime(false);
+                  }}
+                />
+                <label htmlFor="noTime">不指定日期</label>
+                <br />
+                <input
+                  type="radio"
+                  name="deadline"
+                  id="yesTime"
+                  onClick={(e) => showTime(true)}
+                />
+                <label htmlFor="yesTime">指定日期 </label>
+                <Space id="setTime" direction="vertical">
+                  <DatePicker onChange={onChange} id="setTime" />
+                </Space>
+              </>
+            </Form.Item>
           </div>
           {/* 地點 */}
           <div className="box">
-            <label htmlFor="locationCategory">工作地點 : </label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              style={{ width: "200px" }}
-              onChange={handleCityChange}
-              required
+            <Form.Item
+              label="工作地點"
+              name="money"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
             >
-              <option selected disabled>
-                請選擇....
-              </option>
-              {bigCityNames.map((item) => (
-                <option key={item["cityID"]} value={item["cityID"]}>
-                  {item["city"]}
-                </option>
-              ))}
-            </select>
-            <br />
-            {/* 依不同的母類別找尋相對應的子類別 */}
-            {city && (
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                style={{ width: "200px" }}
-                onChange={handleSubCityChange}
-                required
-              >
-                <option selected disabled>
-                  請選擇...
-                </option>
-                {subCityNames.map((item) => (
-                  <>
-                    {item["cityID"] === city && (
-                      <option
-                        key={item["districtID"]}
-                        value={item["districtID"]}
-                      >
-                        {item["district"]}
-                      </option>
-                    )}
-                  </>
-                ))}
-              </select>
-            )}
+              <>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  style={{ width: "200px" }}
+                  onChange={handleCityChange}
+                  required
+                >
+                  <option selected disabled>
+                    請選擇....
+                  </option>
+                  {bigCityNames.map((item) => (
+                    <option key={item["cityID"]} value={item["cityID"]}>
+                      {item["city"]}
+                    </option>
+                  ))}
+                </select>
+                <br />
+                {/* 依不同的母類別找尋相對應的子類別 */}
+                {city && (
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    style={{ width: "200px" }}
+                    onChange={handleSubCityChange}
+                    required
+                  >
+                    <option selected disabled>
+                      請選擇...
+                    </option>
+                    {subCityNames.map((item) => (
+                      <>
+                        {item["cityID"] === city && (
+                          <option
+                            key={item["districtID"]}
+                            value={item["districtID"]}
+                          >
+                            {item["district"]}
+                          </option>
+                        )}
+                      </>
+                    ))}
+                  </select>
+                )}
+              </>
+            </Form.Item>
           </div>
           {/* 內容 */}
           <div className="box">
@@ -542,8 +588,7 @@ function Proposal() {
                 } else {
                   setOverFile(false);
                   setAllFiles(e.target.files);
-                  
-                  return toast.warning('最多只能選擇5個檔案，請重新選取', {
+                  return toast.warning("最多只能選擇5個檔案，請重新選取", {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -556,87 +601,97 @@ function Proposal() {
                 }
               }}
             />
-            {/* <button
-            as="label" //*  變成 label tag
-            htmlFor="fileInput" //* 來自 Input id
-            colorschema="blue"
-            variant="outline"
-            cursor="pointer"
-            id="fileButton"
-          >
-            Choose your files
-          </button> */}
           </div>
           {/* 聯絡方式 */}
           <div className="box">
-            <h4>聯絡資料</h4>
-            <input
-              type="text"
-              placeholder="請輸入聯絡人名稱"
-              onChange={(event) => setContactName(event.target.value)}
-              value={contactName}
-              pattern="[^0-9]+" // 限制不可有數字，可以下底線
-            />
-            <h4 className="my-3">允許接案人透過電話聯絡您嗎?</h4>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              onChange={(event) => {
-                setIsContactPhone(event.target.value);
-                console.log(event.target.value);
-              }}
-              value={isContactPhone}
+            <Form.Item
+              label="聯絡資料"
+              name="info"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
             >
-              <option selected disabled>
-                請選擇...
-              </option>
-              <option value="1">允許</option>
-              <option value="0">不允許</option>
-            </select>
-            {isContactPhone !== null && isContactPhone === "1" && (
+              <input
+                type="text"
+                placeholder="請輸入聯絡人名稱"
+                onChange={(event) => setContactName(event.target.value)}
+                value={contactName}
+                pattern="[^0-9]+" // 限制不可有數字，可以下底線
+              />
+            </Form.Item>
+            <Form.Item
+              label="允許接案人透過電話聯絡您嗎"
+              name="info"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
               <>
-                <h4 className="my-3">連絡人電話號碼</h4>
-                <input
-                  type="text"
-                  placeholder="請輸入連絡人電話號碼"
-                  onChange={(event) => setContactPhone(event.target.value)}
-                  value={contactPhone}
-                  pattern="\d+"
-                />
-                <h4 className="my-3">請勾選希望接案人聯絡時段?</h4>
-                <input
-                  type="checkbox"
-                  id="time0"
-                  name="time"
-                  onClick={handlecontactTime}
-                />
-                <label htmlFor="time0">上午00:00~上午08:00</label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="time1"
-                  name="time"
-                  onClick={handlecontactTime}
-                />
-                <label htmlFor="time1">上午08:00~中午12:00</label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="time2"
-                  name="time"
-                  onClick={handlecontactTime}
-                />
-                <label htmlFor="time2">下午13:00~下午17:00</label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="time3"
-                  name="time"
-                  onClick={handlecontactTime}
-                />
-                <label htmlFor="time3">晚上17:00~晚上24:00</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(event) => {
+                    setIsContactPhone(event.target.value);
+                    console.log(event.target.value);
+                  }}
+                  value={isContactPhone}
+                >
+                  <option selected disabled>
+                    請選擇...
+                  </option>
+                  <option value="1">允許</option>
+                  <option value="0">不允許</option>
+                </select>
+                {isContactPhone !== null && isContactPhone === "1" && (
+                  <>
+                    <h4 className="my-3">連絡人電話號碼</h4>
+                    <input
+                      type="text"
+                      placeholder="請輸入連絡人電話號碼"
+                      onChange={(event) => setContactPhone(event.target.value)}
+                      value={contactPhone}
+                      pattern="\d+"
+                    />
+                    <h4 className="my-3">請勾選希望接案人聯絡時段?</h4>
+                    <input
+                      type="checkbox"
+                      id="time0"
+                      name="time"
+                      onClick={handlecontactTime}
+                    />
+                    <label htmlFor="time0">上午00:00~上午08:00</label>
+                    <br />
+                    <input
+                      type="checkbox"
+                      id="time1"
+                      name="time"
+                      onClick={handlecontactTime}
+                    />
+                    <label htmlFor="time1">上午08:00~中午12:00</label>
+                    <br />
+                    <input
+                      type="checkbox"
+                      id="time2"
+                      name="time"
+                      onClick={handlecontactTime}
+                    />
+                    <label htmlFor="time2">下午13:00~下午17:00</label>
+                    <br />
+                    <input
+                      type="checkbox"
+                      id="time3"
+                      name="time"
+                      onClick={handlecontactTime}
+                    />
+                    <label htmlFor="time3">晚上17:00~晚上24:00</label>
+                  </>
+                )}
               </>
-            )}
+            </Form.Item>
           </div>
           {/* btn */}
           <div className="box d-flex justify-content-evenly">
@@ -663,7 +718,7 @@ function Proposal() {
           </div>
         </div>
       )}
-      <ToastContainer limit={1}/>
+      <ToastContainer limit={1} />
     </main>
   );
 }
