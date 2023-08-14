@@ -132,7 +132,7 @@ function AllCase() {
                       </p>
                     )}
                     <p>預算: {item.budget}</p>
-                    {item.deadline && <p>預計完成日期: {item.deadline}</p>}
+                    <p>預計完成日期: {item.deadline? item.deadline: "無指定"}</p>
                     {/* <Link
                       className="moreView"
                       to={`/caseview/${item.caseID}`}
@@ -147,7 +147,7 @@ function AllCase() {
                     </Link> */}
                     <div className="d-flex justify-content-center">
                       <Space wrap>
-                        <Button> more view </Button>
+                        <Button> 查看更多 </Button>
                       </Space>
                     </div>
                   </div>
