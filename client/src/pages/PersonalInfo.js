@@ -25,7 +25,7 @@ function PersonalInfo() {
 
   // 處理刪除 => 提案紀錄的草稿、接案紀錄的未成交
   const handleDelete = (caseID) => {
-    toast.info(caseID, {
+    toast.info("刪除成功", {
       position: "top-center",
       autoClose: 3000,
       hideProgressBar: false,
@@ -72,7 +72,7 @@ function PersonalInfo() {
           setCurrentRecordCases={setCurrentRecordCases}
         />
       )}
-      <ToastContainer limit={1} />
+      {/* <ToastContainer limit={1}/> */}
     </div>
   );
 }

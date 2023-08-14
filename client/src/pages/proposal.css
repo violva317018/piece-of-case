@@ -43,10 +43,10 @@ label {
 /* 讓 input 有格式錯誤的動態 */
 input:invalid,
 Input:invalid {
-  animation: justshake 1s forwards infinite;
+  /* animation: justshake 1s forwards infinite; */
   color: red;
 }
-@keyframes justshake {
+/* @keyframes justshake {
   25% {
     transform: translateX(5px);
   }
@@ -59,7 +59,7 @@ Input:invalid {
   100% {
     transform: translateX(-5px);
   }
-}
+} */
 
 #proposal-case-btn,
 #proposal-DraftCase-btn {
@@ -112,7 +112,8 @@ Input:invalid {
   transform: translate(-50%, 0%);
   color: red;
   font-size: 4rem;
-  animation-name: jump 3s;
+  animation: jump 3s;
+  /* animation: justshake 1s forwards infinite; */
 }
 @keyframes jump {
   0% {
