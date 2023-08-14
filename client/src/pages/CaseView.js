@@ -81,6 +81,7 @@ function CaseView() {
           />
           {/* 案主資訊 && 報價區域 */}
           <UserInfo
+            caseName={caseName}
             profilePhoto={profilePhoto}
             contactPhone={contactPhone}
             budget={budget}

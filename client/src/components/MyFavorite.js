@@ -82,10 +82,9 @@ function MyFavorite() {
     // cases.map((item, index) => {
     //   localStorage.setItem(`myStar${index}`, JSON.stringify(item.caseStar));
     // });
-
   }, []);
   return (
-    <div className="caseDiv">
+    <div className="caseDiv infoData">
       {/* 顯示案子 */}
       <section className="d-flex flex-wrap">
         {cases.map((item, index) => (

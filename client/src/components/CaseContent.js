@@ -72,7 +72,7 @@ function CaseContent(props) {
         </>
       )}
 
-      <h2 className="case-content"><span className="case-content-title">地點</span><span className="case-content-text"> : {city} {district}</span></h2>
+      <h2 className="case-content"><span className="case-content-title">地點</span><span className="case-content-text"> : {city} {distrt-t}</span></h2>
       <h2 className="case-content"><span className="case-content-title">預計完成金額</span><span className="case-content-text"> : </span><span className="case-content-text" style={{color: "#f56666"}}>{budget} 元</span></h2>
       <h2 className="case-content"><span className="case-content-title">預計完成日期</span><span className="case-content-text"> : {deadline? deadline:"無指定"}</span></h2>
       <h2 className="case-content"><span className="case-content-title">詳細說明</span><span className="case-content-text"> : </span></h2>

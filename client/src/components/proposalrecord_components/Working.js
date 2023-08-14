@@ -271,18 +271,24 @@ function Working(props) {
       {currentProposalCases.length !== 0 ? (
         currentProposalCases.map((item, index) => (
           <>
-            <div className="recordDiv31" key={index}>
+            <div
+              className="recordDiv31"
+              style={{ marginLeft: "3rem", marginRight: "3rem", width: "auto" }}
+              key={index}
+            >
               <div className="d-flex align-items-center">
                 <span className="span1 flex-grow-1">案件名稱</span>
                 <span className="span1 flex-grow-1">成交金額</span>
                 <span className="span1 flex-grow-1">成交日期</span>
-                <span className="span1 del1">成交對象</span>
+                <span className="span1 flex-grow-1 del1">成交對象</span>
               </div>
               <div className="d-flex align-items-center">
                 <span className="span2 flex-grow-1">{item["caseName"]}</span>
                 <span className="span2 flex-grow-1">{item["finalMoney"]}</span>
                 <span className="span2 flex-grow-1">{item["dealTime"]}</span>
-                <span className="span2 del1">{item["userName"]}</span>
+                <span className="span2 flex-grow-1 del1">
+                  {item["userName"]}
+                </span>
               </div>
 
               {JSON.parse(localStorage.getItem(`showProg${index}`)) && (

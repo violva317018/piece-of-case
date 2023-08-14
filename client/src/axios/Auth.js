@@ -245,6 +245,15 @@ class Auth {
       },
     }); 
   }
+
+  //google登入
+  googleLogin(userName, email, photoURL) {
+    return axios.post(API_URL + "/googleLogin", {
+      userName, 
+      email, 
+      photoURL,
+    });
+  }
 }
 
 // new 一個 Auth 的實例 ，export default 默認導出 供其他程式直接引用

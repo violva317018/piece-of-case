@@ -1,5 +1,6 @@
 .caseBox {
-  width: 40%;
+  max-width: 50%;
+  min-width: 400px;
   margin: 0.5rem auto;
   /* background: #4798b3; */
   background: rgba(255, 165, 38, 0.5);
@@ -42,10 +43,10 @@ label {
 /* 讓 input 有格式錯誤的動態 */
 input:invalid,
 Input:invalid {
-  animation: justshake 1s forwards infinite;
+  /* animation: justshake 1s forwards infinite; */
   color: red;
 }
-@keyframes justshake {
+/* @keyframes justshake {
   25% {
     transform: translateX(5px);
   }
@@ -58,7 +59,7 @@ Input:invalid {
   100% {
     transform: translateX(-5px);
   }
-}
+} */
 
 #proposal-case-btn,
 #proposal-DraftCase-btn {
@@ -111,7 +112,8 @@ Input:invalid {
   transform: translate(-50%, 0%);
   color: red;
   font-size: 4rem;
-  animation-name: jump 3s;
+  animation: jump 3s;
+  /* animation: justshake 1s forwards infinite; */
 }
 @keyframes jump {
   0% {
@@ -129,4 +131,8 @@ Input:invalid {
   100% {
     transform: translateY(2px);
   }
+}
+
+.ant-row {
+  display: block;
 }

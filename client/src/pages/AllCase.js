@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import "./AllCase.css";
 import { Link, useNavigate } from "react-router-dom";
 import Case from "../axios/Case";
-import MenuIndex from "../components/proposalMenu/MenuIndex";
+import MenuIndex from "../components/allCaseMenu/MenuIndex";
 import { GlobelDate } from "../App";
 import logoIamge from "../imgs/logo.jpg";
 import bookIamge from "../imgs/proposalFiles/book.jpg";
@@ -27,6 +27,7 @@ function AllCase() {
   const [bigCityStr, setBigCityStr] = useState("null"); // 儲存所有被點選的資料
   const [subCityID, setSubCityID] = useState(""); // 目前點選的資料
   const [subCityStr, setSubCityStr] = useState("null"); // 儲存所有被點選的資料
+  const [subCityArr, setSubCityArr] = useState([]); // 儲存所有被點選的資料 陣列型別
 
   const [cases, setCases] = useState([]); // 利用useEffect 獲得資料
 
@@ -41,6 +42,15 @@ function AllCase() {
   const subCityNames = JSON.parse(localStorage.getItem("subCityNames"));
 
   useEffect(() => {
+    // setSubCityArr((preState) => [{ ...preState, subCityStr }]);
+    // let a = subCityNames.filter((item) => {
+    //   subCityArr.map((subCity) => {
+    //     if (item["districtID"] === subCity) {
+    //       return item["district"];
+    //     }
+    //   });
+    // });
+    // console.log(a);
     // 畫面一掛載從資料庫取得所有案件
     Case.getCases(bigClassStr, subClassStr, bigCityStr, subCityStr, page)
       .then((result) => {
@@ -85,9 +95,11 @@ function AllCase() {
               />
             </div>
             {/* 右側接案區 */}
+
             <div className="allCaseBox">
+              {/* {subCityStr} */}
               {/* 顯示案子 */}
-              <section className="d-flex flex-wrap case-div">
+              <section className="case-div">
                 {cases.map((item) => (
                   <div
                     className="case p-2"
@@ -113,10 +125,12 @@ function AllCase() {
                       <img src={bookIamge} alt="img" className="mb-3" />
                     )}
                     <p>案件標題 : {item.caseName}</p>
-                    <p>
-                      地點: {item.city}
-                      {item.district}
-                    </p>
+                    {item.city && (
+                      <p>
+                        地點: {item.city}
+                        {item.district}
+                      </p>
+                    )}
                     <p>預算: {item.budget}</p>
                     <p>預計完成日期: {item.deadline? item.deadline: "無指定"}</p>
                     {/* <Link
@@ -142,27 +156,37 @@ function AllCase() {
               {/* 顯示page */}
               <ul className="pagination">
                 <li className="page-item">
-                  <p className="page-link" href="#" aria-label="Previous">
+                  <p
+                    className="page-link"
+                    href="#"
+                    aria-label="Previous"
+                    onClick={() => setPage(page - 1)}
+                  >
                     <span aria-hidden="true">&laquo;</span>
                   </p>
                 </li>
                 <li className="page-item">
-                  <p className="page-link" href="#">
+                  <p className="page-link" onClick={() => setPage(1)}>
                     1
                   </p>
                 </li>
                 <li className="page-item">
-                  <p className="page-link" href="#">
+                  <p className="page-link" onClick={() => setPage(2)}>
                     2
                   </p>
                 </li>
                 <li className="page-item">
-                  <p className="page-link" href="#">
+                  <p className="page-link" onClick={() => setPage(3)}>
                     3
                   </p>
                 </li>
                 <li className="page-item">
-                  <p className="page-link" href="#" aria-label="Next">
+                  <p
+                    className="page-link"
+                    href="#"
+                    aria-label="Next"
+                    onClick={() => setPage(page + 1)}
+                  >
                     <span aria-hidden="true">&raquo;</span>
                   </p>
                 </li>
