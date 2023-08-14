@@ -19,7 +19,23 @@
   background: #ffa500;
 }
 .get-case {
-  background: #4798b3;
+  background-image: url(../imgs/sendCase.jpg);
+  background-size: cover;
+  background-position: center;
+  color: rgba(255, 255, 255, 0.8);
+  transition: 1s;
+}
+
+.get-case:hover {
+  transition: 0.6s;
+  transform: scale(1.2);
+}
+
+.frameBox {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .homeText {
