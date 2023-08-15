@@ -49,7 +49,14 @@ function SideNav() {
         </button>
       )}
       {sideNav && (
-        <div className="sidenav" onClick={handleShowSideNav}>
+        <div
+          className="sidenav"
+          onClick={() => {
+            if (showBtn === true) {
+              setSideNav(!sideNav);
+            }
+          }}
+        >
           <p>我的帳戶</p>
           <hr />
           <Link to="" onClick={() => setInfoData("1")}>
