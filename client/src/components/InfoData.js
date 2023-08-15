@@ -619,6 +619,64 @@ function InfoData() {
               </div>
             </div>
           </div>
+          <hr />
+          <div className="infoDiv1">
+            <label htmlFor="" className="p2">
+              銀行帳戶：
+            </label>
+            <span>808-0015*********</span>
+            <button
+              className="float-right"
+              data-bs-toggle="modal"
+              data-bs-target="#changebank"
+            >
+              修改
+            </button>
+            <div
+              className="modal fade"
+              id="changebank"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabIndex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <span className="spanCenter">修改銀行帳戶</span>
+                    <button
+                      type="button"
+                      className="btn-close mx-0"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="my-3">
+                      <label htmlFor="avatar1">請輸入銀行代碼與帳戶：</label>
+                      <input
+                        type="tel"
+                        id="avatar1"
+                        name="avatar"
+                        className="inputText"
+                        required
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mx-auto d-block"
+                      data-bs-dismiss="modal"
+                      style={{ marginTop: "24px" }}
+                    >
+                      修改
+                    </button>
+                  </div>
+                  <div className="modal-footer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="CVDiv">
