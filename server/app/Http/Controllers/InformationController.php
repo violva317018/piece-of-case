@@ -236,6 +236,7 @@ class InformationController extends Controller
         'fileName' => $filesNameArray,
         'fileUrls' => $fileUrls // 將檔案 URL 陣列加入回傳的 JSON 響應中
     ]);
+}
 
 
 
