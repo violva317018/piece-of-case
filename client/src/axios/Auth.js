@@ -254,6 +254,36 @@ class Auth {
       photoURL,
     });
   }
+
+  // 進到我的收藏
+  enterFavorite(userID, page) {
+    return axios.post(API_URL + '/enterFavorite', {
+      userID,
+      page,
+    });
+  }
+
+  // icon狀態   + '/collectionState' 
+  collectionState(userID,caseID) {
+    // const data ={
+    //    userID,
+    //    caseID
+    // }
+    // return axios.post('http://localhost/Full-Stack-Project/server/public/api/collectionState ',data 
+    // {
+    // myuserID,
+    //   mycaseID,
+    // }
+    return axios.post(API_URL + '/collectionState', {
+      userID,
+      caseID,
+    });
+  }
+
+
+
+
+
 }
 
 // new 一個 Auth 的實例 ，export default 默認導出 供其他程式直接引用
