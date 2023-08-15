@@ -23,7 +23,7 @@ function UserInfo(props) {
   const [MerchantTradeNo, setMerchantTradeNo] = useState("Test000"); // !不可以空格
   // const [ItemName, setItemName] = useState("Test123");
   const [ItemName, setItemName] = useState(caseName);
-  const [TotalAmount, setTotalAmount] = useState(20);
+  const [TotalAmount, setTotalAmount] = useState(50);
   // const [TradeDesc, setTradeDesc] = useState("Test123");
   const [TradeDesc, setTradeDesc] = useState(`${caseName} 50元 * 1`);
 
