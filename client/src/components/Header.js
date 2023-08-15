@@ -62,7 +62,7 @@ function Header() {
         });
     }
   }, []);
-  console.log(headphoto);
+  // console.log(headphoto);
   return (
     <div className="header">
       <div className="h50 d-flex my-auto align-items-center navbar-expand-lg navbar-light fW">
