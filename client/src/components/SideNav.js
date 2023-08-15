@@ -19,11 +19,11 @@ function SideNav() {
 
   window.addEventListener("resize", () => {
     if (mediaQuerySmall.matches) {
-      console.log("小");
+      // console.log("小");
       setShowBtn(true);
       setSideNav(false);
     } else {
-      console.log("大");
+      // console.log("大");
       setShowBtn(false);
       setSideNav(true);
     }
